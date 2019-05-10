@@ -32,6 +32,19 @@
         .navbar.navbar-light .breadcrumb .nav-item .nav-link, .navbar.navbar-light .navbar-nav .nav-item .nav-link {
             color: #9FA3A5;
         }
+        /*FOOTER*/
+        .page-footer a{
+            color: #DADAEA !important;
+            font-size: 16px;
+        }
+        ::placeholder {
+            color: #8BBF41 !important;
+        }
+
+        /*CARRITO*/
+        .table{
+            color: unset;
+        }
     </style>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @yield('style')
@@ -54,6 +67,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 <script>
     new WOW().init();
 </script>

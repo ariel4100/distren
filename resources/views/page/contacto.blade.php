@@ -5,23 +5,26 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-md-4">
-                <h4 class="distren-color text-uppercase distren-bold ml-md-5">Contacto</h4>
+                <h4 class="distren-color text-uppercase distren-bold ml-md-5">{!! $contacto->title !!}</h4>
                 <ul class="list-group">
                     <li class="list-group-item border-0 d-flex align-items-center">
                         <i class="material-icons distren-color mr-3">location_on</i>
-                        <a href="https://bit.ly/309sR9i" target="_blank" class="text-muted">121212121212</a>
+                        <a href="https://bit.ly/309sR9i" target="_blank" class="text-muted">{!! $contacto->direccion !!}</a>
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center">
                         <i class="material-icons distren-color mr-3">phone_in_talk</i>
-                        <a href="tel: " class="text-muted">121212121212</a>
+                        <a href="tel:{!! $contacto->telefono_1 !!}" class="text-muted">{!! $contacto->telefono_1 !!}</a>
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center">
                         <i class="fab fa-whatsapp distren-color mr-3" style="padding: 2px; font-size: 24px"></i>
-                        <a href="tel: " class="text-muted" target="_blank">dsd21212121212sd</a>
+                        <a href="tel:{!! $contacto->telefono_1 !!}" class="text-muted" target="_blank">{!! $contacto->telefono_1 !!}</a>
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center">
                         <i class="material-icons distren-color mr-3">mail_outline</i>
-                        <a href="mailto: " class="text-muted">ddddddddddddddddddddd</a>
+                        <div class="">
+                            <a href="mailto:{!! $contacto->correo !!}" class="text-muted">{!! $contacto->correo !!}</a>
+                            <a href="mailto:{!! $contacto->correo_2 !!}" class="text-muted">{!! $contacto->correo_2 !!}</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -40,8 +43,7 @@
                         <input type="text" class="form-control" placeholder="Telefono">
                     </div>
                     <div class="md-form col-md-12">
-                        <textarea id="form7" class="md-textarea form-control" rows="3"></textarea>
-                        <label for="form7">Mensaje</label>
+                        <textarea id="form7" class="md-textarea form-control" placeholder="Mensaje" rows="3"></textarea>
                     </div>
                     <div class="col-md-6 d-flex justify-content-center">
                         <div class="g-recaptcha" data-sitekey="6LfxBKAUAAAAALkxGpbMmbopqVeVZYR3Q64Hg-ts"></div>

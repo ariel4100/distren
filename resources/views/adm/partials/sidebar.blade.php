@@ -63,7 +63,7 @@
             </a>
             <ul class="collapse list-group list-group-flush " id="empresa">
                 <li><a href="{{ route('contenido.index', ['seccion' => 'empresa', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Informacion</a></li>
-                <li><a href="{{ route('contenido.index', ['seccion' => 'empresa', 'tipo' => 'imagen']) }}"><i class="fas fa-chevron-right px-4"></i>Contenido</a></li>
+                <!--<li><a href="{{ route('contenido.index', ['seccion' => 'empresa', 'tipo' => 'imagen']) }}"><i class="fas fa-chevron-right px-4"></i>Contenido</a></li>-->
                 <li><a href="{{ route('slider.list', ['seccion' => 'empresa']) }}"><i class="fas fa-chevron-right px-4"></i>Slider</a></li>
             </ul>
         </li>

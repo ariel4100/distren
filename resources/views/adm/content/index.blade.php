@@ -126,48 +126,28 @@
                 </div>
             @endif
             @if($section == 'contacto')
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="md-form">
-                        <input type="text" id="Titulo" name="title" class="form-control" value="{!! isset($data) ? $data['title'] : null !!}">
-                        <label for="Titulo">Titulo</label>
+                        <input type="text" id="Titulo" name="title" placeholder="Titulo" class="form-control" value="{!! isset($datos['title']) ? $datos['title'] : null !!}">
                     </div>
                     <div class="md-form">
-                        <input type="text" id="Dirección" name="direccion" class="form-control" value="{!! isset($data) ? $data['direccion'] : null !!}">
-                        <label for="Dirección">Dirección</label>
+                        <input type="text" id="Dirección" name="direccion" placeholder="Dirección" class="form-control" value="{!! isset($datos['direccion']) ? $datos['direccion'] : null !!}">
                     </div>
-                    <div class="md-form">
-                        <input type="text" id="Telefono_1" name="telefono_1" class="form-control" value="{!!  isset($data) ? $data['telefono_1'] : null !!}">
-                        <label for="Telefono_1">Telefono 1</label>
+                    <div class="row">
+                        <div class="md-form col-md-6">
+                            <input type="text" id="Telefono_1" name="telefono_1" placeholder="Telefono 1" class="form-control" value="{!!  isset($datos['telefono_1']) ? $datos['telefono_1'] : null !!}">
+                        </div>
+                        <div class="md-form col-md-6">
+                            <input type="text" id="Telefono_2" name="telefono_2" placeholder="Telefono 2" class="form-control" value="{!!  isset($datos['telefono_2']) ? $datos['telefono_2'] : null !!}">
+                        </div>
                     </div>
-                    <div class="md-form">
-                        <input type="text" id="Telefono_2" name="telefono_2" class="form-control" value="{!!  isset($data) ? $data['telefono_2'] : null !!}">
-                        <label for="Telefono_2">Telefono 2</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="Correo" name="correo" class="form-control" value="{!!  isset($data) ? $data['correo'] : null !!}">
-                        <label for="Correo">Correo</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="md-form">
-                        <input type="text" id="title_2" name="title_2" class="form-control" value="{!! isset($data) ? $data['title_2'] : null !!}">
-                        <label for="title_2">Titulo</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="direccion_2" name="direccion_2" class="form-control" value="{!! isset($data) ? $data['direccion_2'] : null !!}">
-                        <label for="direccion_2">Dirección</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="central_telefono_1" name="central_telefono_1" class="form-control" value="{!!  isset($data) ? $data['central_telefono_1'] : null !!}">
-                        <label for="central_telefono_1">Telefono 1</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="central_telefono_2" name="central_telefono_2" class="form-control" value="{!!  isset($data) ? $data['central_telefono_2'] : null !!}">
-                        <label for="central_telefono_2">Telefono 2</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="correo_2" name="correo_2" class="form-control" value="{!!  isset($data) ? $data['correo_2'] : null !!}">
-                        <label for="correo_2">Correo</label>
+                    <div class="row">
+                        <div class="md-form col-md-6">
+                            <input type="text" id="Correo" name="correo" placeholder="Correo 1" class="form-control" value="{!!  isset($datos['correo']) ? $datos['correo'] : null !!}">
+                        </div>
+                        <div class="md-form col-md-6">
+                            <input type="text" id="Correo_2" name="correo_2" placeholder="Correo 2" class="form-control" value="{!!  isset($datos['correo_2']) ? $datos['correo_2'] : null !!}">
+                        </div>
                     </div>
                 </div>
             @endif

@@ -17,6 +17,8 @@
 Route::get('/','FrontendController@home')->name('home');
 Route::get('empresa','FrontendController@empresa')->name('empresa');
 Route::get('productos','FrontendController@productos')->name('productos');
+
+Route::get('carrito','FrontendController@carrito')->name('carrito');
 Route::get('ofertas','FrontendController@ofertas')->name('ofertas');
 Route::get('contacto','FrontendController@contacto')->name('contacto');
 Auth::routes();
