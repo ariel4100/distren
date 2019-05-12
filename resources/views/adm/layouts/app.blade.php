@@ -16,6 +16,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />--->
     <script>
         document.__API_URL = '{{ url('/') }}';
     </script>
@@ -58,6 +59,14 @@
         .container{
             width: 75%;
         }
+
+        .distren-color{
+            color: #8BBF40 !important;
+        }
+        .distren-fondo{
+            background-color: #8BBF40 !important;
+            color: white !important;
+        }
     </style>
     @yield('style')
 </head>
@@ -97,7 +106,10 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>--->
 <script src="//cdn.ckeditor.com/4.7.3/full/ckeditor.js"></script>
+
 
 @yield('script')
 

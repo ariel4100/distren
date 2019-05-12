@@ -61,7 +61,7 @@ Route::group([ 'prefix' => 'adm'],function (){
 
 
     Route::resource('categoria','Adm\CategoryController');
-    Route::resource('novedad','Adm\NewsController');
+    Route::resource('productos','Adm\ProductController');
     Route::resource('metadatos','Adm\MetadataController');
     Route::get('meta/{id}','Adm\MetadataController@eliminar')->name('metadato.eliminar');
     Route::resource('usuario','Adm\UserController');
