@@ -16,8 +16,8 @@
 //});
 Route::get('/','FrontendController@home')->name('home');
 Route::get('empresa','FrontendController@empresa')->name('empresa');
+Route::get('categoria','FrontendController@categoria')->name('categoria');
 Route::get('productos','FrontendController@productos')->name('productos');
-
 Route::get('carrito','FrontendController@carrito')->name('carrito');
 Route::get('ofertas','FrontendController@ofertas')->name('ofertas');
 Route::get('contacto','FrontendController@contacto')->name('contacto');
@@ -46,18 +46,18 @@ Route::group([ 'prefix' => 'adm'],function (){
         Route::get('/eliminar/lista/{section}/{contenido}', ['uses' => 'Adm\ContentController@delete', 'as' => '.delete']);
     });
     // GALERIAS DE NEWS
-    Route::group(['prefix' => 'galeria', 'as' => 'galeria'], function() {
+    /*Route::group(['prefix' => 'galeria', 'as' => 'galeria'], function() {
         Route::get('{id}', ['uses' => 'Adm\GaleryController@index', 'as' => '.index']);
         Route::get('crear/galeria/{id}', ['uses' => 'Adm\GaleryController@create', 'as' => '.create']);
         Route::post('/store', ['uses' => 'Adm\GaleryController@store', 'as' => '.store']);
         Route::get('{id}/edit', ['uses' => 'Adm\GaleryController@edit', 'as' => '.edit']);
         Route::put('{contenido}/update', ['uses' => 'Adm\GaleryController@update', 'as' => '.update']);
         Route::get('{id}/destroy', ['uses' => 'Adm\GaleryController@destroy', 'as' => '.destroy']);
-    });
-    Route::group(['prefix' => 'pedidos', 'as' => 'pedidos'], function() {
+    });*/
+   /* Route::group(['prefix' => 'pedidos', 'as' => 'pedidos'], function() {
         Route::get('pedidos', ['uses' => 'Adm\OrderController@index', 'as' => '.index']);
 
-    });
+    });*/
 
 
     Route::resource('categoria','Adm\CategoryController');
@@ -68,3 +68,7 @@ Route::group([ 'prefix' => 'adm'],function (){
     Route::get('usuario/destroy/{id}','Adm\UserController@delete')->name('usuario.delete');
 
 });
+
+//api
+Route::post('api/addproduct','Adm\ProductController@apiAddProduct');
+Route::post('api/updateproduct','Adm\ProductController@apiUpdateProduct');

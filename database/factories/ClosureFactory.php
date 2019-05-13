@@ -5,7 +5,7 @@
 use App\Closure;
 use App\Capacity;
 use Faker\Generator as Faker;
-/*
+
 $factory->define(Closure::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence(2),
@@ -14,7 +14,7 @@ $factory->define(Closure::class, function (Faker $faker) {
         'quantity' => $faker->numberBetween(10,400),
         'order' => $faker->randomLetter,
     ];
-});*/
+});
 
 $factory->define(Capacity::class, function (Faker $faker) {
     return [

@@ -3,54 +3,58 @@
 @section('content')
     <div class="container p-4">
         <a class="text-decoration-none " href="{{ route('productos.index') }}"><< Volver</a>
-
-        <section class=" ">
-            <form class="row" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
+        <form class="" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="col-md-8">
-                            <div class="md-form">
-                                <input type="text" id="title" name="title" class="form-control">
-                                <label for="title" class="">Titulo</label>
-                            </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="md-form">
+                            <input type="text" id="title" name="title" class="form-control">
+                            <label for="title" class="">Titulo</label>
                         </div>
-                <div class="col-md-4">
-                            <div class="md-form">
-                                <input type="text" id="order" name="order" class="form-control">
-                                <label for="order" class="">Orden</label>
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="md-form">
+                            <input type="text" id="order" name="order" class="form-control">
+                            <label for="order" class="">Orden</label>
                         </div>
-                <div class="col-md-12">
-                    <div class="md-form">
-                        <h6>Texto</h6>
-                        <textarea id="subtitle" class="md-textarea form-control" name="subtitle" rows="3"></textarea>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFileLang" name="image" lang="es">
-                        <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="md-form">
+                            <h6>Texto</h6>
+                            <textarea id="subtitle" class="md-textarea form-control" name="text" rows="3"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <cierres-component :cierres="{{ json_encode($cierres) }}"></cierres-component>
-                    <!--<div class="md-form">
-                        <p>Seleccionar Cierres</p>
-                        <select class="custom-select form-control select2" multiple>
-                           @forelse($cierres as $item)
-                                <option value="">{!! $item->title !!}</option>
-                            @empty
-                                <option value="" selected disabled>No hay registros</option>
-                            @endforelse
-                        </select>
-                    </div>-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFileLang" name="image" lang="es">
+                            <label class="custom-file-label" for="customFileLang">Seleccionar Imagen Principal</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1" name="featured">
+                            <label class="custom-control-label" for="customSwitch1">Mostrar en Home?</label>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-md-12">
-                    <capacidad-component :capacidades="{{ json_encode($capacidades) }}"></capacidad-component>
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    <p>Seleccionar Categoria</p>
+                    <select class="custom-select form-control select2" name="category_id">
+                        @forelse($categorias as $item)
+                            <option value="{!! $item->id !!}">{!! $item->title !!}</option>
+                        @empty
+                            <option value="" selected disabled>No hay registros</option>
+                        @endforelse
+                    </select>
                 </div>
-
+            </div>
+                <capacidad-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
             </form>
-        </section>
     </div>
 @endsection
 @section('script')
@@ -58,7 +62,6 @@
         /*$(document).ready(function() {
             $('.select2').select2();
         });*/
-
 
         CKEDITOR.replace('subtitle');
 

@@ -24,7 +24,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link h5 ml-3 text-uppercase {{ request()->is('empresa') ? 'activo' : '' }}" href="{{ route('empresa') }}">Empresa</a></li>
-            <li class="nav-item"><a class="nav-link h5 ml-3 text-uppercase {{ request()->is('productos') ? 'activo' : '' }}" href="{{ route('productos') }}">Productos</a></li>
+            <li class="nav-item"><a class="nav-link h5 ml-3 text-uppercase {{ request()->is('categoria') ? 'activo' : '' }}" href="{{ route('categoria') }}">Productos</a></li>
             <li class="nav-item"><a class="nav-link h5 ml-3 text-uppercase {{ request()->is('ofertas') ? 'activo' : '' }}" href="{{ route('ofertas') }}">Ofertas</a></li>
             <li class="nav-item"><a class="nav-link h5 ml-3 text-uppercase {{ request()->is('contacto') ? 'activo' : '' }}" href="{{ route('contacto') }}">Contacto</a></li>
             <li class="nav-item"><a style="color: #ffffff !important;" class="nav-link h5 ml-3 text-uppercase distren-fondo {{ request()->is('carrito') ? 'activo' : '' }}" href="{{ route('carrito') }}"><i class="fas fa-shopping-cart text-white"></i> Carrito</a></li>

@@ -73,6 +73,7 @@
                 <i class="material-icons">verified_user</i>Productos<i class="fas fa-sort-down ml-auto"></i>
             </a>
             <ul class="collapse list-group list-group-flush " id="calidad">
+                <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Categoria</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Productos</a></li>
             </ul>
         </li>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Content;
+use App\Product;
 use App\Slider;
 use Illuminate\Http\Request;
 
@@ -24,10 +26,16 @@ class FrontendController extends Controller
         return view('page.empresa',compact('empresa','slider'));
     }
 
+    public function categoria()
+    {
+        $categorias = Category::all();
+        return view('page.productos.categoria',compact('categorias'));
+    }
+
     public function productos()
     {
-        $productos = Content::seccionTipo('servicios','imagen')->get();
-        return view('page.productos',compact('productos'));
+        $productos = Product::first();
+        return view('page.productos.producto',compact('productos'));
     }
 
     public function flota()
