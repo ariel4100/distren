@@ -48,9 +48,7 @@
                 <div class="col-md-12">
                     <capacidad-component :capacidades="{{ json_encode($capacidades) }}"></capacidad-component>
                 </div>
-                <div class="col-md-12 my-4 text-right">
-                    <button type="submit" class="btn btn-success">Guardar</button>
-                </div>
+
             </form>
         </section>
     </div>

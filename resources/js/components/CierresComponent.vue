@@ -16,6 +16,9 @@
                 <p class="text-center">{{ item.title }}</p>
             </div>
         </div>
+        <div class="col-md-12 my-4 text-right">
+            <button @click="addProduct" type="submit" class="btn btn-success">Guardar</button>
+        </div>
     </div>
 </template>
 
@@ -43,6 +46,9 @@
             },
             addCierres(){
                 //alert('se añadio')
+            },
+            addProduct(){
+                alert(this.cierre);
             }
         }
     }

@@ -1979,6 +1979,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
  // register globally
 //Vue.component('multiselect', Multiselect)
 
@@ -2002,6 +2005,9 @@ __webpack_require__.r(__webpack_exports__);
       return "".concat(title, " \u2014 [").concat(price, "]");
     },
     addCierres: function addCierres() {//alert('se añadio')
+    },
+    addProduct: function addProduct() {
+      alert(this.cierre);
     }
   }
 });
@@ -20974,7 +20980,19 @@ var render = function() {
           ])
         }),
         0
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12 my-4 text-right" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            attrs: { type: "submit" },
+            on: { click: _vm.addProduct }
+          },
+          [_vm._v("Guardar")]
+        )
+      ])
     ],
     1
   )
