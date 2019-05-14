@@ -26,16 +26,25 @@ class FrontendController extends Controller
         return view('page.empresa',compact('empresa','slider'));
     }
 
-    public function categoria()
+    public function categorias()
     {
         $categorias = Category::all();
-        return view('page.productos.categoria',compact('categorias'));
+        return view('page.productos.categorias',compact('categorias'));
     }
 
-    public function productos()
+    public function categoriaproductos($id)
     {
-        $productos = Product::first();
-        return view('page.productos.producto',compact('productos'));
+        $categorias = Category::all();
+        $categoria = Category::find($id);
+        return view('page.productos.categoria',compact('categoria','categorias'));
+    }
+
+    public function producto($id)
+    {
+        $producto = Product::find($id);
+        $categorias = Category::all();
+        $categoria = Category::find($producto->category_id);
+        return view('page.productos.producto',compact('producto','categorias','categoria'));
     }
 
     public function flota()

@@ -77,6 +77,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
+        $product->fill($request->all());
         isset($request->featured) ? $product->fill(['featured' => true]) : null;
         if ($request->file('image'))
         {
@@ -123,5 +124,10 @@ class ProductController extends Controller
         $product['cierre'] =  $request->cierre;
         //$product['terminacion'] = $request->terminacion;
         Session::put('productos',$product);
+    }
+
+    public function productos(){
+
+        //return
     }
 }

@@ -57,7 +57,7 @@
             margin-left: 300px;
         }
         .container{
-            width: 75%;
+            width: 90%;
         }
 
         .distren-color{

@@ -10,6 +10,10 @@ class Product extends Model
         'code', 'image', 'title','subtitle','text','featured','category_id','order',
     ];
 
+    public function category() {
+        return $this->belongsTo('App\Category');
+    }
+
     public function closure()
     {
         return $this->belongsToMany('App\Closure');

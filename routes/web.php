@@ -16,8 +16,13 @@
 //});
 Route::get('/','FrontendController@home')->name('home');
 Route::get('empresa','FrontendController@empresa')->name('empresa');
-Route::get('categoria','FrontendController@categoria')->name('categoria');
-Route::get('productos','FrontendController@productos')->name('productos');
+Route::group([ 'prefix' => 'productos'],function (){
+    Route::get('/','FrontendController@categorias')->name('categorias');
+    Route::get('categoria/{id}','FrontendController@categoriaproductos')->name('categoria');
+    Route::get('producto/{id}','FrontendController@producto')->name('producto');
+});
+
+
 Route::get('carrito','FrontendController@carrito')->name('carrito');
 Route::get('ofertas','FrontendController@ofertas')->name('ofertas');
 Route::get('contacto','FrontendController@contacto')->name('contacto');
@@ -59,7 +64,9 @@ Route::group([ 'prefix' => 'adm'],function (){
 
     });*/
 
-
+    Route::resource('cierres','Adm\ClosureController');
+    Route::resource('capacidades','Adm\CapacityController');
+//    Route::resource('terminaciones','Adm\TController');
     Route::resource('categoria','Adm\CategoryController');
     Route::resource('productos','Adm\ProductController');
     Route::resource('metadatos','Adm\MetadataController');
@@ -72,3 +79,5 @@ Route::group([ 'prefix' => 'adm'],function (){
 //api
 Route::post('api/addproduct','Adm\ProductController@apiAddProduct');
 Route::post('api/updateproduct','Adm\ProductController@apiUpdateProduct');
+
+Route::post('api/productos','Adm\ProductController@productos');

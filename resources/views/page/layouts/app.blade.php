@@ -41,6 +41,12 @@
             color: #8BBF41 !important;
         }
 
+        #sidebar ul li a {
+            display: block;
+            color: black;
+
+        }
+
         /*CARRITO*/
         .table{
             color: unset;

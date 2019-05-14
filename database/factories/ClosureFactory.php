@@ -10,7 +10,7 @@ $factory->define(Closure::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence(2),
         'image' => $faker->imageUrl(1200,400),
-        'price' => $faker->randomFloat(),
+        'price' => $faker->randomFloat(2,0,500),
         'quantity' => $faker->numberBetween(10,400),
         'order' => $faker->randomLetter,
     ];

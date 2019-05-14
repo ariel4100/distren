@@ -75,6 +75,8 @@
             <ul class="collapse list-group list-group-flush " id="calidad">
                 <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Categoria</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Productos</a></li>
+                <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>
+                <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>
             </ul>
         </li>
         <!---OFERTAS---->
@@ -103,7 +105,7 @@
             </a>
             <ul class="collapse list-group list-group-flush " id="Logos">
                 <li><a href="{{ route('contenido.index', ['seccion' => 'logos', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Editar Logos</a></li>
-                <li><a href="{{ route('metadatos.index') }}"><i class="fas fa-chevron-right px-4"></i>Editar Metadatos</a></li>
+                <li><a href="{{ route('metadatos.index') }}"><i class="fas fa-chevron-right px-4"></i>Metadatos</a></li>
                 <li><a href="{{ route('contenido.index', ['seccion' => 'redes', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Editar Redes Sociales</a></li>
                 <li><a href="{{ route('usuario.index') }}"><i class="fas fa-chevron-right px-4"></i>Editar Usuario</a></li>
             </ul>
