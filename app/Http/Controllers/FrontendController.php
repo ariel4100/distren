@@ -15,7 +15,8 @@ class FrontendController extends Controller
         $contenido = Content::seccionTipo('home','imagen')->get();
         $home = Content::seccionTipo('home','texto')->first();
         $slider = Slider::where('section','home')->get();
-        return view('page.home',compact('home','slider','contenido'));
+        $productos = Product::where('featured',true)->limit(4)->get();
+        return view('page.home',compact('home','slider','contenido','productos'));
     }
 
     public function empresa()

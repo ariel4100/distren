@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <table class="table">
@@ -21,16 +21,16 @@
                     </thead>
                     <tbody>
                     <tr v-for="(item,index) in carrito" :key="index">
-                        <td style="vertical-align: middle">Farmacia</td>
-                        <td style="vertical-align: middle">Colirios</td>
-                        <td style="vertical-align: middle">10 cc</td>
-                        <td style="vertical-align: middle">$8,00</td>
+                        <td style="vertical-align: middle">{{ item.categoria }}</td>
+                        <td style="vertical-align: middle">{{ item.producto }}</td>
+                        <td style="vertical-align: middle">{{ item.cc }}</td>
+                        <td style="vertical-align: middle">{{ item.precioenvase }}</td>
                         <td style="width: 90px; vertical-align: middle">
                             <div class="form-group m-0">
                                 <input type="number" v-model="item.cantidadenvases" class="form-control form-control-sm">
                             </div>
                         </td>
-                        <td style="vertical-align: middle">$16,00</td>
+                        <td style="vertical-align: middle">{{ item.precioenvase*item.cantidadenvases }}</td>
                         <td style="vertical-align: middle">
                             <select class="browser-default custom-select custom-select-sm" v-model="item.terminacion">
                                 <option selected>Open this select menu</option>
@@ -55,18 +55,45 @@
                                 <input type="number" v-model="item.cantidadcierres" class="form-control form-control-sm">
                             </div>
                         </td>
-                        <td style="vertical-align: middle">$0,80</td>
-                        <td style="vertical-align: middle">$1,60</td>
+                        <td style="vertical-align: middle">{{ item.preciocierre }}</td>
+                        <td style="vertical-align: middle">{{ item.preciocierre*item.cantidadcierres }}</td>
                         <td style="vertical-align: middle">
                             <div class="d-flex align-items-center justify-content-between">
-                                <span>$17,60</span>
+                                <span>${{ (parseFloat(item.precioenvase*item.cantidadenvases) + (item.cantidadcierres*item.preciocierre)).toFixed(2) }}</span>
                                 <button @click="deleteCarrito(index)" class="btn btn-link p-0 ml-3"><i class="far fa-times-circle"></i></button>
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-
+                <h4  v-if="!carrito.length">Carrito esta vacio</h4>
+            </div>
+            <div class="col-md-4 offset-md-8">
+                <hr class="distren-fondo">
+                <div class="d-flex justify-content-between">
+                    <h5 class="">Sub Total</h5>
+                    <h5 class="">$ {{ getTotal.toFixed(2) }}</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h5 class="">IVA (21%)</h5>
+                    <h5>${{ (getTotal*0.21).toFixed(2) }}</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h5 class="">Envio</h5>
+                    <h5>$700</h5>
+                </div>
+                <div class="d-flex justify-content-between align-item-center mt-3">
+                    <h5 class="distren-color m-0">Total a pagar</h5>
+                    <h5 class="m-0 text-dark">${{ (getTotal*1.21).toFixed(2) }}</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="text-small m-0 p-0">Precio Final IVA incluido</p>
+                </div>
+                <hr class="distren-fondo">
+                <div class="d-flex justify-content-between">
+                    <button @click="addCarrito" class="btn py-2" style="border: 1px solid #8BBF40">Seguir comprando</button>
+                    <button @click="addCarrito" class="btn distren-fondo py-2">Pagar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -76,20 +103,35 @@
     export default {
         data(){
             return{
-                carrito:[
-                    {
-                        cantidadenvases: '',
-                        terminacion: '',
-                        cierre: '',
-                        cantidadcierres: '',
-                    }
-                ]
+                carrito : JSON.parse(localStorage.getItem('carrito')),
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            this.getCapacidad();
+            // if (localStorage.getItem('carrito')) {
+            //     try {
+            //         this.carrito = JSON.parse(localStorage.getItem('carrito'));
+            //     } catch(e) {
+            //         localStorage.removeItem('carrito');
+            //     }
+            // }
+        },
+        computed:{
+            getTotal: function() {
+                // return this.productocapacidad.reduce((total, product) => {
+                this.total = 0;
+                this.carrito.forEach((item, key)=>{
+                    this.total += ((item.precioenvase*item.cantidadenvases) + (item.cantidadcierres*item.preciocierre))
+                })
+                return this.total
+                // }, 0)
+            },
         },
         methods:{
+            getCapacidad: function(){
+
+                console.log(this.carrito)
+            },
             addCarrito: function () {
                 this.carrito.push( {
                     cantidadenvases: '',
@@ -97,10 +139,10 @@
                     cierre: '',
                     cantidadcierres: '',
                 });
-                console.log(this.carrito)
+                //console.log(this.carrito)
             },
             deleteCarrito: function (index) {
-                console.log(index);
+                //console.log(index);
                 this.carrito.splice(index, 1);
                 if (this.carrito.length === 0)
                     this.addCarrito()

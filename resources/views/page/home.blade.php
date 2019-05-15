@@ -14,6 +14,24 @@
 @endsection
 @section('content')
     @include('page.partials.carousel')
+    <div class="container my-5">
+        <div class="row">
+            @foreach($productos as $item)
+                <div class="col-md-3 text-center">
+                    <a href="{{ route('producto',$item->id) }}" class="" style="color: #9FA3A5;">
+                        <div class="view overlay">
+                            <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                            <div class="mask flex-center rgba-black-strong">
+                                <span class="text-white">+</span>
+                            </div>
+                        </div>
+                        <h4 class=" py-2 m-0">{!! $item->title !!} </h4>
+                        <a href="{{ route('producto',$item->id) }}" class="btn py-1 px-4 distren-fondo">Ver más</a>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
     <div class="distren-fondo py-5">
         <div class="container">
             <div class="row">

@@ -2,7 +2,7 @@
     <div class="row my-3">
         <div class="col-md-12">
             <h4 class="distren-color">Capacidad</h4>
-            <!--<pre class="language-json"><code>{{ carrito  }}</code></pre>-->
+            <!--<pre class="language-json"><code>{{ total_price  }}</code></pre>-->
             <table class="table table-responsive ">
                 <thead class="distren-fondo white-text">
                 <tr>
@@ -23,7 +23,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(item,index) in carrito" :key="index">
+                <tr v-for="(item,index) in productocapacidad" :key="index">
                     <td style="vertical-align: middle">{{ item.cc }}</td>
                     <td style="vertical-align: middle">${{ item.priceenvase }}</td>
                     <td style="width: 90px; vertical-align: middle">
@@ -31,7 +31,7 @@
                             <input type="number" v-model="item.cantidadenvases" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle">${{ item.priceenvase*item.cantidadenvases }}</td>
+                    <td style="vertical-align: middle">${{ getSubTotal(item) }}</td>
                     <!--<td style="vertical-align: middle">-->
                         <!--<select class="browser-default custom-select custom-select-sm" v-model="item.terminacion">-->
                             <!--<option selected>Open this select menu</option>-->
@@ -42,7 +42,7 @@
                     <!--</td>-->
                     <td style="vertical-align: middle; width: 200px">
                         <div class="d-flex align-items-center justify-content-between">
-                            <button @click="addCarrito(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
+                            <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
                             <select class="browser-default custom-select custom-select-sm" v-model="item.pricecierre">
                                 <option value="0" disabled selected>Seleccione..</option>
                                 <option v-for="item in item.tipo" :value="item.price">
@@ -61,7 +61,8 @@
                     <td style="vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
                             <span>${{ (parseFloat(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)).toFixed(2) }}</span>
-                            <button @click="deleteCarrito(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) != 0 ? 'distren-color' : null"></i></button>
+                            <span> {{ parseInt((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) > 0 ? item.activo = true : item.activo = false }}</span>
+                            <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) != 0 ? 'distren-color' : null"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -71,96 +72,139 @@
         <div class="col-md-4 offset-md-8">
             <div class="d-flex justify-content-between">
                 <h4 class="">Sub Total</h4>
-                <h4 class="">$212,00</h4>
+                <h4 class="">$ {{ getTotal.toFixed(2) }}</h4>
             </div>
             <div class="d-flex justify-content-between">
                 <h4 class="">IVA (21%)</h4>
-                <h4>$13,20</h4>
+                <h4>${{ (getTotal*0.21).toFixed(2) }}</h4>
             </div>
             <hr class=" bg-dark">
             <div class="d-flex justify-content-between">
                 <h4 class="distren-color">TOTAL</h4>
-                <h4 class="">$225,20</h4>
+                <h4 class="">{{ (getTotal*1.21).toFixed(2) }}</h4>
             </div>
             <div class="d-flex justify-content-end">
-                <button @click="Carrito" class="btn distren-fondo p-2 mx-0"><i class="fas fa-shopping-cart text-white"></i> Añadir al carrito</button>
+
+                <button @click="addCarrito" class="btn distren-fondo p-2 mx-0"><i class="fas fa-shopping-cart text-white"></i> Añadir al carrito</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import toastr from 'toastr';
     export default {
         props:['producto','cierres'],
         data(){
             return{
                 carrito:[],
+                productocapacidad:[],
                 qty:0,
-                total:0
+                total: 0,
             }
         },
         mounted() {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            //this.total_price();
 
             this.ponerdatos()
             //console.log('Component mounted.')
         },
+        computed:{
+            getTotal: function() {
+                // return this.productocapacidad.reduce((total, product) => {
+                    this.total = 0;
+                    this.productocapacidad.forEach((item, key)=>{
+                        this.total += ((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre))
+                    })
+                    return this.total
+                // }, 0)
+            },
+        },
         methods: {
             ponerdatos: function(){
                 this.producto.forEach((ob,index)=>{
-                    //console.log(index)
-                    this.carrito.push(
+                    this.productocapacidad.push(
                         {
                             priceenvase: ob.price,
                             cc: ob.cc,
                             cantidadenvases: 0,
                             tipo:this.cierres,
                             pricecierre:0,
-                            cantidadcierres: 0
-
+                            cantidadcierres: 0,
+                            activo: false
                         }
                     )
-                    //console.log(this.carrito)
                 });
-                console.log(this.carrito)
-            },
-            getProduct() {
-                // axios.get(this.url+'/api/productos').then(res => {
-                //     console.log(res.data)
-                // }).catch(e => {
-                //     console.log(e);
-                // });
-                console.log(this.producto)
+                //console.log(this.productocapacidad)
             },
 
-            addCarrito: function (item,index) {
-                this.carrito.splice(index+1,0, {
+            addCapacidad: function (item,index) {
+                this.productocapacidad.splice(index+1,0, {
                     priceenvase: item.priceenvase,
                     cc: item.cc,
                     cantidadenvases: 0,
                     tipo:this.cierres,
                     pricecierre:0,
-                    cantidadcierres: 0
+                    cantidadcierres: 0,
+                    activo: false
                 });
-                console.log(this.carrito)
+                //console.log(this.carrito)
             },
-            deleteCarrito: function (index) {
-                console.log(index);
-                this.carrito.splice(index, 1);
-                if (this.carrito.length === 0)
-                    this.addCarrito()
+            deleteCapacidad: function (index) {
+                this.productocapacidad.splice(index, 1);
+                if (this.productocapacidad.length === 0)
+                    this.addCapacidad()
 
             },
-            Carrito(){
-                console.log(this.carrito);
-                // this.carrito.reduce(function(total, item){
-                //     total + item.number;
-                // },0);
+            getSubTotal(item) {
+                return item.priceenvase*item.cantidadenvases
+            },
+            addCarrito(){
+                //let b = localStorage.setItem("carrito",[]);
+                //filtro all los activos
+                let isactive = this.productocapacidad.filter(item => item.activo);
+                let carro = JSON.parse(localStorage.getItem('carrito'));
+                //Armo el carro para mandarlo al carrito
+                isactive.forEach((item)=>{
+                    carro.push({
+                        categoria: 'farmcaia',
+                        producto: 'coliriios',
+                        cc: item.cc,
+                        precioenvase: item.priceenvase,
+                        cantidadenvases: item.cantidadenvases,
+                        preciocierre: item.pricecierre,
+                        cantidadcierres: item.cantidadcierres,
+                    });
+                });
+                localStorage.setItem('carrito', JSON.stringify(carro));
+                let b = JSON.parse(localStorage.getItem('carrito'));
+                console.log(b);
+                toastr.success('Have fun storming the castle!', 'Miracle Max Says')
+
             }
         }
     }
 </script>
 
 <style scoped>
+
     table{
         border-bottom: 2px solid #8BBF40 ;
     }
