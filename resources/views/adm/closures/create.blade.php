@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container p-4">
-        <a class="text-decoration-none " href="{{ route('categoria.index') }}"><< Volver</a>
-        <form class="" method="POST" action="{{ route('categoria.store') }}" enctype="multipart/form-data">
+        <a class="text-decoration-none " href="{{ route('cierres.index') }}"><< Volver</a>
+        <form class="" method="POST" action="{{ route('cierres.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-8">
@@ -16,6 +16,18 @@
                     <div class="md-form">
                         <input type="text" id="order" name="order" class="form-control">
                         <label for="order" class="">Orden</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <input type="number" id="price" name="price" class="form-control">
+                        <label for="price" class="">Precio</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <input type="number" id="quantity" name="quantity" class="form-control">
+                        <label for="quantity" class="">Cantidad</label>
                     </div>
                 </div>
             </div>

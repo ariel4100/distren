@@ -1813,6 +1813,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
  // register globally
 //Vue.component('multiselect', Multiselect)
 
@@ -1843,6 +1845,7 @@ __webpack_require__.r(__webpack_exports__);
       return "".concat(cc, " \u2014 [").concat(price, "]");
     },
     addProduct: function addProduct() {
+      console.log(this.capacidad);
       axios.post(this.url + '/api/addproduct', {
         capacidad: this.capacidad,
         cierre: this.cierre
@@ -1866,6 +1869,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1967,6 +1972,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1998,17 +2004,35 @@ __webpack_require__.r(__webpack_exports__);
     getCapacidad: function getCapacidad() {
       console.log(this.carrito);
     },
-    addCarrito: function addCarrito() {
-      this.carrito.push({
-        cantidadenvases: '',
-        terminacion: '',
-        cierre: '',
-        cantidadcierres: ''
+    // addCarrito: function () {
+    //     this.carrito.push( {
+    //         cantidadenvases: '',
+    //         terminacion: '',
+    //         cierre: '',
+    //         cantidadcierres: '',
+    //     });
+    //     //console.log(this.carrito)
+    // },
+    addCarrito: function addCarrito(item, index) {
+      this.carrito.splice(index + 1, 0, {
+        categoria: item.categoria,
+        producto: item.producto,
+        precioenvase: item.precioenvase,
+        cc: item.cc,
+        cantidadenvases: item.cantidadenvases,
+        tipo: item.cierre,
+        preciocierre: item.preciocierre,
+        cantidadcierres: item.cantidadcierres,
+        activo: false
       }); //console.log(this.carrito)
     },
     deleteCarrito: function deleteCarrito(index) {
       //console.log(index);
       this.carrito.splice(index, 1);
+      localStorage.setItem('carrito', JSON.stringify(this.carrito));
+      var b = JSON.parse(localStorage.getItem('carrito'));
+      console.log(b);
+      toastr__WEBPACK_IMPORTED_MODULE_0___default.a.success('Have fun storming the castle!', 'Miracle Max Says');
       if (this.carrito.length === 0) this.addCarrito();
     }
   }
@@ -2228,7 +2252,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['producto', 'cierres'],
+  props: {
+    nombrecategoria: String,
+    nombreproducto: String,
+    cierres: Array,
+    producto: Array
+  },
+  //props:['producto','cierres','nombrecategoria','nombreproducto'],
   data: function data() {
     return {
       carrito: [],
@@ -2253,9 +2283,8 @@ __webpack_require__.r(__webpack_exports__);
       "showEasing": "swing",
       "hideEasing": "linear",
       "showMethod": "fadeIn",
-      "hideMethod": "fadeOut" //this.total_price();
-
-    };
+      "hideMethod": "fadeOut"
+    }, //this.total_price();
     this.ponerdatos(); //console.log('Component mounted.')
   },
   computed: {
@@ -2305,6 +2334,8 @@ __webpack_require__.r(__webpack_exports__);
       return item.priceenvase * item.cantidadenvases;
     },
     addCarrito: function addCarrito() {
+      var _this3 = this;
+
       //let b = localStorage.setItem("carrito",[]);
       //filtro all los activos
       var isactive = this.productocapacidad.filter(function (item) {
@@ -2314,8 +2345,8 @@ __webpack_require__.r(__webpack_exports__);
 
       isactive.forEach(function (item) {
         carro.push({
-          categoria: 'farmcaia',
-          producto: 'coliriios',
+          categoria: _this3.nombrecategoria,
+          producto: _this3.nombreproducto,
           cc: item.cc,
           precioenvase: item.priceenvase,
           cantidadenvases: item.cantidadenvases,
@@ -2326,7 +2357,7 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.setItem('carrito', JSON.stringify(carro));
       var b = JSON.parse(localStorage.getItem('carrito'));
       console.log(b);
-      toastr__WEBPACK_IMPORTED_MODULE_0___default.a.success('Have fun storming the castle!', 'Miracle Max Says');
+      toastr__WEBPACK_IMPORTED_MODULE_0___default.a.success('Agregado al carrito', this.nombreproducto);
     }
   }
 });
@@ -31741,234 +31772,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-12 mt-4" },
-      [
-        _c("label", { staticClass: "typo__label" }, [
-          _vm._v("Selecciona Cierres")
-        ]),
-        _vm._v(" "),
-        _c("multiselect", {
-          attrs: {
-            options: _vm.cierres,
-            multiple: true,
-            "custom-label": _vm.cierreNombre,
-            "close-on-select": false,
-            "clear-on-select": false,
-            "preserve-search": true,
-            placeholder: "Cierres",
-            selectLabel: "Haga click para seleccionar",
-            deselectLabel: "Haga click para eliminar",
-            selectedLabel: "seleccionado",
-            label: "title",
-            "track-by": "id",
-            "preselect-first": true
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "selection",
-              fn: function(ref) {
-                var values = ref.values
-                var search = ref.search
-                var isOpen = ref.isOpen
-                return [
-                  values.length && !isOpen
-                    ? _c("span", { staticClass: "multiselect__single" }, [
-                        _vm._v(
-                          "opciones seleccionadas " + _vm._s(values.length)
-                        )
-                      ])
-                    : _vm._e()
-                ]
-              }
-            }
-          ]),
-          model: {
-            value: _vm.cierre,
-            callback: function($$v) {
-              _vm.cierre = $$v
-            },
-            expression: "cierre"
-          }
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "row my-4" },
-          _vm._l(_vm.cierre, function(item) {
-            return _c("div", { staticClass: "col-md-3" }, [
-              _c("img", {
-                staticClass: "img-fluid",
-                staticStyle: { height: "100px" },
-                attrs: { src: item.image, alt: "" }
-              }),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-center" }, [
-                _vm._v(_vm._s(item.title))
-              ])
-            ])
-          }),
-          0
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "col-lg-12" },
-      [
-        _c("label", { staticClass: "typo__label" }, [
-          _vm._v("Seleccionar Capacidades")
-        ]),
-        _vm._v(" "),
-        _c("multiselect", {
-          attrs: {
-            options: _vm.capacidades,
-            multiple: true,
-            "custom-label": _vm.capacidadNombre,
-            "close-on-select": false,
-            "clear-on-select": false,
-            "preserve-search": true,
-            placeholder: "Cierres",
-            selectLabel: "Haga click para seleccionar",
-            deselectLabel: "Haga click para eliminar",
-            selectedLabel: "seleccionado",
-            label: "cc",
-            "track-by": "id",
-            "preselect-first": true
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "selection",
-              fn: function(ref) {
-                var values = ref.values
-                var search = ref.search
-                var isOpen = ref.isOpen
-                return [
-                  values.length && !isOpen
-                    ? _c("span", { staticClass: "multiselect__single" }, [
-                        _vm._v(
-                          "opciones seleccionadas " + _vm._s(values.length)
-                        )
-                      ])
-                    : _vm._e()
-                ]
-              }
-            }
-          ]),
-          model: {
-            value: _vm.capacidad,
-            callback: function($$v) {
-              _vm.capacidad = $$v
-            },
-            expression: "capacidad"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: " my-4" }, [
-          _c("table", { staticClass: "table" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.capacidad, function(item) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(item.cc))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.price))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.quantity))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.order))])
-                ])
-              }),
-              0
-            )
-          ])
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-12 my-4 text-right" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-success",
-          attrs: { type: "submit" },
-          on: { click: _vm.addProduct }
-        },
-        [_vm._v("Guardar")]
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "distren-fondo white-text" }, [
-      _c("tr", [
-        _c(
-          "th",
-          {
-            staticClass: "align-middle py-1 text-center",
-            staticStyle: {
-              "border-right": "1px solid white",
-              "line-height": "1"
-            }
-          },
-          [_vm._v("cc")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "align-middle py-1 text-center",
-            staticStyle: {
-              "border-right": "1px solid white",
-              "line-height": "1"
-            }
-          },
-          [_vm._v("Precio")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "align-middle py-1 text-center",
-            staticStyle: {
-              "border-right": "1px solid white",
-              "line-height": "1"
-            }
-          },
-          [_vm._v("Stock")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "align-middle py-1 text-center",
-            staticStyle: {
-              "border-right": "1px solid white",
-              "line-height": "1"
-            }
-          },
-          [_vm._v("Orden")]
-        )
-      ])
-    ])
-  }
-]
-render._withStripped = true
+var render = function () {}
+var staticRenderFns = []
 
 
 
@@ -32115,7 +31920,11 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-link p-0",
-                          on: { click: _vm.addCarrito }
+                          on: {
+                            click: function($event) {
+                              return _vm.addCarrito(item, index)
+                            }
+                          }
                         },
                         [_c("i", { staticClass: "fas fa-plus distren-color" })]
                       ),

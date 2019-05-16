@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Capacity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -9,6 +10,31 @@ class CapacityController extends Controller
 {
     public function index()
     {
-        return view('adm.closures.index');
+        $capacidades = Capacity::all();
+        return view('adm.capacities.index',compact('capacidades'));
+    }
+
+    public function create()
+    {
+        return view('adm.capacities.create');
+    }
+
+    public function store(Request $request)
+    {
+        Capacity::create($request->all());
+        return back()->with('status','Capacidad creadó correctamente');
+    }
+
+    public function edit($id)
+    {
+        $capacidad = Capacity::find($id);
+        return view('adm.capacities.edit',compact('capacidad'));
+    }
+
+    public function update(Request $request,$id)
+    {
+        $capacidad = Capacity::find($id);
+        $capacidad->fill($request->all())->save();
+        return back()->with('status','Capacidad actualizadó correctamente');
     }
 }

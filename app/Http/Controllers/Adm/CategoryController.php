@@ -29,7 +29,7 @@ class CategoryController extends Controller
             $path = Storage::disk('public')->put("uploads/categorias",$request->file('image'));
             $categoria->fill(['image' => $path])->save();
         }
-        return redirect()->back()->with('status','Se creó correctamente');
+        return back()->with('status','Categoria creadó correctamente');
     }
 
     public function show($id)

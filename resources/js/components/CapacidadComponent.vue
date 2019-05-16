@@ -25,15 +25,17 @@
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">cc</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Stock</th>
-                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Orden</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in capacidad">
                         <td>{{ item.cc}}</td>
-                        <td>{{ item.price}}</td>
-                        <td>{{ item.quantity}}</td>
-                        <td>{{ item.order}}</td>
+                        <td>
+                            <input type="text" v-model="" class="form-control form-control-sm" :value="item.price">
+                        </td>
+                        <td>
+                            <input type="text" v-model="" class="form-control form-control-sm" :value="item.quantity">
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -41,7 +43,7 @@
             </div>
         </div>
         <div class="col-md-12 my-4 text-right">
-            <button @click="addProduct" type="submit"  class="btn btn-success">Guardar</button>
+            <button @click.prevent="addProduct" type="submit"  class="btn btn-success">Guardar</button>
         </div>
     </div>
 </template>
@@ -74,6 +76,7 @@
                 return `${cc} — [${price}]`
             },
             addProduct(){
+                console.log(this.capacidad)
                 axios.post(this.url+'/api/addproduct',{capacidad: this.capacidad,cierre: this.cierre}).then(res => {
                     console.log(res.data)
                 }).catch(e => {

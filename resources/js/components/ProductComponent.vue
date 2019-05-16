@@ -94,7 +94,13 @@
 <script>
     import toastr from 'toastr';
     export default {
-        props:['producto','cierres'],
+        props:{
+            nombrecategoria: String,
+            nombreproducto: String,
+            cierres: Array,
+            producto: Array,
+        },
+        //props:['producto','cierres','nombrecategoria','nombreproducto'],
         data(){
             return{
                 carrito:[],
@@ -120,7 +126,7 @@
                 "hideEasing": "linear",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
-            }
+            },
             //this.total_price();
 
             this.ponerdatos()
@@ -184,8 +190,8 @@
                 //Armo el carro para mandarlo al carrito
                 isactive.forEach((item)=>{
                     carro.push({
-                        categoria: 'farmcaia',
-                        producto: 'coliriios',
+                        categoria: this.nombrecategoria,
+                        producto:  this.nombreproducto,
                         cc: item.cc,
                         precioenvase: item.priceenvase,
                         cantidadenvases: item.cantidadenvases,
@@ -196,7 +202,7 @@
                 localStorage.setItem('carrito', JSON.stringify(carro));
                 let b = JSON.parse(localStorage.getItem('carrito'));
                 console.log(b);
-                toastr.success('Have fun storming the castle!', 'Miracle Max Says')
+                toastr.success('Agregado al carrito',this.nombreproducto)
 
             }
         }

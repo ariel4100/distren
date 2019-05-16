@@ -26,7 +26,7 @@
 
                     @endforelse
                 </div>
-                <product-component :producto="{{ $producto->capacity }}" :cierres="{{ $producto->closure }}"></product-component>
+                <product-component :producto="{{ $producto->capacity }}" :cierres="{{ $producto->closure }}" :nombreproducto="{{ json_encode($producto->title) }}" :nombrecategoria="{{ json_encode($producto->category->title) }}"></product-component>
 
             </div>
         </div>

@@ -2,21 +2,33 @@
 
 @section('content')
     <div class="container p-4">
-        <a class="text-decoration-none " href="{{ route('categoria.index') }}"><< Volver</a>
-        <form class="" method="POST" action="{{ route('categoria.store') }}" enctype="multipart/form-data">
+        <a class="text-decoration-none " href="{{ route('cierres.index') }}"><< Volver</a>
+        <form class="" method="POST" action="{{ route('cierres.update',$cierre->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
                 <div class="col-md-8">
                     <div class="md-form">
-                        <input type="text" id="title" name="title" class="form-control" value="{!! $categoria->title !!}">
+                        <input type="text" id="title" name="title" class="form-control" value="{!! $cierre->title !!}">
                         <label for="title" class="">Titulo</label>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="order" name="order" class="form-control" value="{!! $categoria->order !!}">
+                        <input type="text" id="order" name="order" class="form-control" value="{!! $cierre->order !!}">
                         <label for="order" class="">Orden</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <input type="number" id="price" name="price" class="form-control" value="{!! $cierre->price !!}">
+                        <label for="price" class="">Precio</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <input type="number" id="quantity" name="quantity" class="form-control" value="{!! $cierre->quantity !!}">
+                        <label for="quantity" class="">Cantidad</label>
                     </div>
                 </div>
             </div>
@@ -38,7 +50,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 my-5 text-center">
-                    <img src="{{ asset($categoria->image) }}" alt="" class="img-fluid" style="height: 200px">
+                    <img src="{{ asset($cierre->image) }}" alt="" class="img-fluid" style="height: 200px">
                 </div>
             </div>
             <div class="row">

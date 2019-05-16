@@ -41,7 +41,7 @@
                         </td>
                         <td style="vertical-align: middle">
                             <div class="d-flex align-items-center justify-content-between">
-                                <button @click="addCarrito" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
+                                <button @click="addCarrito(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
                                 <select class="browser-default custom-select custom-select-sm" v-model="item.cierre">
                                     <option selected>Open this select menu</option>
                                     <option value="1">One</option>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+    import toastr from 'toastr';
     export default {
         data(){
             return{
@@ -132,18 +133,36 @@
 
                 console.log(this.carrito)
             },
-            addCarrito: function () {
-                this.carrito.push( {
-                    cantidadenvases: '',
-                    terminacion: '',
-                    cierre: '',
-                    cantidadcierres: '',
+            // addCarrito: function () {
+            //     this.carrito.push( {
+            //         cantidadenvases: '',
+            //         terminacion: '',
+            //         cierre: '',
+            //         cantidadcierres: '',
+            //     });
+            //     //console.log(this.carrito)
+            // },
+            addCarrito: function (item,index) {
+                this.carrito.splice(index+1,0, {
+                    categoria: item.categoria,
+                    producto:  item.producto,
+                    precioenvase: item.precioenvase,
+                    cc: item.cc,
+                    cantidadenvases: item.cantidadenvases,
+                    tipo: item.cierre,
+                    preciocierre: item.preciocierre,
+                    cantidadcierres: item.cantidadcierres,
+                    activo: false
                 });
                 //console.log(this.carrito)
             },
             deleteCarrito: function (index) {
                 //console.log(index);
                 this.carrito.splice(index, 1);
+                localStorage.setItem('carrito', JSON.stringify(this.carrito));
+                let b = JSON.parse(localStorage.getItem('carrito'));
+                console.log(b);
+                toastr.success('Have fun storming the castle!', 'Miracle Max Says')
                 if (this.carrito.length === 0)
                     this.addCarrito()
 
