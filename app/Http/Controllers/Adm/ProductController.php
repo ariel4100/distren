@@ -40,6 +40,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = Product::create($request->except('featured'));
+        //$product->price()->save(['price'=>1,'quantity'=>5]);
+        dd($product->price);
 
         isset($request->featured) ? $product->fill(['featured' => true]) : null;
         if ($request->file('image'))
@@ -56,7 +58,6 @@ class ProductController extends Controller
 
         $idCapacidad = $capacidad->pluck('id');
         $idCierres = $cierres->pluck('id');
-
         $product->capacity()->sync($idCapacidad);
         $product->closure()->sync($idCierres);
 

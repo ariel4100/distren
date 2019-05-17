@@ -22,4 +22,14 @@ class Product extends Model
     {
         return $this->belongsToMany('App\Capacity');
     }
+
+    public function capacidad()
+    {
+        return $this->hasMany('App\Capacity');
+    }
+
+    public function price()
+    {
+        return $this->hasMany('App\Price');
+    }
 }

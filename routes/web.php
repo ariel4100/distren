@@ -72,7 +72,7 @@ Route::group([ 'prefix' => 'adm'],function (){
     Route::resource('metadatos','Adm\MetadataController');
     Route::get('meta/{id}','Adm\MetadataController@eliminar')->name('metadato.eliminar');
     Route::resource('usuario','Adm\UserController');
-    Route::get('usuario/destroy/{id}','Adm\UserController@delete')->name('usuario.delete');
+
 
 });
 

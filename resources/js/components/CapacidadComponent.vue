@@ -31,10 +31,10 @@
                     <tr v-for="item in capacidad">
                         <td>{{ item.cc}}</td>
                         <td>
-                            <input type="text" v-model="" class="form-control form-control-sm" :value="item.price">
+                            <input type="number" v-model="item.price" class="form-control form-control-sm">
                         </td>
                         <td>
-                            <input type="text" v-model="" class="form-control form-control-sm" :value="item.quantity">
+                            <input type="number" v-model="item.quantity" class="form-control form-control-sm">
                         </td>
                     </tr>
                     </tbody>
@@ -43,14 +43,14 @@
             </div>
         </div>
         <div class="col-md-12 my-4 text-right">
-            <button @click.prevent="addProduct" type="submit"  class="btn btn-success">Guardar</button>
+            <button @click="addProduct" type="submit"  class="btn btn-success">Guardar</button>
         </div>
     </div>
 </template>
 
 <script>
     import Multiselect from 'vue-multiselect'
-
+    import VueCurrencyFilter from 'vue-currency-filter'
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
@@ -62,10 +62,22 @@
           return{
               cierre:[],
               capacidad:[],
+              // precio:55858,
               url : document.__API_URL,
           }
         },
         mounted() {
+            if (VueCurrencyFilter) {
+                Vue.use(VueCurrencyFilter, {
+                    symbol: '$',
+                    thousandsSeparator: '.',
+                    fractionCount: 2,
+                    fractionSeparator: ',',
+                    symbolPosition: 'front',
+                    symbolSpacing: true
+                })
+            }
+            //this.preciocantidad()
             console.log('Component mounted.')
         },
         methods: {
@@ -74,6 +86,19 @@
             },
             capacidadNombre({cc, price}) {
                 return `${cc} — [${price}]`
+            },
+            preciocantidad() {
+               console.log(this.capacidad);
+               this.capacidad.push({
+                   precio: 0,
+                   cantidad: 0,
+                   // this.precio.push({
+                   //     cc: item.cc,
+                   //     precio: 0,
+                   //     cantidad: 0,
+                   // });
+                   // console.log(item);
+                });
             },
             addProduct(){
                 console.log(this.capacidad)

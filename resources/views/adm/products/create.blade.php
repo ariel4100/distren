@@ -53,7 +53,7 @@
                     </select>
                 </div>
             </div>
-                <capacidad-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
+            <capacidad-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
             </form>
     </div>
 @endsection
