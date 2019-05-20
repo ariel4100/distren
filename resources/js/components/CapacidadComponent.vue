@@ -31,7 +31,8 @@
                     <tr v-for="item in capacidad">
                         <td>{{ item.cc}}</td>
                         <td>
-                            <input type="number" v-model="item.price" class="form-control form-control-sm">
+                            <input v-model="item.price" v-money="money" class="form-control form-control-sm" style="text-align: right" />
+                            <!--<input type="number" v-model="item.price" class="form-control form-control-sm">-->
                         </td>
                         <td>
                             <input type="number" v-model="item.quantity" class="form-control form-control-sm">
@@ -51,6 +52,7 @@
 <script>
     import Multiselect from 'vue-multiselect'
     import VueCurrencyFilter from 'vue-currency-filter'
+    import money from 'v-money'
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
@@ -64,6 +66,14 @@
               capacidad:[],
               // precio:55858,
               url : document.__API_URL,
+              money: {
+                  decimal: ',',
+                  thousands: '.',
+                  prefix: '$',
+                  // suffix: '',
+                  precision: 2,
+                  masked: false /* doesn't work with directive */
+              }
           }
         },
         mounted() {

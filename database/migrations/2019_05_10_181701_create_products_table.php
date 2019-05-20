@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('subtitle')->nullable();
             $table->text('text')->nullable();
             $table->boolean('featured')->default(false);
+            $table->boolean('status')->default(false);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('order')->nullable();

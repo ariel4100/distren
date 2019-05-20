@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->string('title')->nullable();
             $table->text('text')->nullable();
             $table->string('order')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

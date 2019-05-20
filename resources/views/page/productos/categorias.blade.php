@@ -4,10 +4,10 @@
     <div class="container my-5">
         <div class="row">
             @foreach($categorias as $item)
-            <div class="col-md-4">
+            <div class="col-md-4 my-4">
                 <a href="{{ route('categoria',$item->id) }}" class="" style="color: #9FA3A5;">
                     <div class="view overlay">
-                        <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                        <img src="{{ asset($item->image) }}" class="img-fluid" style="/*height: 250px;*/" alt="smaple image">
                         <div class="mask flex-center rgba-black-strong">
                             <span class="text-white">+</span>
                         </div>

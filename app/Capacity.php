@@ -20,8 +20,8 @@ class Capacity extends Model
         return $this->belongsTo('App\Product');
     }
 
-    public function price()
+    public function precio()
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Price');
     }
 }

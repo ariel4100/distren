@@ -5,6 +5,7 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-md-4">
+                @if($contacto)
                 <h4 class="distren-color text-uppercase distren-bold ml-md-5">{!! $contacto->title !!}</h4>
                 <ul class="list-group">
                     <li class="list-group-item border-0 d-flex align-items-center">
@@ -27,6 +28,7 @@
                         </div>
                     </li>
                 </ul>
+                    @endif
             </div>
             <div class="col-md-8">
                 <form class="form-row ">

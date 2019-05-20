@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Capacity;
 use App\Category;
 use App\Closure;
+use App\Price;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,8 +41,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = Product::create($request->except('featured'));
-        //$product->price()->save(['price'=>1,'quantity'=>5]);
-        dd($product->price);
+        ////$product->price()->save(['price'=>1,'quantity'=>5]);
+
+
 
         isset($request->featured) ? $product->fill(['featured' => true]) : null;
         if ($request->file('image'))
@@ -56,11 +58,26 @@ class ProductController extends Controller
         $capacidad = collect($apiProductos['capacidad']);
         $cierres = collect($apiProductos['cierre']);
 
+        //dd($capacidad);
         $idCapacidad = $capacidad->pluck('id');
         $idCierres = $cierres->pluck('id');
+
         $product->capacity()->sync($idCapacidad);
         $product->closure()->sync($idCierres);
-
+        foreach ($capacidad as $item) {
+            $item['price'] = str_replace(".","",$item["price"]);
+            $item['price'] = str_replace(",",".",$item["price"]);
+            $item['price'] = str_replace("$","",$item["price"]);
+//            dd($item['price']);
+            Price::create([
+                'product_id' => $product->id,
+                'capacity_id' => $item['id'],
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+            ]);
+            //dd($item['id']);
+        }
+        //dd($product->capacity()->first()->precio);
         //Session::flush();
 
         return back()->with('status','Se creó correctamente');
@@ -72,7 +89,9 @@ class ProductController extends Controller
         $capacidades = Capacity::all();
         $categorias = Category::all();
         $producto = Product::find($id);
-        return view('adm.products.edit',compact('producto','categorias','capacidades','cierres'));
+        $precio = Price::with("capacity")->get();
+//        dd(json_encode($productos));
+        return view('adm.products.edit',compact('producto','categorias','capacidades','cierres','precio'));
     }
 
     public function update(Request $request, $id)
@@ -97,6 +116,19 @@ class ProductController extends Controller
 
         $product->capacity()->sync($idCapacidad);
         $product->closure()->sync($idCierres);
+
+        foreach ($capacidad as $item) {
+            $item['price'] = str_replace(".","",$item["price"]);
+            $item['price'] = str_replace(",",".",$item["price"]);
+            $item['price'] = str_replace("$","",$item["price"]);
+            Price::create([
+                'product_id' => $product->id,
+                'capacity_id' => $item['id'],
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+            ]);
+            //dd($item['id']);
+        }
         return back()->with('status','Se actualizó correctamente');
     }
 
@@ -110,12 +142,16 @@ class ProductController extends Controller
 
     public function apiAddProduct(Request $request)
     {
-
+        //str_replace("$ ","",$dataRequest["precio"]);
         $product = Session::get('productos');
         $product['capacidad'] = $request->capacidad;
+
+        //return str_replace("$","",$product['capacidad'][0]['price']);
         $product['cierre'] =  $request->cierre;
         //$product['terminacion'] = $request->terminacion;
         Session::put('productos',$product);
+        $product = Session::get('productos');
+        return $product;
 
     }
 

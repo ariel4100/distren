@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClosuresTable extends Migration
+class CreateTerminationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateClosuresTable extends Migration
      */
     public function up()
     {
-        Schema::create('closures', function (Blueprint $table) {
+        Schema::create('terminations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('image')->nullable();
             $table->string('title')->nullable();
@@ -32,6 +32,6 @@ class CreateClosuresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('closures');
+        Schema::dropIfExists('terminations');
     }
 }

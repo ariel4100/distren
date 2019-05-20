@@ -1767,6 +1767,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
 /* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -1817,6 +1819,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
  // register globally
 //Vue.component('multiselect', Multiselect)
@@ -1831,7 +1835,17 @@ __webpack_require__.r(__webpack_exports__);
       cierre: [],
       capacidad: [],
       // precio:55858,
-      url: document.__API_URL
+      url: document.__API_URL,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$',
+        // suffix: '',
+        precision: 2,
+        masked: false
+        /* doesn't work with directive */
+
+      }
     };
   },
   mounted: function mounted() {
@@ -2080,6 +2094,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2126,11 +2142,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
  // register globally
 //Vue.component('multiselect', Multiselect)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['capacidades', 'cierres', 'capacidad', 'cierre'],
+  props: ['capacidades', 'cierres', 'capacidad', 'cierre', 'precio'],
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
   },
@@ -2138,7 +2158,17 @@ __webpack_require__.r(__webpack_exports__);
     return {
       editarcierre: [],
       editarcapacidad: [],
-      url: document.__API_URL
+      url: document.__API_URL,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$',
+        // suffix: '',
+        precision: 2,
+        masked: false
+        /* doesn't work with directive */
+
+      }
     };
   },
   mounted: function mounted() {
@@ -2146,8 +2176,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getProduct: function getProduct() {
-      this.editarcierre.push(this.cierre);
-      this.editarcapacidad.push(this.capacidad); //console.log(this.editarcierre[0])
+      var _this = this;
+
+      this.cierre.forEach(function (item) {
+        _this.editarcierre.push({
+          title: item.title,
+          image: item.image
+        });
+      });
+      this.precio.forEach(function (item) {
+        console.log(item);
+
+        _this.editarcapacidad.push({
+          cc: item.capacity.cc,
+          price: item.price,
+          quantity: item.quantity
+        });
+      });
+      console.log(this.precio);
     },
     cierreNombre: function cierreNombre(_ref) {
       var title = _ref.title,
@@ -2160,10 +2206,10 @@ __webpack_require__.r(__webpack_exports__);
       return "".concat(cc, " \u2014 [").concat(price, "]");
     },
     updateProduct: function updateProduct() {
-      //console.log(this.editarcierre[0])
+      console.log(this.editarcapacidad);
       axios.post(this.url + '/api/updateproduct', {
-        capacidad: this.editarcapacidad[0],
-        cierre: this.editarcierre[0]
+        capacidad: this.editarcapacidad,
+        cierre: this.editarcierre
       }).then(function (res) {
         console.log(res.data);
       })["catch"](function (e) {
@@ -31790,6 +31836,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 
 /***/ }),
 
+/***/ "./node_modules/v-money/dist/v-money.js":
+/*!**********************************************!*\
+  !*** ./node_modules/v-money/dist/v-money.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function(e,t){ true?module.exports=t():undefined})(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p=".",t(t.s=9)}([function(e,t,n){"use strict";t.a={prefix:"",suffix:"",thousands:",",decimal:".",precision:2}},function(e,t,n){"use strict";var r=n(2),i=n(5),u=n(0);t.a=function(e,t){if(t.value){var o=n.i(i.a)(u.a,t.value);if("INPUT"!==e.tagName.toLocaleUpperCase()){var a=e.getElementsByTagName("input");1!==a.length||(e=a[0])}e.oninput=function(){var t=e.value.length-e.selectionEnd;e.value=n.i(r.a)(e.value,o),t=Math.max(t,o.suffix.length),t=e.value.length-t,t=Math.max(t,o.prefix.length+1),n.i(r.b)(e,t),e.dispatchEvent(n.i(r.c)("change"))},e.onfocus=function(){n.i(r.b)(e,e.value.length-o.suffix.length)},e.oninput(),e.dispatchEvent(n.i(r.c)("input"))}}},function(e,t,n){"use strict";function r(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:m.a;"number"==typeof e&&(e=e.toFixed(o(t.precision)));var n=e.indexOf("-")>=0?"-":"",r=u(e),i=c(r,t.precision),a=d(i).split("."),p=a[0],l=a[1];return p=f(p,t.thousands),t.prefix+n+s(p,l,t.decimal)+t.suffix}function i(e,t){var n=e.indexOf("-")>=0?-1:1,r=u(e),i=c(r,t);return parseFloat(i)*n}function u(e){return d(e).replace(/\D+/g,"")||"0"}function o(e){return a(0,e,20)}function a(e,t,n){return Math.max(e,Math.min(t,n))}function c(e,t){var n=Math.pow(10,t);return(parseFloat(e)/n).toFixed(o(t))}function f(e,t){return e.replace(/(\d)(?=(?:\d{3})+\b)/gm,"$1"+t)}function s(e,t,n){return t?e+n+t:e}function d(e){return e?e.toString():""}function p(e,t){var n=function(){e.setSelectionRange(t,t)};e===document.activeElement&&(n(),setTimeout(n,1))}function l(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!0),t}var m=n(0);n.d(t,"a",function(){return r}),n.d(t,"d",function(){return i}),n.d(t,"b",function(){return p}),n.d(t,"c",function(){return l})},function(e,t,n){"use strict";function r(e,t){t&&Object.keys(t).map(function(e){a.a[e]=t[e]}),e.directive("money",o.a),e.component("money",u.a)}Object.defineProperty(t,"__esModule",{value:!0});var i=n(6),u=n.n(i),o=n(1),a=n(0);n.d(t,"Money",function(){return u.a}),n.d(t,"VMoney",function(){return o.a}),n.d(t,"options",function(){return a.a}),n.d(t,"VERSION",function(){return c});var c="0.8.1";t.default=r,"undefined"!=typeof window&&window.Vue&&window.Vue.use(r)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),i=n(0),u=n(2);t.default={name:"Money",props:{value:{required:!0,type:[Number,String],default:0},masked:{type:Boolean,default:!1},precision:{type:Number,default:function(){return i.a.precision}},decimal:{type:String,default:function(){return i.a.decimal}},thousands:{type:String,default:function(){return i.a.thousands}},prefix:{type:String,default:function(){return i.a.prefix}},suffix:{type:String,default:function(){return i.a.suffix}}},directives:{money:r.a},data:function(){return{formattedValue:""}},watch:{value:{immediate:!0,handler:function(e,t){var r=n.i(u.a)(e,this.$props);r!==this.formattedValue&&(this.formattedValue=r)}}},methods:{change:function(e){this.$emit("input",this.masked?e.target.value:n.i(u.d)(e.target.value,this.precision))}}}},function(e,t,n){"use strict";t.a=function(e,t){return e=e||{},t=t||{},Object.keys(e).concat(Object.keys(t)).reduce(function(n,r){return n[r]=void 0===t[r]?e[r]:t[r],n},{})}},function(e,t,n){var r=n(7)(n(4),n(8),null,null);e.exports=r.exports},function(e,t){e.exports=function(e,t,n,r){var i,u=e=e||{},o=typeof e.default;"object"!==o&&"function"!==o||(i=e,u=e.default);var a="function"==typeof u?u.options:u;if(t&&(a.render=t.render,a.staticRenderFns=t.staticRenderFns),n&&(a._scopeId=n),r){var c=a.computed||(a.computed={});Object.keys(r).forEach(function(e){var t=r[e];c[e]=function(){return t}})}return{esModule:i,exports:u,options:a}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("input",{directives:[{name:"money",rawName:"v-money",value:{precision:e.precision,decimal:e.decimal,thousands:e.thousands,prefix:e.prefix,suffix:e.suffix},expression:"{precision, decimal, thousands, prefix, suffix}"}],staticClass:"v-money",attrs:{type:"tel"},domProps:{value:e.formattedValue},on:{change:e.change}})},staticRenderFns:[]}},function(e,t,n){e.exports=n(3)}])});
+
+/***/ }),
+
 /***/ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js":
 /*!************************************************************************!*\
   !*** ./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js ***!
@@ -31964,10 +32021,16 @@ var render = function() {
                           rawName: "v-model",
                           value: item.price,
                           expression: "item.price"
+                        },
+                        {
+                          name: "money",
+                          rawName: "v-money",
+                          value: _vm.money,
+                          expression: "money"
                         }
                       ],
                       staticClass: "form-control form-control-sm",
-                      attrs: { type: "number" },
+                      staticStyle: { "text-align": "right" },
                       domProps: { value: item.price },
                       on: {
                         input: function($event) {
@@ -32675,18 +32738,18 @@ var render = function() {
             }
           ]),
           model: {
-            value: _vm.editarcierre[0],
+            value: _vm.editarcierre,
             callback: function($$v) {
-              _vm.$set(_vm.editarcierre, 0, $$v)
+              _vm.editarcierre = $$v
             },
-            expression: "editarcierre[0]"
+            expression: "editarcierre"
           }
         }),
         _vm._v(" "),
         _c(
           "div",
           { staticClass: "row my-4" },
-          _vm._l(_vm.editarcierre[0], function(item) {
+          _vm._l(_vm.editarcierre, function(item) {
             return _c("div", { staticClass: "col-md-3" }, [
               _c("img", {
                 staticClass: "img-fluid",
@@ -32725,7 +32788,7 @@ var render = function() {
             selectLabel: "Haga click para seleccionar",
             deselectLabel: "Haga click para eliminar",
             selectedLabel: "seleccionado",
-            label: "cc",
+            label: "price",
             "track-by": "id"
           },
           scopedSlots: _vm._u([
@@ -32748,11 +32811,11 @@ var render = function() {
             }
           ]),
           model: {
-            value: _vm.editarcapacidad[0],
+            value: _vm.editarcapacidad,
             callback: function($$v) {
-              _vm.$set(_vm.editarcapacidad, 0, $$v)
+              _vm.editarcapacidad = $$v
             },
-            expression: "editarcapacidad[0]"
+            expression: "editarcapacidad"
           }
         }),
         _vm._v(" "),
@@ -32762,15 +32825,63 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.editarcapacidad[0], function(item) {
+              _vm._l(_vm.editarcapacidad, function(item) {
                 return _c("tr", [
                   _c("td", [_vm._v(_vm._s(item.cc))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.price))]),
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: item.price,
+                          expression: "item.price"
+                        },
+                        {
+                          name: "money",
+                          rawName: "v-money",
+                          value: _vm.money,
+                          expression: "money"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      staticStyle: { "text-align": "right" },
+                      domProps: { value: item.price },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(item, "price", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.quantity))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.order))])
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: item.quantity,
+                          expression: "item.quantity"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: { type: "number" },
+                      domProps: { value: item.quantity },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(item, "quantity", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
                 ])
               }),
               0
@@ -32787,7 +32898,12 @@ var render = function() {
         {
           staticClass: "btn btn-success",
           attrs: { type: "submit" },
-          on: { click: _vm.updateProduct }
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.updateProduct($event)
+            }
+          }
         },
         [_vm._v("Guardar")]
       )
@@ -32835,18 +32951,6 @@ var staticRenderFns = [
             }
           },
           [_vm._v("Stock")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "align-middle py-1 text-center",
-            staticStyle: {
-              "border-right": "1px solid white",
-              "line-height": "1"
-            }
-          },
-          [_vm._v("Orden")]
         )
       ])
     ])
@@ -45900,8 +46004,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\ariel\distren\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\ariel\distren\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\osole\distren\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\osole\distren\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

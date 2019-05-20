@@ -59,8 +59,8 @@
                     </select>
                 </div>
             </div>
-            {{--@dd($producto->capacity)--}}
-            <cierres-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}" :capacidad="{{ json_encode($producto->capacity) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>
+            {{--@dd($producto->capacity()->select('capacities.id','cc')->get())--}}
+            <cierres-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}" :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>
         </form>
     </div>
 @endsection

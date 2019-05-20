@@ -16,8 +16,9 @@ class CreateCapacitiesTable extends Migration
         Schema::create('capacities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('cc')->nullable();
-            $table->string('price')->nullable();
-            $table->string('quantity')->nullable();
+            $table->double('price')->nullable();
+            $table->integer('quantity')->nullable();
+            $table->boolean('status')->default(false);
             $table->string('order')->nullable();
             $table->timestamps();
         });

@@ -2,13 +2,16 @@
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel" >
     <!--Indicators-->
     <ol class="carousel-indicators">
-        <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+        @foreach($slider as $key=>$s)
+            <li data-target="#carousel-example-2" data-slide-to="{{$key}}" class="{{ $key == 0 ? 'active' : null }}"></li>
+        @endforeach
     </ol>
     <!--/.Indicators-->
     <!--Slides-->
+
     <div class="carousel-inner" role="listbox">
         @foreach($slider as $key=>$s)
-            <div class="carousel-item active">
+            <div class="carousel-item  {{ $key == 0 ? 'active' : null }}">
                 <div class="view">
                     <img class="d-block w-100"   src="{!! $s->image !!}"
                          alt="First slide">
