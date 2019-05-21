@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         factory('App\Content',20)->create();
         factory('App\Slider',20)->create();
         factory('App\Category',20)->create();
+        factory('App\Subcategory',20)->create();
         factory('App\Closure',20)->create();
         factory('App\Capacity',20)->create();
     }

@@ -1820,6 +1820,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
  // register globally
@@ -1861,31 +1865,18 @@ __webpack_require__.r(__webpack_exports__);
     } //this.preciocantidad()
 
 
-    console.log('Component mounted.');
+    console.log(this.capacidad);
   },
   methods: {
     cierreNombre: function cierreNombre(_ref) {
       var title = _ref.title,
           price = _ref.price;
-      return "".concat(title, " \u2014 [").concat(price, "]");
+      return "".concat(title); //`${title} — [${price}]`
     },
     capacidadNombre: function capacidadNombre(_ref2) {
       var cc = _ref2.cc,
           price = _ref2.price;
-      return "".concat(cc, " \u2014 [").concat(price, "]");
-    },
-    preciocantidad: function preciocantidad() {
-      console.log(this.capacidad);
-      this.capacidad.push({
-        precio: 0,
-        cantidad: 0 // this.precio.push({
-        //     cc: item.cc,
-        //     precio: 0,
-        //     cantidad: 0,
-        // });
-        // console.log(item);
-
-      });
+      return "".concat(cc);
     },
     addProduct: function addProduct() {
       console.log(this.capacidad);
@@ -2145,12 +2136,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
  // register globally
 //Vue.component('multiselect', Multiselect)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['capacidades', 'cierres', 'capacidad', 'cierre', 'precio'],
+  props: ['capacidades', 'cierres', 'cierre', 'precio'],
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
   },
@@ -2172,7 +2167,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getProduct(); //console.log('Component mounted.')
+    this.getProduct();
+    console.log(this.cierre);
   },
   methods: {
     getProduct: function getProduct() {
@@ -2180,30 +2176,30 @@ __webpack_require__.r(__webpack_exports__);
 
       this.cierre.forEach(function (item) {
         _this.editarcierre.push({
+          id: item.id,
           title: item.title,
           image: item.image
         });
       });
       this.precio.forEach(function (item) {
-        console.log(item);
-
         _this.editarcapacidad.push({
+          id: item.capacity.id,
           cc: item.capacity.cc,
           price: item.price,
+          offerprice: item.offer_price,
           quantity: item.quantity
         });
-      });
-      console.log(this.precio);
+      }); // console.log(this.precio)
     },
     cierreNombre: function cierreNombre(_ref) {
       var title = _ref.title,
           price = _ref.price;
-      return "".concat(title, " \u2014 [").concat(price, "]");
+      return "".concat(title);
     },
     capacidadNombre: function capacidadNombre(_ref2) {
       var cc = _ref2.cc,
           price = _ref2.price;
-      return "".concat(cc, " \u2014 [").concat(price, "]");
+      return "".concat(cc);
     },
     updateProduct: function updateProduct() {
       console.log(this.editarcapacidad);
@@ -2325,13 +2321,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     nombrecategoria: String,
     nombreproducto: String,
     cierres: Array,
-    producto: Array
+    producto: Array,
+    precio: Array
   },
   //props:['producto','cierres','nombrecategoria','nombreproducto'],
   data: function data() {
@@ -2369,7 +2372,13 @@ __webpack_require__.r(__webpack_exports__);
       // return this.productocapacidad.reduce((total, product) => {
       this.total = 0;
       this.productocapacidad.forEach(function (item, key) {
-        _this.total += item.priceenvase * item.cantidadenvases + item.cantidadcierres * item.pricecierre;
+        console.log(item);
+
+        if (item.offer) {
+          _this.total += item.offer_price * item.cantidadenvases + item.cantidadcierres * item.pricecierre;
+        } else {
+          _this.total += item.priceenvase * item.cantidadenvases + item.cantidadcierres * item.pricecierre;
+        }
       });
       return this.total; // }, 0)
     }
@@ -2378,17 +2387,19 @@ __webpack_require__.r(__webpack_exports__);
     ponerdatos: function ponerdatos() {
       var _this2 = this;
 
-      this.producto.forEach(function (ob, index) {
+      this.precio.forEach(function (ob, index) {
         _this2.productocapacidad.push({
           priceenvase: ob.price,
-          cc: ob.cc,
+          offer_price: ob.offer_price,
+          cc: ob.capacity.cc,
           cantidadenvases: 0,
           tipo: _this2.cierres,
           pricecierre: 0,
           cantidadcierres: 0,
+          offer: ob.product.offer,
           activo: false
         });
-      }); //console.log(this.productocapacidad)
+      }); //console.log(this.precio)
     },
     addCapacidad: function addCapacidad(item, index) {
       this.productocapacidad.splice(index + 1, 0, {
@@ -31972,8 +31983,7 @@ var render = function() {
             deselectLabel: "Haga click para eliminar",
             selectedLabel: "seleccionado",
             label: "cc",
-            "track-by": "id",
-            "preselect-first": true
+            "track-by": "id"
           },
           scopedSlots: _vm._u([
             {
@@ -32038,6 +32048,36 @@ var render = function() {
                             return
                           }
                           _vm.$set(item, "price", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: item.offerprice,
+                          expression: "item.offerprice"
+                        },
+                        {
+                          name: "money",
+                          rawName: "v-money",
+                          value: _vm.money,
+                          expression: "money"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      staticStyle: { "text-align": "right" },
+                      domProps: { value: item.offerprice },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(item, "offerprice", $event.target.value)
                         }
                       }
                     })
@@ -32118,6 +32158,18 @@ var staticRenderFns = [
             }
           },
           [_vm._v("Precio")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "align-middle py-1 text-center",
+            staticStyle: {
+              "border-right": "1px solid white",
+              "line-height": "1"
+            }
+          },
+          [_vm._v("Precio de Oferta")]
         ),
         _vm._v(" "),
         _c(
@@ -32784,11 +32836,11 @@ var render = function() {
             "close-on-select": false,
             "clear-on-select": false,
             "preserve-search": true,
-            placeholder: "Cierres",
+            placeholder: "Capacidades",
             selectLabel: "Haga click para seleccionar",
             deselectLabel: "Haga click para eliminar",
             selectedLabel: "seleccionado",
-            label: "price",
+            label: "cc",
             "track-by": "id"
           },
           scopedSlots: _vm._u([
@@ -32819,7 +32871,7 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c("div", { staticClass: " my-4" }, [
+        _c("div", { staticClass: "my-4" }, [
           _c("table", { staticClass: "table" }, [
             _vm._m(0),
             _vm._v(" "),
@@ -32865,6 +32917,36 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
+                          value: item.offerprice,
+                          expression: "item.offerprice"
+                        },
+                        {
+                          name: "money",
+                          rawName: "v-money",
+                          value: _vm.money,
+                          expression: "money"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      staticStyle: { "text-align": "right" },
+                      domProps: { value: item.offerprice },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(item, "offerprice", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
                           value: item.quantity,
                           expression: "item.quantity"
                         }
@@ -32898,12 +32980,7 @@ var render = function() {
         {
           staticClass: "btn btn-success",
           attrs: { type: "submit" },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.updateProduct($event)
-            }
-          }
+          on: { click: _vm.updateProduct }
         },
         [_vm._v("Guardar")]
       )
@@ -32939,6 +33016,18 @@ var staticRenderFns = [
             }
           },
           [_vm._v("Precio")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "align-middle py-1 text-center",
+            staticStyle: {
+              "border-right": "1px solid white",
+              "line-height": "1"
+            }
+          },
+          [_vm._v("Precio de Oferta")]
         ),
         _vm._v(" "),
         _c(
@@ -32992,9 +33081,18 @@ var render = function() {
                 _vm._v(_vm._s(item.cc))
               ]),
               _vm._v(" "),
-              _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                _vm._v("$" + _vm._s(item.priceenvase))
-              ]),
+              item.offer
+                ? _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _c("del", [_vm._v(_vm._s(item.priceenvase))]),
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(item.offer_price) +
+                        "\n                "
+                    )
+                  ])
+                : _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v("$" + _vm._s(item.priceenvase))
+                  ]),
               _vm._v(" "),
               _c(
                 "td",
@@ -33026,9 +33124,17 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                _vm._v("$" + _vm._s(_vm.getSubTotal(item)))
-              ]),
+              item.offer
+                ? _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v(
+                      "$" + _vm._s(item.offer_price * item.cantidadenvases)
+                    )
+                  ])
+                : _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v(
+                      "$" + _vm._s(item.priceenvase * item.cantidadenvases)
+                    )
+                  ]),
               _vm._v(" "),
               _c(
                 "td",
@@ -33163,19 +33269,33 @@ var render = function() {
                       "d-flex align-items-center justify-content-between"
                   },
                   [
-                    _c("span", [
-                      _vm._v(
-                        "$" +
-                          _vm._s(
-                            (
-                              parseFloat(
-                                item.priceenvase * item.cantidadenvases
-                              ) +
-                              item.cantidadcierres * item.pricecierre
-                            ).toFixed(2)
+                    item.offer
+                      ? _c("span", [
+                          _vm._v(
+                            "$" +
+                              _vm._s(
+                                (
+                                  parseFloat(
+                                    item.offer_price * item.cantidadenvases
+                                  ) +
+                                  item.cantidadcierres * item.pricecierre
+                                ).toFixed(2)
+                              )
                           )
-                      )
-                    ]),
+                        ])
+                      : _c("span", [
+                          _vm._v(
+                            "$" +
+                              _vm._s(
+                                (
+                                  parseFloat(
+                                    item.priceenvase * item.cantidadenvases
+                                  ) +
+                                  item.cantidadcierres * item.pricecierre
+                                ).toFixed(2)
+                              )
+                          )
+                        ]),
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
@@ -46004,8 +46124,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\osole\distren\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\osole\distren\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\ariel\distren\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\ariel\distren\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

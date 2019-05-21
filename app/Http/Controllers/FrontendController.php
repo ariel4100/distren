@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Content;
+use App\Price;
 use App\Product;
 use App\Slider;
 use Illuminate\Http\Request;
@@ -45,7 +46,15 @@ class FrontendController extends Controller
         $producto = Product::find($id);
         $categorias = Category::all();
         $categoria = Category::find($producto->category_id);
-        return view('page.productos.producto',compact('producto','categorias','categoria'));
+        $precio = Price::with("capacity",'product')->where('product_id',$producto->id)->get();
+        return view('page.productos.producto',compact('producto','categorias','categoria','precio'));
+    }
+
+    public function ofertas()
+    {
+        $productos = Product::where('offer',true)->get();
+        $precio = [];//Price::with("capacity",'product')->where('product_id',$producto->id)->get();
+        return view('page.ofertas',compact('productos','precio'));
     }
 
     public function flota()

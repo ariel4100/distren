@@ -14,7 +14,7 @@
         </div>
         <div class="col-lg-12">
             <label class="typo__label">Seleccionar Capacidades</label>
-            <multiselect v-model="capacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Cierres" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id" :preselect-first="true">
+            <multiselect v-model="capacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Cierres" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id">
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <!--<pre class="language-json"><code>{{ cierre  }}</code></pre>-->
@@ -24,6 +24,7 @@
                     <tr>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">cc</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
+                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio de Oferta</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Stock</th>
                     </tr>
                     </thead>
@@ -33,6 +34,9 @@
                         <td>
                             <input v-model="item.price" v-money="money" class="form-control form-control-sm" style="text-align: right" />
                             <!--<input type="number" v-model="item.price" class="form-control form-control-sm">-->
+                        </td>
+                        <td>
+                            <input v-model="item.offerprice" v-money="money" class="form-control form-control-sm" style="text-align: right" />
                         </td>
                         <td>
                             <input type="number" v-model="item.quantity" class="form-control form-control-sm">
@@ -88,28 +92,16 @@
                 })
             }
             //this.preciocantidad()
-            console.log('Component mounted.')
+            console.log(this.capacidad)
         },
         methods: {
             cierreNombre({title, price}) {
-                return `${title} — [${price}]`
+                return  `${title}`//`${title} — [${price}]`
             },
             capacidadNombre({cc, price}) {
-                return `${cc} — [${price}]`
+                return `${cc}`
             },
-            preciocantidad() {
-               console.log(this.capacidad);
-               this.capacidad.push({
-                   precio: 0,
-                   cantidad: 0,
-                   // this.precio.push({
-                   //     cc: item.cc,
-                   //     precio: 0,
-                   //     cantidad: 0,
-                   // });
-                   // console.log(item);
-                });
-            },
+
             addProduct(){
                 console.log(this.capacidad)
                 axios.post(this.url+'/api/addproduct',{capacidad: this.capacidad,cierre: this.cierre}).then(res => {

@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-6 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="featured">
+                        <input type="checkbox" class="custom-control-input" {!! isset($producto->featured) ? 'checked': null !!} id="customSwitch1"  name="featured">
                         <label class="custom-control-label" for="customSwitch1">Mostrar en Home?</label>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 mt-4">
+                <div class="col-md-6 mt-4">
                     <p>Seleccionar Categoria</p>
                     <select class="custom-select form-control select2" name="category_id">
                         @forelse($categorias as $item)
@@ -58,8 +58,19 @@
                         @endforelse
                     </select>
                 </div>
+                {{--@dd($producto->subcategory()->first())--}}
+                <div class="col-md-6 mt-4">
+                    <p>Seleccionar Subcategoria</p>
+                    <select class="custom-select form-control select2" name="subcategory_id">
+                        @forelse($subcategorias as $item)
+                            <option value="{!! $item->id !!}" {{ $producto->subcategory()->first()->id == $item->id  ? 'selected' : null }}>{!! $item->title !!}</option>
+                        @empty
+                            <option value="" selected disabled>No hay registros</option>
+                        @endforelse
+                    </select>
+                </div>
             </div>
-            {{--@dd($producto->capacity()->select('capacities.id','cc')->get())--}}
+            {{--@dd($producto->closure)--}}
             <cierres-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}" :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>
         </form>
     </div>

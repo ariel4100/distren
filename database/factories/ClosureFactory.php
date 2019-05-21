@@ -8,6 +8,7 @@ use App\Capacity;
 use App\Content;
 use App\Metadata;
 use App\Slider;
+use App\Subcategory;
 use App\Termination;
 use Faker\Generator as Faker;
 
@@ -32,6 +33,12 @@ $factory->define(Slider::class, function (Faker $faker) {
     return [
         'section' => $faker->randomElement(['home','empresa']),
         'image' => $faker->imageUrl(1200,480),
+    ];
+});
+
+$factory->define(Subcategory::class, function (Faker $faker) {
+    return [
+        'title' => $faker->sentence(1),
     ];
 });
 

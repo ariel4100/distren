@@ -42,10 +42,20 @@
                     </div>
                 </div>
             <div class="row">
-                <div class="col-md-12 mt-4">
+                <div class="col-md-6 mt-4">
                     <p>Seleccionar Categoria</p>
                     <select class="custom-select form-control select2" name="category_id">
                         @forelse($categorias as $item)
+                            <option value="{!! $item->id !!}">{!! $item->title !!}</option>
+                        @empty
+                            <option value="" selected disabled>No hay registros</option>
+                        @endforelse
+                    </select>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <p>Seleccionar Subcategoria</p>
+                    <select class="custom-select form-control select2" name="subcategory_id">
+                        @forelse($subcategorias as $item)
                             <option value="{!! $item->id !!}">{!! $item->title !!}</option>
                         @empty
                             <option value="" selected disabled>No hay registros</option>

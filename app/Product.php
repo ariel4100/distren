@@ -14,6 +14,10 @@ class Product extends Model
         return $this->belongsTo('App\Category');
     }
 
+    public function subcategory() {
+        return $this->belongsToMany('App\Subcategory','subcategory_product');
+    }
+
     public function closure()
     {
         return $this->belongsToMany('App\Closure');

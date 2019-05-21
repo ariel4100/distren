@@ -2,15 +2,12 @@
 
 @section('content')
     <div class="container my-5">
-        @include('page.partials.breadcrumb')
+        <h3 class="distren-color text-uppercase font-weight-bold">Ofertas</h3>
         <div class="row">
-            {{--@dd($categoria->product[0]->category_id)--}}
-            @include('page.partials.botonera')
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="row">
-
-                    @forelse($categoria->product as $item)
-                        <div class="col-md-3">
+                    @forelse($productos as $item)
+                        <div class="col-md-2">
                             <a href="{{ route('producto',$item->id) }}" class="" style="color: #9FA3A5;">
                                 <div class="view overlay">
                                     <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">

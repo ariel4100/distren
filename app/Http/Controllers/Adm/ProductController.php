@@ -7,6 +7,7 @@ use App\Category;
 use App\Closure;
 use App\Price;
 use App\Product;
+use App\Subcategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
@@ -35,12 +36,13 @@ class ProductController extends Controller
         $cierres = Closure::all();
         $capacidades = Capacity::all();
         $categorias = Category::all();
-        return view('adm.products.create',compact('cierres','capacidades','categorias'));
+        $subcategorias = Subcategory::all();
+        return view('adm.products.create',compact('cierres','capacidades','categorias','subcategorias'));
     }
 
     public function store(Request $request)
     {
-        $product = Product::create($request->except('featured'));
+        $product = Product::create($request->except(['featured','subcategory_id']));
         ////$product->price()->save(['price'=>1,'quantity'=>5]);
 
 
@@ -58,27 +60,32 @@ class ProductController extends Controller
         $capacidad = collect($apiProductos['capacidad']);
         $cierres = collect($apiProductos['cierre']);
 
-        //dd($capacidad);
+
         $idCapacidad = $capacidad->pluck('id');
         $idCierres = $cierres->pluck('id');
 
+        $product->subcategory()->sync($request->subcategory_id);
         $product->capacity()->sync($idCapacidad);
         $product->closure()->sync($idCierres);
         foreach ($capacidad as $item) {
             $item['price'] = str_replace(".","",$item["price"]);
             $item['price'] = str_replace(",",".",$item["price"]);
             $item['price'] = str_replace("$","",$item["price"]);
-//            dd($item['price']);
+            $item['offerprice'] = str_replace(".","",$item["offerprice"]);
+            $item['offerprice'] = str_replace(",",".",$item["offerprice"]);
+            $item['offerprice'] = str_replace("$","",$item["offerprice"]);
+
             Price::create([
                 'product_id' => $product->id,
                 'capacity_id' => $item['id'],
                 'price' => $item['price'],
+                'offer_price' => $item['offerprice'],
                 'quantity' => $item['quantity'],
             ]);
-            //dd($item['id']);
+
         }
         //dd($product->capacity()->first()->precio);
-        //Session::flush();
+        Session::flush();
 
         return back()->with('status','Se creó correctamente');
     }
@@ -89,14 +96,16 @@ class ProductController extends Controller
         $capacidades = Capacity::all();
         $categorias = Category::all();
         $producto = Product::find($id);
-        $precio = Price::with("capacity")->get();
+        $precio = Price::with("capacity")->where('product_id',$producto->id)->get();
+        $subcategorias = Subcategory::all();
 //        dd(json_encode($productos));
-        return view('adm.products.edit',compact('producto','categorias','capacidades','cierres','precio'));
+        return view('adm.products.edit',compact('producto','categorias','capacidades','cierres','precio','subcategorias'));
     }
 
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
+
         $product->fill($request->all());
         isset($request->featured) ? $product->fill(['featured' => true]) : null;
         if ($request->file('image'))
@@ -114,17 +123,22 @@ class ProductController extends Controller
         $idCapacidad = $capacidad->pluck('id');
         $idCierres = $cierres->pluck('id');
 
+        $product->subcategory()->sync($request->subcategory_id);
         $product->capacity()->sync($idCapacidad);
         $product->closure()->sync($idCierres);
-
+        Price::where('product_id', $product->id)->delete();
         foreach ($capacidad as $item) {
             $item['price'] = str_replace(".","",$item["price"]);
             $item['price'] = str_replace(",",".",$item["price"]);
             $item['price'] = str_replace("$","",$item["price"]);
+            $item['offerprice'] = str_replace(".","",$item["offerprice"]);
+            $item['offerprice'] = str_replace(",",".",$item["offerprice"]);
+            $item['offerprice'] = str_replace("$","",$item["offerprice"]);
             Price::create([
                 'product_id' => $product->id,
                 'capacity_id' => $item['id'],
                 'price' => $item['price'],
+                'offer_price' => $item['offerprice'],
                 'quantity' => $item['quantity'],
             ]);
             //dd($item['id']);
@@ -161,6 +175,8 @@ class ProductController extends Controller
         $product['cierre'] =  $request->cierre;
         //$product['terminacion'] = $request->terminacion;
         Session::put('productos',$product);
+        $product = Session::get('productos');
+        return $product;
     }
 
     public function productos(){

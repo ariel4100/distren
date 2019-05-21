@@ -45,7 +45,15 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $categoria = Category::find($id);
+        $categoria->fill($request->all());
+        if ($request->file('image'))
+        {
+            $path = Storage::disk('public')->put("uploads/categorias",$request->file('image'));
+            $categoria->fill(['image' => $path]);
+        }
+        $categoria->save();
+        return back()->with('status','Categoria actualizado correctamente');
     }
 
     public function destroy($id)

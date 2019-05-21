@@ -25,13 +25,18 @@
                 <tbody>
                 <tr v-for="(item,index) in productocapacidad" :key="index">
                     <td style="vertical-align: middle">{{ item.cc }}</td>
-                    <td style="vertical-align: middle">${{ item.priceenvase }}</td>
+                    <td style="vertical-align: middle" v-if="item.offer">
+                        <del >{{ item.priceenvase }}</del>
+                        {{ item.offer_price }}
+                    </td>
+                    <td style="vertical-align: middle" v-else>${{ item.priceenvase }}</td>
                     <td style="width: 90px; vertical-align: middle">
                         <div class="form-group m-0">
                             <input type="number" v-model="item.cantidadenvases" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle">${{ getSubTotal(item) }}</td>
+                    <td style="vertical-align: middle" v-if="item.offer">${{ item.offer_price*item.cantidadenvases }}</td>
+                    <td style="vertical-align: middle" v-else>${{ item.priceenvase*item.cantidadenvases }}</td>
                     <!--<td style="vertical-align: middle">-->
                         <!--<select class="browser-default custom-select custom-select-sm" v-model="item.terminacion">-->
                             <!--<option selected>Open this select menu</option>-->
@@ -60,7 +65,8 @@
                     <td style="vertical-align: middle">${{ item.cantidadcierres*item.pricecierre }}</td>
                     <td style="vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span>${{ (parseFloat(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)).toFixed(2) }}</span>
+                            <span v-if="item.offer">${{ (parseFloat(item.offer_price*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)).toFixed(2) }}</span>
+                            <span v-else>${{ (parseFloat(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)).toFixed(2) }}</span>
                             <span> {{ parseInt((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) > 0 ? item.activo = true : item.activo = false }}</span>
                             <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) != 0 ? 'distren-color' : null"></i></button>
                         </div>
@@ -99,6 +105,7 @@
             nombreproducto: String,
             cierres: Array,
             producto: Array,
+            precio: Array,
         },
         //props:['producto','cierres','nombrecategoria','nombreproducto'],
         data(){
@@ -137,7 +144,13 @@
                 // return this.productocapacidad.reduce((total, product) => {
                     this.total = 0;
                     this.productocapacidad.forEach((item, key)=>{
-                        this.total += ((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre))
+                        console.log(item)
+                        if (item.offer)
+                        {
+                            this.total += ((item.offer_price*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre))
+                        }else{
+                            this.total += ((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre))
+                        }
                     })
                     return this.total
                 // }, 0)
@@ -145,20 +158,22 @@
         },
         methods: {
             ponerdatos: function(){
-                this.producto.forEach((ob,index)=>{
+                this.precio.forEach((ob,index)=>{
                     this.productocapacidad.push(
                         {
                             priceenvase: ob.price,
-                            cc: ob.cc,
+                            offer_price: ob.offer_price,
+                            cc: ob.capacity.cc,
                             cantidadenvases: 0,
                             tipo:this.cierres,
                             pricecierre:0,
                             cantidadcierres: 0,
+                            offer: ob.product.offer,
                             activo: false
                         }
                     )
                 });
-                //console.log(this.productocapacidad)
+                //console.log(this.precio)
             },
 
             addCapacidad: function (item,index) {

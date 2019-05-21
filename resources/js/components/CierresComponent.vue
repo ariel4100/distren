@@ -14,15 +14,16 @@
         </div>
         <div class="col-lg-12">
             <label class="typo__label">Seleccionar Capacidades</label>
-            <multiselect v-model="editarcapacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Cierres" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="price" track-by="id"  >
+            <multiselect v-model="editarcapacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Capacidades" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id"  >
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
-            <div class=" my-4">
+            <div class="my-4">
                 <table class="table">
                     <thead class="distren-fondo white-text">
                     <tr>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">cc</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
+                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio de Oferta</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Stock</th>
                     </tr>
                     </thead>
@@ -34,6 +35,9 @@
                             <!--<input type="number" v-model="item.price" class="form-control form-control-sm">-->
                         </td>
                         <td>
+                            <input v-model="item.offerprice" v-money="money" class="form-control form-control-sm" style="text-align: right" />
+                        </td>
+                        <td>
                             <input type="number" v-model="item.quantity" class="form-control form-control-sm">
                         </td>
                     </tr>
@@ -42,7 +46,7 @@
             </div>
         </div>
         <div class="col-md-12 my-4 text-right">
-            <button @click.prevent="updateProduct" type="submit"  class="btn btn-success">Guardar</button>
+            <button @click="updateProduct" type="submit"  class="btn btn-success">Guardar</button>
         </div>
     </div>
 </template>
@@ -53,7 +57,7 @@
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
-        props:['capacidades','cierres','capacidad','cierre','precio'],
+        props:['capacidades','cierres','cierre','precio'],
         components: {
             Multiselect
         },
@@ -74,33 +78,35 @@
         },
         mounted() {
             this.getProduct()
-            //console.log('Component mounted.')
+            console.log(this.cierre)
         },
         methods: {
             getProduct() {
                 this.cierre.forEach((item)=>{
                     this.editarcierre.push({
+                        id: item.id,
                         title: item.title,
                         image: item.image,
 
                     })
                 });
                 this.precio.forEach((item)=>{
-                    console.log(item)
                     this.editarcapacidad.push({
+                        id: item.capacity.id,
                         cc: item.capacity.cc,
                         price: item.price,
+                        offerprice: item.offer_price,
                         quantity: item.quantity,
 
                     })
                 });
-               console.log(this.precio)
+               // console.log(this.precio)
             },
             cierreNombre({title, price}) {
-                return `${title} — [${price}]`
+                return `${title}`
             },
             capacidadNombre({cc, price}) {
-                return `${cc} — [${price}]`
+                return `${cc}`
             },
             updateProduct(){
                 console.log(this.editarcapacidad)

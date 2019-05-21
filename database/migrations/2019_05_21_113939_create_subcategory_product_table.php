@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePricesTable extends Migration
+class CreateSubcategoryProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreatePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create('subcategory_product', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('subcategory_id')->nullable();
+            $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->unsignedBigInteger('capacity_id')->nullable();
-            $table->double('price')->nullable();
-            $table->double('offer_price')->nullable();
-            $table->integer('quantity')->default(0)->nullable();
-            $table->text('order')->nullable();
-            $table->timestamps();
-
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('capacity_id')->references('id')->on('capacities')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -35,6 +30,6 @@ class CreatePricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists('subcategory_product');
     }
 }

@@ -74,6 +74,7 @@
             </a>
             <ul class="collapse list-group list-group-flush " id="calidad">
                 <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Categoria</a></li>
+                <li><a href="{{ route('subcategoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Subcategoria</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Productos</a></li>
                 <li><a href="{{ route('cierres.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>
                 <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>
