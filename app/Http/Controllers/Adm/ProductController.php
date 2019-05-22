@@ -42,6 +42,17 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+//        $apiProductos = Session::get('productos');
+//
+//        foreach ($apiProductos['capacidad'] as $item) {
+//            $item['price'] = str_replace(".","",$item["price"]);
+//            $item['price'] = str_replace(",","",$item["price"]);
+//            $item['price'] = str_replace("$","",$item["price"]);
+//
+//            var_dump($item['price']);
+//        }
+//        exit('dsd');
+//        dd($apiProductos['capacidad']);
         $product = Product::create($request->except(['featured','subcategory_id']));
         ////$product->price()->save(['price'=>1,'quantity'=>5]);
 
@@ -69,10 +80,10 @@ class ProductController extends Controller
         $product->closure()->sync($idCierres);
         foreach ($capacidad as $item) {
             $item['price'] = str_replace(".","",$item["price"]);
-            $item['price'] = str_replace(",",".",$item["price"]);
+            $item['price'] = str_replace(",","",$item["price"]);
             $item['price'] = str_replace("$","",$item["price"]);
             $item['offerprice'] = str_replace(".","",$item["offerprice"]);
-            $item['offerprice'] = str_replace(",",".",$item["offerprice"]);
+            $item['offerprice'] = str_replace(",","",$item["offerprice"]);
             $item['offerprice'] = str_replace("$","",$item["offerprice"]);
 
             Price::create([
@@ -129,10 +140,10 @@ class ProductController extends Controller
         Price::where('product_id', $product->id)->delete();
         foreach ($capacidad as $item) {
             $item['price'] = str_replace(".","",$item["price"]);
-            $item['price'] = str_replace(",",".",$item["price"]);
+            $item['price'] = str_replace(",","",$item["price"]);
             $item['price'] = str_replace("$","",$item["price"]);
             $item['offerprice'] = str_replace(".","",$item["offerprice"]);
-            $item['offerprice'] = str_replace(",",".",$item["offerprice"]);
+            $item['offerprice'] = str_replace(",","",$item["offerprice"]);
             $item['offerprice'] = str_replace("$","",$item["offerprice"]);
             Price::create([
                 'product_id' => $product->id,
