@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Content;
+use App\Galery;
 use App\Price;
 use App\Product;
 use App\Slider;
@@ -58,7 +59,8 @@ class FrontendController extends Controller
         $categorias = Category::all();
         $categoria = Category::find($producto->category_id);
         $precio = Price::with("capacity",'product')->where('product_id',$producto->id)->get();
-        return view('page.productos.producto',compact('producto','categorias','categoria','precio'));
+        $galery = Galery::where('product_id',$producto->id)->get();
+        return view('page.productos.producto',compact('producto','categorias','categoria','precio','galery'));
     }
 
     public function ofertas()

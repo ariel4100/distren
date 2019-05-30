@@ -5,10 +5,10 @@
         <a class="text-decoration-none " href="{{ route('galeria.index',$id) }}"><< Volver</a>
         <form class="row" method="POST" action="{{ route('galeria.store') }}" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" id="order" name="new_id" value="{!! $id !!}" class="form-control">
+            <input type="hidden" id="order" name="product_id" value="{!! $id !!}" class="form-control">
             <div class="col-md-12">
                 <div class="md-form">
-                    <input type="text" id="order" name="orden" class="form-control">
+                    <input type="text" id="order" name="order" class="form-control">
                     <label for="order" class="">Orden</label>
                 </div>
             </div>

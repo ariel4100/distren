@@ -12,48 +12,48 @@ class GaleryController extends Controller
 {
     public function index($id)
     {
-        $news = Product::find($id);
+        $producto = Product::find($id);
         $galery = Galery::all();
-        return view('adm.news.galery.index',compact('galery','news'));
+        return view('adm.products.galery.index',compact('galery','producto'));
     }
 
     public function create($id)
     {
-        return view('adm.news.galery.create',compact('id'));
+        return view('adm.products.galery.create',compact('id'));
     }
 
     public function store(Request $request)
     {
-        $novedades = Product::find($request->new_id);
         $galery = Galery::create($request->all());
 
         //IMAGE
         if ($request->file('image'))
         {
-            $path = Storage::disk('public')->put('uploads/galeria/'.strtolower($novedades->Category->title).'',$request->file('image'));
+            $path = Storage::disk('public')->put('uploads/galeria',$request->file('image'));
             $galery->fill(['image' => $path])->save();
         }
-        return redirect()->route('galeria.index',$request->new_id)->with('status','Creado correctamente');
+        return redirect()->route('galeria.index',$request->product_id)->with('status','Creado correctamente');
     }
     public function edit($id)
     {
         $galery = Galery::find($id);
-        $news = Product::find($galery->new_id);
-        return view('adm.news.galery.edit',compact('galery','news'));
+        $producto = Product::find($galery->product_id);
+        return view('adm.products.galery.edit',compact('galery','producto'));
     }
 
     public function update(Request $request, $id)
     {
-        $novedades = Product::find($request->new_id);
-        $galery = Galery::create($request->all());
+        $galery = Galery::find($id);
+        $galery->fill($request->all());
 
         //IMAGE
         if ($request->file('image'))
         {
-            $path = Storage::disk('public')->put('uploads/galeria/'.strtolower($novedades->Category->title).'',$request->file('image'));
-            $galery->fill(['image' => $path])->save();
+            $path = Storage::disk('public')->put('uploads/galeria',$request->file('image'));
+            $galery->fill(['image' => $path]);
         }
-        return redirect()->route('galeria.index',$request->new_id)->with('status','Creado correctamente');
+        $galery->save();
+        return redirect()->route('galeria.index',$request->product_id)->with('status','Creado correctamente');
     }
 
     public function destroy($id)

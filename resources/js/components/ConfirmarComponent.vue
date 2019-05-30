@@ -59,10 +59,12 @@
                 <div class="col-lg-4">
                     <div class="card-body distren-fondo text-center h-100 ">
                         <h3 class="my-4 pb-2">Resumen del Pedido</h3>
-                        <ul class="text-lg-left list-unstyled ml-4">
-                            <li v-for="item in carrito">
+                        <ul class="text-lg-left list-unstyled px-4">
+                            <li v-for="item in carrito" class="d-flex justify-content-between">
                                 {{ item.producto }}
                                 {{ item.cc }}
+                                <span v-if="item.oferta">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                                <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                             </li>
                         </ul>
                         <hr class="hr-light p-0 my-2">
@@ -90,16 +92,9 @@
                         <a @click="confirmar" v-else class="btn btn-white distren-color my-2 py-2 btn-block">Confirmar</a>
                         <a href="carrito" class="btn btn-outline-white my-2 py-2 btn-block">Volver atras</a>
                     </div>
-
                 </div>
-                <!-- Grid column -->
-
             </div>
-            <!-- Grid row -->
-
         </div>
-        <!-- Form with header -->
-
     </section>
     <!-- Section: Contact v.3 -->
 </template>
@@ -122,7 +117,7 @@
                 loading:false,
                 errors: [],
                 carrito : JSON.parse(localStorage.getItem('carrito')),
-                url : document.__API_URL2,
+                url : document.__API_URL,
             }
         },
         mounted() {
@@ -132,8 +127,14 @@
             getTotal: function() {
                 this.total = 0;
                 this.carrito.forEach((item, key)=>{
-                    this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price))
-                })
+                    if (item.oferta)
+                    {
+                        this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
+                    }else{
+
+                        this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
+                    }
+                });
                 return this.total
             },
         },
@@ -148,7 +149,7 @@
                         this.errors.push("Email requerido");
                     }else{
                         this.loading = true;
-                        axios.post(this.url+'/api/confirmar',{datos: this.datos,pedido: this.carrito}).then(res => {
+                        axios.post('http://localhost/ariel/distren/public/api/confirmar',{datos: this.datos,pedido: this.carrito}).then(res => {
                             console.log(res.data)
                             this.loading = false;
                             this.$swal({
@@ -161,6 +162,8 @@
                                 location.href = "productos";
                             }, 3000);
                         }).catch(e => {
+                            console.log('document.location', this.url);
+                            this.loading = false;
                             console.log(e);
                         });
                     }

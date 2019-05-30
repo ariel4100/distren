@@ -44,11 +44,12 @@
                     <tr v-for="item in capacidad">
                         <td>{{ item.cc}}</td>
                         <td>
-                            <input v-model="item.price" v-money="money" class="form-control form-control-sm" style="text-align: right" />
+                            <money v-model="item.price"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
+                            <!--<input v-model="item.price" v-money="money"/>-->
                             <!--<input type="number" v-model="item.price" class="form-control form-control-sm">-->
                         </td>
                         <td>
-                            <input v-model="item.offerprice" v-money="money" class="form-control form-control-sm" style="text-align: right" />
+                            <money v-model="item.offerprice"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
                         </td>
                         <td>
                             <input type="number" v-model="item.quantity" class="form-control form-control-sm">
@@ -68,13 +69,14 @@
 <script>
     import Multiselect from 'vue-multiselect'
     import VueCurrencyFilter from 'vue-currency-filter'
-    import money from 'v-money'
+    import {Money} from 'v-money'
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
         props:['capacidades','cierres','terminaciones'],
         components: {
-            Multiselect
+            Multiselect,
+            Money
         },
         data(){
           return{
@@ -89,7 +91,7 @@
                   prefix: '$',
                   // suffix: '',
                   precision: 2,
-                  masked: false /* doesn't work with directive */
+                  masked: true /* doesn't work with directive */
               }
           }
         },

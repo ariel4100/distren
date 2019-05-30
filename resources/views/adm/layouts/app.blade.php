@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />--->
     <script>
-        document.__API_URL2 = '{{ url('/') }}';
+        document.__API_URL = '{{ url('/') }}';
     </script>
     <!-- CSS ADM SIDEBAR -->
     <style>

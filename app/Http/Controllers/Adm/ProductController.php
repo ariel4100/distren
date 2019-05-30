@@ -74,6 +74,7 @@ class ProductController extends Controller
     {
         //relacion de Many to Many con las terminaciones , cierres y capacidades
         $apiProductos = Session::get('productos');
+//        dd($apiProductos);
         $capacidad = collect($apiProductos['capacidad']);
         $cierres = collect($apiProductos['cierre']);
         $terminacion = collect($apiProductos['terminacion']);
@@ -115,7 +116,7 @@ class ProductController extends Controller
 
         }
         //dd($product->capacity()->first()->precio);
-        Session::flush();
+        //Session::flush();
 
         return back()->with('status','Se creó correctamente');
     }
@@ -127,7 +128,7 @@ class ProductController extends Controller
         $precio = Price::with("capacity")->where('product_id',$producto->id)->get();
         $subcategorias = Subcategory::all();
 //        dd(json_encode($productos));
-        return view('adm.products.edit',compact('producto','categorias','capacidades','cierres','precio','subcategorias','terminaciones'));
+        return view('adm.products.edit',compact('producto','categorias','precio','subcategorias'));
     }
 
     public function update(Request $request, $id)

@@ -8,7 +8,46 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="{{ asset($producto->image) }}" alt="" class="img-fluid">
+                        <!--Carousel Wrapper-->
+                        <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
+                            <!--Indicators-->
+                            <ol class="carousel-indicators">
+                                @if($producto->image)
+                                    <li data-target="#carousel-example-1z" style="background-color: darkgray;" data-slide-to="0" class="active"></li>
+                                @endif
+                                @forelse($galery as $k=>$item)
+                                    <li data-target="#carousel-example-1z" style="background-color: darkgray;" data-slide-to="{{ $k+1 }}"  ></li>
+                                @empty
+                                @endforelse
+                            </ol>
+                            <!--/.Indicators-->
+                            <!--Slides-->
+                            <div class="carousel-inner" role="listbox">
+                                @if($producto->image)
+                                    <div class="carousel-item  active">
+                                        <img class="d-block w-100" style="height: 297px" src="{!! asset($producto->image) !!}"
+                                             alt="First slide">
+                                    </div>
+                                @endif
+                                @forelse($galery as $k=>$item)
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" style="height: 297px" src="{!! asset($item->image) !!}"
+                                             alt="First slide">
+                                    </div>
+                                @empty
+                                    <img src="{!! asset($producto->image) !!}" alt="" class="img-fluid">
+                                @endforelse
+                            </div>
+                            <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!--/.Carousel Wrapper-->
                     </div>
                     <div class="col-md-6">
                         <h4 class="distren-color font-weight-bold">{!! $producto->title !!}</h4>

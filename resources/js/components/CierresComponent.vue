@@ -43,11 +43,12 @@
                     <tr v-for="item in capacidades_select">
                         <td>{{ item.cc}}</td>
                         <td>
-                            <input v-model="item.price" v-money="money" class="form-control form-control-sm" style="text-align: right" />
+                            <money v-model="item.price"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
+
                             <!--<input type="number" v-model="item.price" class="form-control form-control-sm">-->
                         </td>
                         <td>
-                            <input v-model="item.offerprice" v-money="money" class="form-control form-control-sm" style="text-align: right" />
+                            <money v-model="item.offerprice"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
                         </td>
                         <td>
                             <input type="number" v-model="item.quantity" class="form-control form-control-sm">
@@ -65,13 +66,14 @@
 
 <script>
     import Multiselect from 'vue-multiselect'
-    import money from 'v-money'
+    import {Money} from 'v-money'
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
         props:['cierre','precio','terminacion'],
         components: {
-            Multiselect
+            Multiselect,
+            Money
         },
         data(){
             return{

@@ -29,8 +29,8 @@
                 <tr v-for="(item,index) in productocapacidad" :key="index">
                     <td style="vertical-align: middle">{{ item.cc }}</td>
                     <td style="vertical-align: middle" v-if="item.oferta">
-                        <del>{{ item.precio_cc }}</del>
-                        {{ item.precio_oferta }}
+                        <del>${{ item.precio_cc.toFixed(2) }}</del>
+                        ${{ item.precio_oferta.toFixed(2) }}
                     </td>
                     <td style="vertical-align: middle" v-else>${{ item.precio_cc.toFixed(2) }}</td>
                     <td style="width: 90px; vertical-align: middle">
@@ -38,10 +38,10 @@
                             <input style="width: 50px;" type="number" v-model="item.cantidad_cc" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle" v-if="item.oferta">${{ item.precio_oferta*item.cantidad_cc }}</td>
+                    <td style="vertical-align: middle" v-if="item.oferta">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
                     <td style="vertical-align: middle" v-else>${{ (item.precio_cc*item.cantidad_cc).toFixed(2) }}</td>
                     <!---TERMINACIONES--->
-                    <td>
+                    <td style="width: 90px; vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
                             <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
                             <select style="width: 100px;" class="browser-default custom-select custom-select-sm" v-model="item.tipo_terminacion">
@@ -54,7 +54,7 @@
                     </td>
                     <td style="vertical-align: middle">${{ item.tipo_terminacion.price.toFixed(2) }}</td>
                     <!---CIERRES--->
-                    <td>
+                    <td style="width: 90px; vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
                             <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
                             <select style="width: 100px;" class="browser-default custom-select custom-select-sm" v-model="item.tipo_cierre">
@@ -74,10 +74,10 @@
                     <td style="vertical-align: middle">${{ (item.cantidad_cierre*item.tipo_cierre.price).toFixed(2) }}</td>
                     <td style="vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span v-if="item.oferta">${{ (parseFloat(item.precio_oferta*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
-                            <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
-                            <span> {{ parseInt((item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)) > 0 ? item.activo = true : item.activo = false }}</span>
-                            <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)) != 0 ? 'distren-color' : null"></i></button>
+                            <span v-if="item.oferta">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                            <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                            <span> {{ parseInt((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)) > 0 ? item.activo = true : item.activo = false }}</span>
+                            <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)) != 0 ? 'distren-color' : null"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -108,7 +108,7 @@
 
 <script>
     import toastr from 'toastr';
-    import money from 'v-money'
+    import {Money} from 'v-money'
     export default {
         props:{
             nombrecategoria: String,
@@ -118,7 +118,7 @@
             precio: Array,
             terminaciones: Array,
         },
-        //props:['producto','cierres','nombrecategoria','nombreproducto'],
+        components: {Money},
         data(){
             return{
                 carrito:[],
@@ -132,7 +132,7 @@
                     prefix: '$',
                     // suffix: '',
                     precision: 2,
-                    masked: false /* doesn't work with directive */
+                    masked: true /* doesn't work with directive */
                 }
             }
         },
@@ -172,11 +172,13 @@
                     this.total = 0;
                     this.productocapacidad.forEach((item, key)=>{
                         //console.log(item)
-                        if (item.offer)
+                        if (item.oferta)
                         {
-                            this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cierre*item.precio_cierre))
+
+                            this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
                         }else{
-                            this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.precio_cierre))
+
+                            this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
                         }
                     })
                     return this.total
@@ -236,7 +238,7 @@
                 if (localStorage.getItem('carrito')){
                     carro = JSON.parse(localStorage.getItem('carrito'));
                 }
-                //console.log(carro);
+
 
                 //Armo el carro para mandarlo al carrito
                 isactive.forEach((item)=>{
@@ -254,6 +256,8 @@
                         cantidad_cc: item.cantidad_cc,
                         precio_cierre: item.precio_cierre,
                         cantidad_cierre: item.cantidad_cierre,
+                        oferta: item.oferta,
+                        precio_oferta: item.precio_oferta
                     });
                 });
                 localStorage.setItem('carrito', JSON.stringify(carro));

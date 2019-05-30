@@ -21,7 +21,6 @@ class OrderMail extends Mailable
 
     public function __construct($data)
     {
-
         $this->datos = $data['datos'];
         $this->pedido = $data['pedido'];
 

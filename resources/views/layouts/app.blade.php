@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script>
-        document.__API_URL2 = '{{ url('/') }}';
+        document.__APIi_URL2 = '{{ url('/') }}';
     </script>
     <style>
         .distren-color{
