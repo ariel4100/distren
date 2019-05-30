@@ -8,6 +8,7 @@
                 <tr>
                     <th class="align-middle py-1 text-center" rowspan="2" style="border-right: 1px solid white; line-height: 1">ml/cm2</th>
                     <th class="align-middle py-1 text-center" colspan="3" style="border-right: 1px solid white; line-height: 1">Envases</th>
+                    <th class="align-middle py-1 text-center" colspan="2" style="border-right: 1px solid white; line-height: 1">Terminacion</th>
                     <th class="align-middle py-1 text-center" colspan="4" style="border-right: 1px solid white; line-height: 1">Cierre</th>
                     <th class="align-middle py-1 text-center" rowspan="2" style="border-right: 1px solid white; line-height: 1">Subtotal Productos</th>
                 </tr>
@@ -17,6 +18,8 @@
                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Subtotal</th>
                     <!--<th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Terminación</th>-->
                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Tipo</th>
+                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
+                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Tipo</th>
                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cant.</th>
                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Subtotal</th>
@@ -25,50 +28,56 @@
                 <tbody>
                 <tr v-for="(item,index) in productocapacidad" :key="index">
                     <td style="vertical-align: middle">{{ item.cc }}</td>
-                    <td style="vertical-align: middle" v-if="item.offer">
-                        <del >{{ item.priceenvase }}</del>
-                        {{ item.offer_price }}
+                    <td style="vertical-align: middle" v-if="item.oferta">
+                        <del>{{ item.precio_cc }}</del>
+                        {{ item.precio_oferta }}
                     </td>
-                    <td style="vertical-align: middle" v-else>${{ item.priceenvase }}</td>
+                    <td style="vertical-align: middle" v-else>${{ item.precio_cc.toFixed(2) }}</td>
                     <td style="width: 90px; vertical-align: middle">
                         <div class="form-group m-0">
-                            <input type="number" v-model="item.cantidadenvases" class="form-control form-control-sm">
+                            <input style="width: 50px;" type="number" v-model="item.cantidad_cc" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle" v-if="item.offer">${{ item.offer_price*item.cantidadenvases }}</td>
-                    <td style="vertical-align: middle" v-else>${{ item.priceenvase*item.cantidadenvases }}</td>
-                    <!--<td style="vertical-align: middle">-->
-                        <!--<select class="browser-default custom-select custom-select-sm" v-model="item.terminacion">-->
-                            <!--<option selected>Open this select menu</option>-->
-                            <!--<option value="1">One</option>-->
-                            <!--<option value="2">Two</option>-->
-                            <!--<option value="3">Three</option>-->
-                        <!--</select>-->
-                    <!--</td>-->
-                    <td style="vertical-align: middle; width: 200px">
+                    <td style="vertical-align: middle" v-if="item.oferta">${{ item.precio_oferta*item.cantidad_cc }}</td>
+                    <td style="vertical-align: middle" v-else>${{ (item.precio_cc*item.cantidad_cc).toFixed(2) }}</td>
+                    <!---TERMINACIONES--->
+                    <td>
                         <div class="d-flex align-items-center justify-content-between">
                             <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
-                            <select class="browser-default custom-select custom-select-sm" v-model="item.pricecierre">
-                                <option value="0" disabled selected>Seleccione..</option>
-                                <option v-for="item in item.tipo" :value="item.price">
+                            <select style="width: 100px;" class="browser-default custom-select custom-select-sm" v-model="item.tipo_terminacion">
+                                <option :value="item.tipo_terminacion.title ? item.tipo_terminacion.title : item.tipo_terminacion" disabled selected>Seleccione...</option>
+                                <option v-for="item in item.terminaciones" :value="item">
                                     {{ item.title }}
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle">${{ item.tipo_terminacion.price.toFixed(2) }}</td>
+                    <!---CIERRES--->
+                    <td>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
+                            <select style="width: 100px;" class="browser-default custom-select custom-select-sm" v-model="item.tipo_cierre">
+                                <option :value="item.tipo_cierre.title ? item.tipo_cierre.title : item.tipo_cierre" disabled selected>Seleccione...</option>
+                                <option v-for="cierre in item.cierres" :value="cierre">
+                                    {{ cierre.title }}
                                 </option>
                             </select>
                         </div>
                     </td>
                     <td style="width: 90px; vertical-align: middle">
                         <div class="form-group m-0">
-                            <input type="number" v-model="item.cantidadcierres" class="form-control form-control-sm">
+                            <input style="width: 50px;" type="number" v-model="item.cantidad_cierre" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle">${{ item.pricecierre }}</td>
-                    <td style="vertical-align: middle">${{ item.cantidadcierres*item.pricecierre }}</td>
+                    <td style="vertical-align: middle">${{ item.tipo_cierre.price.toFixed(2) }}</td>
+                    <td style="vertical-align: middle">${{ (item.cantidad_cierre*item.tipo_cierre.price).toFixed(2) }}</td>
                     <td style="vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span v-if="item.offer">${{ (parseFloat(item.offer_price*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)).toFixed(2) }}</span>
-                            <span v-else>${{ (parseFloat(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)).toFixed(2) }}</span>
-                            <span> {{ parseInt((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) > 0 ? item.activo = true : item.activo = false }}</span>
-                            <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre)) != 0 ? 'distren-color' : null"></i></button>
+                            <span v-if="item.oferta">${{ (parseFloat(item.precio_oferta*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                            <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                            <span> {{ parseInt((item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)) > 0 ? item.activo = true : item.activo = false }}</span>
+                            <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.tipo_cierre.price)) != 0 ? 'distren-color' : null"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -99,6 +108,7 @@
 
 <script>
     import toastr from 'toastr';
+    import money from 'v-money'
     export default {
         props:{
             nombrecategoria: String,
@@ -106,6 +116,7 @@
             cierres: Array,
             producto: Array,
             precio: Array,
+            terminaciones: Array,
         },
         //props:['producto','cierres','nombrecategoria','nombreproducto'],
         data(){
@@ -114,6 +125,15 @@
                 productocapacidad:[],
                 qty:0,
                 total: 0,
+                subtotal:0,
+                money: {
+                    decimal: ',',
+                    thousands: '.',
+                    prefix: '$',
+                    // suffix: '',
+                    precision: 2,
+                    masked: false /* doesn't work with directive */
+                }
             }
         },
         mounted() {
@@ -140,16 +160,23 @@
             //console.log('Component mounted.')
         },
         computed:{
+            getSubtotal: function(item) {
+                // return this.productocapacidad.reduce((total, product) => {
+                this.subtotal = 0;
+
+                return this.subtotal
+                // }, 0)
+            },
             getTotal: function() {
                 // return this.productocapacidad.reduce((total, product) => {
                     this.total = 0;
                     this.productocapacidad.forEach((item, key)=>{
-                        console.log(item)
+                        //console.log(item)
                         if (item.offer)
                         {
-                            this.total += ((item.offer_price*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre))
+                            this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cierre*item.precio_cierre))
                         }else{
-                            this.total += ((item.priceenvase*item.cantidadenvases) + (item.cantidadcierres*item.pricecierre))
+                            this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cierre*item.precio_cierre))
                         }
                     })
                     return this.total
@@ -161,14 +188,18 @@
                 this.precio.forEach((ob,index)=>{
                     this.productocapacidad.push(
                         {
-                            priceenvase: ob.price,
-                            offer_price: ob.offer_price,
                             cc: ob.capacity.cc,
-                            cantidadenvases: 0,
-                            tipo:this.cierres,
-                            pricecierre:0,
-                            cantidadcierres: 0,
-                            offer: ob.product.offer,
+                            precio_cc: ob.price,
+                            precio_oferta: ob.offer_price,
+                            cantidad_cc: 0,
+                            terminaciones: this.terminaciones,
+                            cierres : this.cierres,
+                            tipo_cierre: {price: 0},
+                            tipo_terminacion: {price: 0},
+                            precio_terminacion:0,
+                            precio_cierre:0,
+                            cantidad_cierre: 0,
+                            oferta: ob.product.offer,
                             activo: false
                         }
                     )
@@ -200,18 +231,29 @@
             addCarrito(){
                 //let b = localStorage.setItem("carrito",[]);
                 //filtro all los activos
+                let carro = [];
                 let isactive = this.productocapacidad.filter(item => item.activo);
-                let carro = JSON.parse(localStorage.getItem('carrito'));
+                if (localStorage.getItem('carrito')){
+                    carro = JSON.parse(localStorage.getItem('carrito'));
+                }
+                //console.log(carro);
+
                 //Armo el carro para mandarlo al carrito
                 isactive.forEach((item)=>{
                     carro.push({
                         categoria: this.nombrecategoria,
                         producto:  this.nombreproducto,
                         cc: item.cc,
-                        precioenvase: item.priceenvase,
-                        cantidadenvases: item.cantidadenvases,
-                        preciocierre: item.pricecierre,
-                        cantidadcierres: item.cantidadcierres,
+                        terminaciones: this.terminaciones,
+                        cierres: this.cierres,
+                        tipo_cierre: item.tipo_cierre,
+                        tipo_terminacion: item.tipo_terminacion,
+                        precio_terminacion: item.precio_terminacion,
+                        cantidad_terminacion: item.cantidad_terminacion,
+                        precio_cc: item.precio_cc,
+                        cantidad_cc: item.cantidad_cc,
+                        precio_cierre: item.precio_cierre,
+                        cantidad_cierre: item.cantidad_cierre,
                     });
                 });
                 localStorage.setItem('carrito', JSON.stringify(carro));

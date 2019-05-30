@@ -4,8 +4,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hello, world!</title>
-
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @php($logos = \App\Content::seccionTipo('logos','texto')->first())
+    @php($data = json_decode($logos->text))
+    <title>Distren</title>
+    <link rel="icon" href="{{ asset(isset($data->image) ? asset($data->image) : null) }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -15,6 +19,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script>
+        document.__API_URL2 = '{{ url('/') }}';
+    </script>
     <style>
         .distren-color{
             color: #8BBF40 !important;

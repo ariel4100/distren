@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8BBF41;">
 
     <!-- Navbar brand -->
-    <a class="text-white " href="#">Bienvenido/a {{ ucwords(isset(Auth::user()->username)) }}</a>
+    <a class="text-white " href="#">Bienvenido/a {{ ucwords(Auth::user()->username) }}</a>
 
     <!-- Collapse button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -17,7 +17,7 @@
                 <a class="nav-link text-white" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
+                    Cerrar Sesion
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

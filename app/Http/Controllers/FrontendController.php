@@ -7,24 +7,26 @@ use App\Content;
 use App\Price;
 use App\Product;
 use App\Slider;
+use App\Subcategory;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
     public function home()
     {
-        $contenido = Content::seccionTipo('home','imagen')->get();
+        $contenido = Content::seccionTipo('home','imagen')->orderBy('order')->get();
         $home = Content::seccionTipo('home','texto')->first();
-        $slider = Slider::where('section','home')->get();
-        $productos = Product::where('featured',true)->limit(4)->get();
-        return view('page.home',compact('home','slider','contenido','productos'));
+        $slider = Slider::where('section','home')->orderBy('order')->get();
+        $productos = Product::where('featured',true)->limit(4)->orderBy('order')->get();
+        $ofertas = Product::where('offer',true)->orderBy('order')->get();
+        return view('page.home',compact('home','slider','contenido','productos','ofertas'));
     }
 
     public function empresa()
     {
         $data = Content::seccionTipo('empresa','texto')->first();
         $empresa = json_decode($data->text);
-        $slider = Slider::where('section','empresa')->get();
+        $slider = Slider::where('section','empresa')->orderBy('order')->get();
         return view('page.empresa',compact('empresa','slider'));
     }
 
@@ -38,7 +40,16 @@ class FrontendController extends Controller
     {
         $categorias = Category::all();
         $categoria = Category::find($id);
-        return view('page.productos.categoria',compact('categoria','categorias'));
+        $subcategorias = Subcategory::orderBy('order')->limit(2)->orderBy('order')->get();
+        return view('page.productos.categoria',compact('categoria','categorias','subcategorias'));
+    }
+
+    public function subcategoria($id)
+    {
+        $categorias = Category::all();
+        $subcategoria = Subcategory::find($id);
+        $subcategorias = Subcategory::orderBy('order')->limit(2)->orderBy('order')->get();
+        return view('page.productos.subcategoria',compact('categorias','subcategoria','subcategorias'));
     }
 
     public function producto($id)
@@ -52,18 +63,12 @@ class FrontendController extends Controller
 
     public function ofertas()
     {
-        $productos = Product::where('offer',true)->get();
+        $ofertas = Product::where('offer',true)->orderBy('order')->get();
         $precio = [];//Price::with("capacity",'product')->where('product_id',$producto->id)->get();
-        return view('page.ofertas',compact('productos','precio'));
+        return view('page.ofertas',compact('ofertas','precio'));
     }
 
-    public function flota()
-    {
-        $flota = Content::seccionTipo('flota','texto')->first();
-        $flotas = Content::seccionTipo('flota','imagen')->get();
-        $slider = Slider::where('section','flota')->get();
-        return view('page.flota',compact('flota','slider','flotas'));
-    }
+
 
     public function contacto()
     {
@@ -75,5 +80,10 @@ class FrontendController extends Controller
     public function carrito()
     {
         return view('page.carrito');
+    }
+
+    public function confirmar()
+    {
+        return view('page.confirmar');
     }
 }

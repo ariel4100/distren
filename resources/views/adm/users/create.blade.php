@@ -2,20 +2,34 @@
 
 @section('content')
     <div class="container p-4">
-        <a class="text-decoration-none " href="{{ route('capacidades.index') }}"><< Volver</a>
-        <form class="" method="POST" action="{{ route('capacidades.store') }}" enctype="multipart/form-data">
+        <a class="text-decoration-none " href="{{ route('usuario.index') }}"><< Volver</a>
+        <form class="" method="POST" action="{{ route('usuario.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="md-form">
-                        <input type="text" id="cc" name="cc" class="form-control">
-                        <label for="cc" class="">CC</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                        <label for="name" class="">Nombre</label>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="md-form">
-                        <input type="text" id="order" name="order" class="form-control">
-                        <label for="order" class="">Orden</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                        <label for="username" class="">Nombre de Usuario</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <input type="email" id="email" name="email" class="form-control" required>
+                        <label for="email" class="">Email</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <input type="password" id="password" name="password" class="form-control" required>
+                        <label for="password" class="">Contraseña</label>
                     </div>
                 </div>
             </div>

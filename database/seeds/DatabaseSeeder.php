@@ -11,14 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        factory('App\Metadata',5)->create();
-        factory('App\Termination',20)->create();
-        factory('App\Content',20)->create();
-        factory('App\Slider',20)->create();
-        factory('App\Category',20)->create();
-        factory('App\Subcategory',20)->create();
-        factory('App\Closure',20)->create();
-        factory('App\Capacity',20)->create();
+        $this->call([
+            UserSeeder::class,
+            ContentSeeder::class,
+            MetadataSeeder::class,
+            CategorySeeder::class,
+            SliderSeeder::class,
+        ]);
+        factory('App\Termination',10)->create();
+        factory('App\Subcategory',10)->create();
+        factory('App\Closure',10)->create();
+        factory('App\Capacity',10)->create();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -21,7 +22,12 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        User::create($request->all());
+        $user = new User();
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
         return back()->with('status','Usuario creadó correctamente');
     }
 
@@ -33,8 +39,12 @@ class UserController extends Controller
 
     public function update(Request $request,$id)
     {
-        $usuario = User::find($id);
-        $usuario->fill($request->all())->save();
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
         return back()->with('status','Usuario actualizadó correctamente');
     }
 }

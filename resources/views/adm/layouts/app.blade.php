@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    @php($logos = \App\Content::seccionTipo('logos','texto')->first())
+    @php($data = json_decode($logos->text))
+    <title>ADM::Distren</title>
+    <link rel="icon" href="{{ asset(isset($data->image) ? asset($data->image) : null) }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -18,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />--->
     <script>
-        document.__API_URL = '{{ url('/') }}';
+        document.__API_URL2 = '{{ url('/') }}';
     </script>
     <!-- CSS ADM SIDEBAR -->
     <style>

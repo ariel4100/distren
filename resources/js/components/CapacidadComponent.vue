@@ -1,8 +1,20 @@
 <template>
     <div class="row">
-        <div class="col-md-12 mt-4">
-            <label class="typo__label">Selecciona Cierres</label>
-            <multiselect v-model="cierre" :options="cierres" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Cierres" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="true">
+        <div class="col-md-6 mt-4">
+            <label class="typo__label">Seleccionar Terminaciones</label>
+            <multiselect v-model="terminacion" :options="terminaciones" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="true">
+                <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
+            </multiselect>
+            <div class="row my-4">
+                <div class="col-md-3" v-for="item in terminacion">
+                    <img :src="item.image" style="height: 100px;" alt="" class="img-fluid">
+                    <p class="text-center">{{ item.title }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-4">
+            <label class="typo__label">Seleccionar Cierres</label>
+            <multiselect v-model="cierre" :options="cierres" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="true">
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <div class="row my-4">
@@ -14,7 +26,7 @@
         </div>
         <div class="col-lg-12">
             <label class="typo__label">Seleccionar Capacidades</label>
-            <multiselect v-model="capacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Cierres" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id">
+            <multiselect v-model="capacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id">
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <!--<pre class="language-json"><code>{{ cierre  }}</code></pre>-->
@@ -60,12 +72,13 @@
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
-        props:['capacidades','cierres'],
+        props:['capacidades','cierres','terminaciones'],
         components: {
             Multiselect
         },
         data(){
           return{
+              terminacion:[],
               cierre:[],
               capacidad:[],
               // precio:55858,
@@ -92,7 +105,7 @@
                 })
             }
             //this.preciocantidad()
-            console.log(this.capacidad)
+            //console.log(this.capacidad)
         },
         methods: {
             cierreNombre({title, price}) {
@@ -103,8 +116,8 @@
             },
 
             addProduct(){
-                console.log(this.capacidad)
-                axios.post(this.url+'/api/addproduct',{capacidad: this.capacidad,cierre: this.cierre}).then(res => {
+                //console.log(this.capacidad)
+                axios.post(this.url+'/api/addproduct',{capacidad: this.capacidad,cierre: this.cierre,terminacion: this.terminacion}).then(res => {
                     console.log(res.data)
                 }).catch(e => {
                     console.log(e);

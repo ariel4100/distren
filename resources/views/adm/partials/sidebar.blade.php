@@ -76,17 +76,18 @@
                 <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Categoria</a></li>
                 <li><a href="{{ route('subcategoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Subcategoria</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Productos</a></li>
+                <li><a class="border-top" href="{{ route('terminaciones.index') }}"><i class="fas fa-chevron-right px-4"></i>Terminaciones</a></li>
                 <li><a href="{{ route('cierres.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>
                 <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>
             </ul>
         </li>
         <!---OFERTAS---->
         <li class="">
-            <a href="#solidaria" data-toggle="collapse" aria-expanded="false" class="d-flex">
-                <i class="material-icons">ondemand_video</i>Ofertas<i class="fas fa-sort-down ml-auto"></i>
+            <a href="#ventas" data-toggle="collapse" aria-expanded="false" class="d-flex">
+                <i class="material-icons">ondemand_video</i>Ventas<i class="fas fa-sort-down ml-auto"></i>
             </a>
-            <ul class="collapse list-group list-group-flush " id="solidaria">
-
+            <ul class="collapse list-group list-group-flush " id="ventas">
+                <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Ventas</a></li>
             </ul>
         </li>
         <!---CONTACTO---->
@@ -105,10 +106,11 @@
                 DISTREN<i class="fas fa-sort-down ml-auto"></i>
             </a>
             <ul class="collapse list-group list-group-flush " id="Logos">
-                <li><a href="{{ route('contenido.index', ['seccion' => 'logos', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Editar Logos</a></li>
+                <li><a href="{{ route('contenido.index', ['seccion' => 'logos', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Logos</a></li>
+                <li><a href="{{ route('contenido.index', ['seccion' => 'redes', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Redes Sociales</a></li>
+                <li><a href="{{ route('contenido.index', ['seccion' => 'condiciones', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Terminos y Condiciones</a></li>
                 <li><a href="{{ route('metadatos.index') }}"><i class="fas fa-chevron-right px-4"></i>Metadatos</a></li>
-                <li><a href="{{ route('contenido.index', ['seccion' => 'redes', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Editar Redes Sociales</a></li>
-                <li><a href="{{ route('usuario.index') }}"><i class="fas fa-chevron-right px-4"></i>Editar Usuario</a></li>
+                <li><a href="{{ route('usuario.index') }}"><i class="fas fa-chevron-right px-4"></i>Usuarios</a></li>
             </ul>
         </li>
 

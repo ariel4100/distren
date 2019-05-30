@@ -29,6 +29,8 @@
         "vue-currency-filter": "^3.4.2",
         "vue-multiselect": "^2.1.6",
         "vue-notification": "^1.3.16",
+        "vue-swal": "^1.0.0",
+        "vue-sweetalert2": "^2.0.5",
         "vue-template-compiler": "^2.6.10"
     },
     "version": "0.0.0"

@@ -8,6 +8,10 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+import VueSweetalert2 from 'vue-sweetalert2';
+
+Vue.use(VueSweetalert2);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,6 +25,7 @@ window.Vue = require('vue');
 
 Vue.component('product-component', require('./components/ProductComponent.vue').default);
 Vue.component('carrito-component', require('./components/CarritoComponent.vue').default);
+Vue.component('confirmar-component', require('./components/ConfirmarComponent.vue').default);
 Vue.component('cierres-component', require('./components/CierresComponent.vue').default);
 Vue.component('capacidad-component', require('./components/CapacidadComponent.vue').default);
 

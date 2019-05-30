@@ -34,10 +34,16 @@
                             <label class="custom-file-label" for="customFileLang">Seleccionar Imagen Principal</label>
                         </div>
                     </div>
-                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="col-md-3 d-flex align-items-center justify-content-center">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="customSwitch1" name="featured">
-                            <label class="custom-control-label" for="customSwitch1">Mostrar en Home?</label>
+                            <label class="custom-control-label" for="customSwitch1">Destacado</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center justify-content-center">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="Oferta" name="offer">
+                            <label class="custom-control-label" for="Oferta">Oferta</label>
                         </div>
                     </div>
                 </div>
@@ -63,7 +69,7 @@
                     </select>
                 </div>
             </div>
-            <capacidad-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
+            <capacidad-component :terminaciones="{{ json_encode($terminaciones) }}" :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
             </form>
     </div>
 @endsection

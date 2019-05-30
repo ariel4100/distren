@@ -10,14 +10,16 @@
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Nombre de Usuario</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse ($usuarios as $item)
                         <tr>
-                            <td>{{ $item->cc }}</td>
-                            <td>{{ $item->order }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->username }}</td>
+                            <td>{{ $item->email }}</td>
                             <td>
                                 <a class="btn btn-sm btn-warning" href="{{ route('usuario.edit',$item->id) }}"><i class="fas fa-pen"></i></a>
                                 <a class="btn btn-sm btn-danger" href=" "><i class="fas fa-trash-alt"></i></a>

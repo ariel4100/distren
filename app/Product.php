@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        'code', 'image', 'title','subtitle','text','featured','category_id','order',
+        'code', 'image', 'title','subtitle','text','featured','category_id','order','offer'
     ];
 
     public function category() {
@@ -18,6 +18,10 @@ class Product extends Model
         return $this->belongsToMany('App\Subcategory','subcategory_product');
     }
 
+    public function termination()
+    {
+        return $this->belongsToMany('App\Termination');
+    }
     public function closure()
     {
         return $this->belongsToMany('App\Closure');

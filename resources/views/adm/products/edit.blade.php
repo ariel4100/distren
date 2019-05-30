@@ -29,21 +29,27 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFileLang" name="image" lang="es">
                         <label class="custom-file-label" for="customFileLang">Seleccionar Imagen Principal</label>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" {!! isset($producto->featured) ? 'checked': null !!} id="customSwitch1"  name="featured">
-                        <label class="custom-control-label" for="customSwitch1">Mostrar en Home?</label>
+                        <input type="checkbox" class="custom-control-input" {!! $producto->featured ? 'checked': null !!} id="customSwitch1" name="featured">
+                        <label class="custom-control-label" for="customSwitch1">Destacado</label>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" {!! $producto->offer ? 'checked': null !!} id="Oferta" name="offer">
+                        <label class="custom-control-label" for="Oferta">Oferta</label>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 my-3 text-center">
+                <div class="col-md-12 my-4 d-flex align-items-center justify-content-center">
                     <img src="{{ asset($producto->image) }}" alt="" class="img-fluid" style="height: 200px">
                 </div>
             </div>
@@ -71,7 +77,7 @@
                 </div>
             </div>
             {{--@dd($producto->closure)--}}
-            <cierres-component :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}" :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>
+            <cierres-component :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :terminacion="{{ json_encode($producto->termination) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>
         </form>
     </div>
 @endsection

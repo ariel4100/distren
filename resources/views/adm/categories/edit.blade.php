@@ -3,7 +3,7 @@
 @section('content')
     <div class="container p-4">
         <a class="text-decoration-none " href="{{ route('categoria.index') }}"><< Volver</a>
-        <form class="" method="POST" action="{{ route('categoria.store') }}" enctype="multipart/form-data">
+        <form class="" method="POST" action="{{ route('categoria.update',$categoria->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">

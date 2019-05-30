@@ -18,7 +18,9 @@ class ContentController extends Controller
             $section == 'empresa' ? $data = json_decode($contenido->text,true) : $data = [];
             $section == 'logos' ? $logos = json_decode($contenido->text,true) : $logos = [];
             $section == 'contacto' ? $datos = json_decode($contenido->text,true) : $datos = [];
-            return view('adm.content.index', compact('contenido', 'section','type','data','logos','datos'));
+            $section == 'condiciones' ? $condiciones = json_decode($contenido->text,true) : $condiciones = [];
+            $section == 'redes' ? $redes = json_decode($contenido->text,true) : $redes = [];
+            return view('adm.content.index', compact('contenido', 'section','type','data','logos','datos','redes','condiciones'));
         }
 
     }
@@ -50,7 +52,7 @@ class ContentController extends Controller
     }
 
     public function update(Request $request, Content $contenido) {
-        if ( $request->type == 'texto' && $request->section == 'empresa' || $request->section == 'logos' || $request->section == 'contacto')
+        if ( $request->type == 'texto' && $request->section == 'empresa' || $request->section == 'logos' || $request->section == 'contacto' || $request->section == 'redes' || $request->section == 'condiciones')
         {
             $content = json_decode($contenido->text);
             $data = $request->all();

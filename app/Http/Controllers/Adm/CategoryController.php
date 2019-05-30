@@ -32,11 +32,6 @@ class CategoryController extends Controller
         return back()->with('status','Categoria creadó correctamente');
     }
 
-    public function show($id)
-    {
-        //
-    }
-
     public function edit($id)
     {
         $categoria = Category::find($id);

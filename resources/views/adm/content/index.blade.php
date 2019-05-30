@@ -151,6 +151,26 @@
                     </div>
                 </div>
             @endif
+            @if($section == 'redes')
+                <div class="col-md-12">
+                    <div class="md-form">
+                        <input type="text" id="Titulo" name="facebook" placeholder="URL Facebook" class="form-control" value="{!! isset($data['facebook']) ? $data['facebook'] : null !!}">
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="Titulo" name="youtube" placeholder="URL Youtube" class="form-control" value="{!! isset($data['youtube']) ? $data['youtube'] : null !!}">
+                    </div>
+                </div>
+            @endif
+            @if($section == 'condiciones')
+                <div class="col-md-12">
+                    <div class="md-form">
+                        <input type="text" id="Titulo" name="title" placeholder="Titulo" class="form-control" value="{!! isset($condiciones['title']) ? $condiciones['title'] : null !!}">
+                    </div>
+                    <div class="md-form">
+                        <textarea id="text" class="md-textarea form-control" name="text" rows="3">{!! isset($condiciones['text']) ? $condiciones['text'] : null !!}</textarea>
+                    </div>
+                </div>
+            @endif
             <div class="col-md-12 my-4 text-right">
                 <button type="submit" class="btn btn-success">Guardar</button>
             </div>
