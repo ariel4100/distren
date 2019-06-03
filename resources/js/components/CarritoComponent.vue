@@ -24,8 +24,8 @@
                     <tr v-for="(item,index) in carrito" :key="index">
                         <td style="vertical-align: middle">{{ item.categoria }}</td>
                         <td style="vertical-align: middle">{{ item.producto }}</td>
-                        <td style="vertical-align: middle">{{ item.cc }}</td>
-                        <td style="vertical-align: middle" v-if="item.oferta">
+                        <td style="vertical-align: middle">{{ item.cc.cc }}</td>
+                        <td style="vertical-align: middle" v-if="item.oferta.offer">
                             <del>${{ item.precio_cc.toFixed(2) }}</del>
                             ${{ item.precio_oferta.toFixed(2) }}
                         </td>
@@ -35,7 +35,7 @@
                                 <input type="number" v-model="item.cantidad_cc" class="form-control form-control-sm">
                             </div>
                         </td>
-                        <td style="vertical-align: middle" v-if="item.oferta">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
+                        <td style="vertical-align: middle" v-if="item.oferta.offer">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
                         <td style="vertical-align: middle" v-else>${{ (item.precio_cc*item.cantidad_cc).toFixed(2) }}</td>
                         <!----TERMINACION----->
                         <td style="vertical-align: middle">
@@ -68,7 +68,7 @@
                         <td style="vertical-align: middle">${{ item.tipo_cierre.price*item.cantidad_cierre }}</td>
                         <td style="vertical-align: middle">
                             <div class="d-flex align-items-center justify-content-between">
-                                <span v-if="item.oferta">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                                <span v-if="item.oferta.offer">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                                 <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                                 <button @click="deleteCarrito(index)" class="btn btn-link p-0 ml-3"><i class="far fa-times-circle"></i></button>
                             </div>
@@ -82,14 +82,14 @@
                 <div class="mb-3">
                     <h5 class="distren-color border-bottom">Forma de envío</h5>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="local" value="local" v-model="compra.envio">
-                        <label class="custom-control-label" for="local">Retiro en el local (sin cargo)</label>
+                        <input type="radio" class="custom-control-input" id="Retiro en el local" value="Retiro en el local" v-model="compra.envio">
+                        <label class="custom-control-label" for="Retiro en el local">Retiro en el local (sin cargo)</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="caba" value="caba" v-model="compra.envio" checked>
+                        <input type="radio" class="custom-control-input" id="caba" value="C.A.B.A y G.B.A" v-model="compra.envio" checked>
                         <label class="custom-control-label" for="caba">Envío a C.A.B.A y G.B.A</label>
                     </div>
-                    <div class="" v-if="compra.envio == 'caba'">
+                    <div class="" v-if="compra.envio == 'C.A.B.A y G.B.A'">
                         <p class="m-0 my-1">Ingrese Código Postal</p>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -107,25 +107,25 @@
                         </div>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="expreso" value="expreso" v-model="compra.envio">
-                        <label class="custom-control-label" for="expreso">Expreso</label>
+                        <input type="radio" class="custom-control-input" id="Expreso" value="Expreso" v-model="compra.envio">
+                        <label class="custom-control-label" for="Expreso">Expreso</label>
                     </div>
-                    <div class="" v-if="compra.envio == 'expreso'">
+                    <div class="" v-if="compra.envio == 'Expreso'">
                         <p class="">Acuerdas la forma de entrega del producto después de la compra.</p>
                     </div>
                 </div>
                 <div class=" ">
                     <h5 class="distren-color border-bottom">Métodos de Pago</h5>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="defaultGroupExample1" value="banco" v-model="compra.pago">
+                        <input type="radio" class="custom-control-input" id="defaultGroupExample1" value="Transferencia Bancaria" v-model="compra.pago">
                         <label class="custom-control-label" for="defaultGroupExample1">Transferencia Bancaria</label>
                     </div>
-                    <div class="" v-if="compra.pago == 'banco'">
+                    <div class="" v-if="compra.pago == 'Transferencia Bancaria'">
                         <h5 class="">Sdsdsdsdsddd</h5>
                         <h5 class="">$sadasdasdasdas</h5>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="efectivo" v-model="compra.pago" checked>
+                        <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="Efectivo" v-model="compra.pago" checked>
                         <label class="custom-control-label" for="defaultGroupExample2">Efectivo</label>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                 <hr class="distren-fondo">
                 <div class="d-flex justify-content-between">
                     <a @click="updateCarrito" :href="`productos`" class="btn py-2" style="border: 1px solid #8BBF40">Seguir comprando</a>
-                    <a @click="updateCarrito" :href="`confirmar`" class="btn distren-fondo py-2">Pagar</a>
+                    <a @click="updateCarrito" :href="`confirmar`"  class="btn distren-fondo py-2">Pagar</a>
                 </div>
             </div>
         </div>
@@ -168,7 +168,8 @@
                 url : document.__API_URL,
                 compra:{
                     pago:'',
-                    envio:''
+                    envio:'',
+                    total: ''
                 }
             }
         },
@@ -187,12 +188,14 @@
                 // return this.productocapacidad.reduce((total, product) => {
                 this.total = 0;
                 this.carrito.forEach((item, key)=>{
-                    if (item.oferta)
+                    if (item.oferta.offer)
                     {
+                        this.compra.total = (((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))*1.21).toFixed(2);
                         this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
                     }else{
 
-                        this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
+                        this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
+                        this.compra.total = (((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price)) *1.21).toFixed(2);
                     }
                 })
                 return this.total
@@ -244,6 +247,7 @@
 
             },
             updateCarrito(){
+                //console.log(this.compra)
                 let carro = [];
                 //Actualizo los productos que modifico en el carrito.
                 this.carrito.forEach((item)=>{
@@ -266,9 +270,10 @@
                     });
                 });
                 localStorage.setItem('carrito', JSON.stringify(carro));
-                let b = JSON.parse(localStorage.getItem('carrito'));
+                localStorage.setItem('compra', JSON.stringify(this.compra));
+                let b = JSON.parse(localStorage.getItem('compra'));
                 console.log(b);
-                //location.href = 'confirmar'
+
                 // toastr.success('Agregado al carrito',this.nombreproducto)
             }
         }

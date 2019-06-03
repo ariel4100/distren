@@ -87,7 +87,7 @@
                 <i class="material-icons">ondemand_video</i>Ventas<i class="fas fa-sort-down ml-auto"></i>
             </a>
             <ul class="collapse list-group list-group-flush " id="ventas">
-                <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Ventas</a></li>
+                <li><a href="{{ route('ventas.index') }}"><i class="fas fa-chevron-right px-4"></i>Ventas</a></li>
             </ul>
         </li>
         <!---CONTACTO---->

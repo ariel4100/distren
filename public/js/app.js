@@ -2089,7 +2089,8 @@ __webpack_require__.r(__webpack_exports__);
       url: document.__API_URL,
       compra: {
         pago: '',
-        envio: ''
+        envio: '',
+        total: ''
       }
     };
   },
@@ -2109,10 +2110,12 @@ __webpack_require__.r(__webpack_exports__);
       // return this.productocapacidad.reduce((total, product) => {
       this.total = 0;
       this.carrito.forEach(function (item, key) {
-        if (item.oferta) {
+        if (item.oferta.offer) {
+          _this.compra.total = ((item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price) * 1.21).toFixed(2);
           _this.total += item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
         } else {
           _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
+          _this.compra.total = ((item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price) * 1.21).toFixed(2);
         }
       });
       return this.total; // }, 0)
@@ -2159,6 +2162,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.carrito.length === 0) this.addCarrito();
     },
     updateCarrito: function updateCarrito() {
+      //console.log(this.compra)
       var carro = []; //Actualizo los productos que modifico en el carrito.
 
       this.carrito.forEach(function (item) {
@@ -2181,9 +2185,9 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
       localStorage.setItem('carrito', JSON.stringify(carro));
-      var b = JSON.parse(localStorage.getItem('carrito'));
-      console.log(b); //location.href = 'confirmar'
-      // toastr.success('Agregado al carrito',this.nombreproducto)
+      localStorage.setItem('compra', JSON.stringify(this.compra));
+      var b = JSON.parse(localStorage.getItem('compra'));
+      console.log(b); // toastr.success('Agregado al carrito',this.nombreproducto)
     }
   }
 });
@@ -2500,6 +2504,7 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       errors: [],
       carrito: JSON.parse(localStorage.getItem('carrito')),
+      compra: JSON.parse(localStorage.getItem('compra')),
       url: document.__API_URL
     };
   },
@@ -2532,7 +2537,8 @@ __webpack_require__.r(__webpack_exports__);
           this.loading = true;
           axios.post('http://localhost/ariel/distren/public/api/confirmar', {
             datos: this.datos,
-            pedido: this.carrito
+            pedido: this.carrito,
+            compra: this.compra
           }).then(function (res) {
             console.log(res.data);
             _this2.loading = false;
@@ -2542,11 +2548,10 @@ __webpack_require__.r(__webpack_exports__);
               title: 'Compra realizado correctamente',
               showConfirmButton: false,
               timer: 3500
-            });
+            }); // setTimeout(function(){
+            //     location.href = "productos";
+            // }, 3000);
 
-            setTimeout(function () {
-              location.href = "productos";
-            }, 3000);
           })["catch"](function (e) {
             console.log('document.location', _this2.url);
             _this2.loading = false;
@@ -2753,7 +2758,7 @@ __webpack_require__.r(__webpack_exports__);
       this.total = 0;
       this.productocapacidad.forEach(function (item, key) {
         //console.log(item)
-        if (item.oferta) {
+        if (item.oferta.offer) {
           _this.total += item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
         } else {
           _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
@@ -2766,9 +2771,10 @@ __webpack_require__.r(__webpack_exports__);
     ponerdatos: function ponerdatos() {
       var _this2 = this;
 
+      console.log(this.precio);
       this.precio.forEach(function (ob, index) {
         _this2.productocapacidad.push({
-          cc: ob.capacity.cc,
+          cc: ob.capacity,
           precio_cc: ob.price,
           precio_oferta: ob.offer_price,
           cantidad_cc: 0,
@@ -2783,7 +2789,7 @@ __webpack_require__.r(__webpack_exports__);
           precio_terminacion: 0,
           precio_cierre: 0,
           cantidad_cierre: 0,
-          oferta: ob.product.offer,
+          oferta: ob.product,
           activo: false
         });
       }); //console.log(this.precio)
@@ -32851,10 +32857,10 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                  _vm._v(_vm._s(item.cc))
+                  _vm._v(_vm._s(item.cc.cc))
                 ]),
                 _vm._v(" "),
-                item.oferta
+                item.oferta.offer
                   ? _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _c("del", [
                         _vm._v("$" + _vm._s(item.precio_cc.toFixed(2)))
@@ -32901,7 +32907,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                item.oferta
+                item.oferta.offer
                   ? _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _vm._v(
                         "$" +
@@ -33107,7 +33113,7 @@ var render = function() {
                         "d-flex align-items-center justify-content-between"
                     },
                     [
-                      item.oferta
+                      item.oferta.offer
                         ? _c("span", [
                             _vm._v(
                               "$" +
@@ -33184,18 +33190,27 @@ var render = function() {
                 }
               ],
               staticClass: "custom-control-input",
-              attrs: { type: "radio", id: "local", value: "local" },
-              domProps: { checked: _vm._q(_vm.compra.envio, "local") },
+              attrs: {
+                type: "radio",
+                id: "Retiro en el local",
+                value: "Retiro en el local"
+              },
+              domProps: {
+                checked: _vm._q(_vm.compra.envio, "Retiro en el local")
+              },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.compra, "envio", "local")
+                  return _vm.$set(_vm.compra, "envio", "Retiro en el local")
                 }
               }
             }),
             _vm._v(" "),
             _c(
               "label",
-              { staticClass: "custom-control-label", attrs: { for: "local" } },
+              {
+                staticClass: "custom-control-label",
+                attrs: { for: "Retiro en el local" }
+              },
               [_vm._v("Retiro en el local (sin cargo)")]
             )
           ]),
@@ -33211,11 +33226,18 @@ var render = function() {
                 }
               ],
               staticClass: "custom-control-input",
-              attrs: { type: "radio", id: "caba", value: "caba", checked: "" },
-              domProps: { checked: _vm._q(_vm.compra.envio, "caba") },
+              attrs: {
+                type: "radio",
+                id: "caba",
+                value: "C.A.B.A y G.B.A",
+                checked: ""
+              },
+              domProps: {
+                checked: _vm._q(_vm.compra.envio, "C.A.B.A y G.B.A")
+              },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.compra, "envio", "caba")
+                  return _vm.$set(_vm.compra, "envio", "C.A.B.A y G.B.A")
                 }
               }
             }),
@@ -33227,7 +33249,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.compra.envio == "caba"
+          _vm.compra.envio == "C.A.B.A y G.B.A"
             ? _c("div", {}, [
                 _c("p", { staticClass: "m-0 my-1" }, [
                   _vm._v("Ingrese Código Postal")
@@ -33248,11 +33270,11 @@ var render = function() {
                 }
               ],
               staticClass: "custom-control-input",
-              attrs: { type: "radio", id: "expreso", value: "expreso" },
-              domProps: { checked: _vm._q(_vm.compra.envio, "expreso") },
+              attrs: { type: "radio", id: "Expreso", value: "Expreso" },
+              domProps: { checked: _vm._q(_vm.compra.envio, "Expreso") },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.compra, "envio", "expreso")
+                  return _vm.$set(_vm.compra, "envio", "Expreso")
                 }
               }
             }),
@@ -33261,13 +33283,13 @@ var render = function() {
               "label",
               {
                 staticClass: "custom-control-label",
-                attrs: { for: "expreso" }
+                attrs: { for: "Expreso" }
               },
               [_vm._v("Expreso")]
             )
           ]),
           _vm._v(" "),
-          _vm.compra.envio == "expreso"
+          _vm.compra.envio == "Expreso"
             ? _c("div", {}, [
                 _c("p", {}, [
                   _vm._v(
@@ -33297,12 +33319,14 @@ var render = function() {
               attrs: {
                 type: "radio",
                 id: "defaultGroupExample1",
-                value: "banco"
+                value: "Transferencia Bancaria"
               },
-              domProps: { checked: _vm._q(_vm.compra.pago, "banco") },
+              domProps: {
+                checked: _vm._q(_vm.compra.pago, "Transferencia Bancaria")
+              },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.compra, "pago", "banco")
+                  return _vm.$set(_vm.compra, "pago", "Transferencia Bancaria")
                 }
               }
             }),
@@ -33317,7 +33341,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.compra.pago == "banco"
+          _vm.compra.pago == "Transferencia Bancaria"
             ? _c("div", {}, [
                 _c("h5", {}, [_vm._v("Sdsdsdsdsddd")]),
                 _vm._v(" "),
@@ -33339,13 +33363,13 @@ var render = function() {
               attrs: {
                 type: "radio",
                 id: "defaultGroupExample2",
-                value: "efectivo",
+                value: "Efectivo",
                 checked: ""
               },
-              domProps: { checked: _vm._q(_vm.compra.pago, "efectivo") },
+              domProps: { checked: _vm._q(_vm.compra.pago, "Efectivo") },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.compra, "pago", "efectivo")
+                  return _vm.$set(_vm.compra, "pago", "Efectivo")
                 }
               }
             }),
@@ -34316,10 +34340,10 @@ var render = function() {
                         "\n                            " +
                           _vm._s(item.producto) +
                           "\n                            " +
-                          _vm._s(item.cc) +
+                          _vm._s(item.cc.cc) +
                           "\n                            "
                       ),
-                      item.oferta
+                      item.oferta.offer
                         ? _c("span", [
                             _vm._v(
                               "$" +
@@ -34493,10 +34517,10 @@ var render = function() {
           _vm._l(_vm.productocapacidad, function(item, index) {
             return _c("tr", { key: index }, [
               _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                _vm._v(_vm._s(item.cc))
+                _vm._v(_vm._s(item.cc.cc))
               ]),
               _vm._v(" "),
-              item.oferta
+              item.oferta.offer
                 ? _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                     _c("del", [
                       _vm._v("$" + _vm._s(item.precio_cc.toFixed(2)))
@@ -34542,7 +34566,7 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              item.oferta
+              item.oferta.offer
                 ? _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                     _vm._v(
                       "$" +
@@ -34796,7 +34820,7 @@ var render = function() {
                       "d-flex align-items-center justify-content-between"
                   },
                   [
-                    item.oferta
+                    item.oferta.offer
                       ? _c("span", [
                           _vm._v(
                             "$" +

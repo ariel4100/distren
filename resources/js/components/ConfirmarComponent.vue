@@ -62,8 +62,8 @@
                         <ul class="text-lg-left list-unstyled px-4">
                             <li v-for="item in carrito" class="d-flex justify-content-between">
                                 {{ item.producto }}
-                                {{ item.cc }}
-                                <span v-if="item.oferta">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                                {{ item.cc.cc }}
+                                <span v-if="item.oferta.offer">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                                 <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                             </li>
                         </ul>
@@ -117,6 +117,7 @@
                 loading:false,
                 errors: [],
                 carrito : JSON.parse(localStorage.getItem('carrito')),
+                compra : JSON.parse(localStorage.getItem('compra')),
                 url : document.__API_URL,
             }
         },
@@ -149,7 +150,7 @@
                         this.errors.push("Email requerido");
                     }else{
                         this.loading = true;
-                        axios.post('http://localhost/ariel/distren/public/api/confirmar',{datos: this.datos,pedido: this.carrito}).then(res => {
+                        axios.post('http://localhost/ariel/distren/public/api/confirmar',{datos: this.datos,pedido: this.carrito,compra: this.compra}).then(res => {
                             console.log(res.data)
                             this.loading = false;
                             this.$swal({
@@ -158,9 +159,9 @@
                                 showConfirmButton: false,
                                 timer: 3500
                             })
-                            setTimeout(function(){
-                                location.href = "productos";
-                            }, 3000);
+                            // setTimeout(function(){
+                            //     location.href = "productos";
+                            // }, 3000);
                         }).catch(e => {
                             console.log('document.location', this.url);
                             this.loading = false;

@@ -27,8 +27,8 @@
                 </thead>
                 <tbody>
                 <tr v-for="(item,index) in productocapacidad" :key="index">
-                    <td style="vertical-align: middle">{{ item.cc }}</td>
-                    <td style="vertical-align: middle" v-if="item.oferta">
+                    <td style="vertical-align: middle">{{ item.cc.cc }}</td>
+                    <td style="vertical-align: middle" v-if="item.oferta.offer">
                         <del>${{ item.precio_cc.toFixed(2) }}</del>
                         ${{ item.precio_oferta.toFixed(2) }}
                     </td>
@@ -38,7 +38,7 @@
                             <input style="width: 50px;" type="number" v-model="item.cantidad_cc" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle" v-if="item.oferta">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
+                    <td style="vertical-align: middle" v-if="item.oferta.offer">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
                     <td style="vertical-align: middle" v-else>${{ (item.precio_cc*item.cantidad_cc).toFixed(2) }}</td>
                     <!---TERMINACIONES--->
                     <td style="width: 90px; vertical-align: middle">
@@ -74,7 +74,7 @@
                     <td style="vertical-align: middle">${{ (item.cantidad_cierre*item.tipo_cierre.price).toFixed(2) }}</td>
                     <td style="vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span v-if="item.oferta">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                            <span v-if="item.oferta.offer">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                             <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                             <span> {{ parseInt((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)) > 0 ? item.activo = true : item.activo = false }}</span>
                             <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)) != 0 ? 'distren-color' : null"></i></button>
@@ -172,7 +172,7 @@
                     this.total = 0;
                     this.productocapacidad.forEach((item, key)=>{
                         //console.log(item)
-                        if (item.oferta)
+                        if (item.oferta.offer)
                         {
 
                             this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
@@ -187,10 +187,11 @@
         },
         methods: {
             ponerdatos: function(){
+                console.log(this.precio);
                 this.precio.forEach((ob,index)=>{
                     this.productocapacidad.push(
                         {
-                            cc: ob.capacity.cc,
+                            cc: ob.capacity,
                             precio_cc: ob.price,
                             precio_oferta: ob.offer_price,
                             cantidad_cc: 0,
@@ -201,7 +202,7 @@
                             precio_terminacion:0,
                             precio_cierre:0,
                             cantidad_cierre: 0,
-                            oferta: ob.product.offer,
+                            oferta: ob.product,
                             activo: false
                         }
                     )

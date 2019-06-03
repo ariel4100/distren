@@ -68,6 +68,8 @@ Route::group([ 'middleware' => 'auth','prefix' => 'adm'],function (){
 
     });*/
 
+    Route::get('ventas','Adm\OrderController@index')->name('ventas.index');
+
     Route::resource('cierres','Adm\ClosureController');
     Route::resource('capacidades','Adm\CapacityController');
     Route::resource('terminaciones','Adm\TerminationController');
