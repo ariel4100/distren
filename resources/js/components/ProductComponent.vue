@@ -212,13 +212,19 @@
 
             addCapacidad: function (item,index) {
                 this.productocapacidad.splice(index+1,0, {
-                    priceenvase: item.priceenvase,
+                    precio_cc: item.precio_cc,
                     cc: item.cc,
-                    cantidadenvases: 0,
-                    tipo:this.cierres,
-                    pricecierre:0,
-                    cantidadcierres: 0,
-                    activo: false
+                    cantidad_cc: 0,
+                    terminaciones: this.terminaciones,
+                    precio_terminacion: 0,
+                    tipo_cierre: {price: 0},
+                    tipo_terminacion: {price: 0},
+                    cierres:this.cierres,
+                    precio_cierre: 0,
+                    cantidad_cierre: 0,
+                    activo: false,
+                    oferta: item.oferta,
+                    precio_oferta: item.precio_oferta,
                 });
                 //console.log(this.carrito)
             },

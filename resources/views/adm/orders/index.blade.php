@@ -1,8 +1,23 @@
 @extends('adm.layouts.app')
-
+@section('style')
+    <style>
+    P{
+        margin-bottom:1px;
+    }
+    table{
+        border-bottom: 2px solid #8BBF40 ;
+    }
+    thead td{
+        text-align: center;
+    }
+        b{
+            font-weight: bold;
+        }
+    </style>
+@stop
 @section('content')
     <div class="container p-4">
-        <a href="{{ route('usuario.create') }}" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle mx-1"></i>Añadir</a>
+        {{--<a href="{{ route('usuario.create') }}" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle mx-1"></i>Añadir</a>--}}
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -12,74 +27,167 @@
                         <th scope="col">Email</th>
                         <th scope="col">Pago</th>
                         <th scope="col">Envio</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Total</th>
                         <th scope="col">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse ($clientes as $item)
+                    @forelse ($clientes as $key=>$item)
                         <tr>
                             <td>{{ $item->name .' '. $item->surname }}</td>
                             <td>{{ $item->email }}</td>
                             <td>{{ $item->transaction->payment }}</td>
                             <td>{{ $item->transaction->shipping }}</td>
-                            <td>$ {{ $item->transaction->total }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#centralModalSm">
+                                @if($item->transaction->status == 'pendiente')
+                                    <span class="badge badge-warning">{{ strtoupper($item->transaction->status) }}</span>
+                                @else
+                                    <span class="badge badge-success">{{ strtoupper($item->transaction->status) }}</span>
+                                @endif
+                            </td>
+                            <td>$ {{ number_format($item->transaction->total*1.21,2,',','.') }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_order_{{$key}}">
                                     <i class="far fa-eye"></i>
                                 </button>
-
-                                <div class="modal fade" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                                     aria-hidden="true">
-
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <table class="table">
-                                                    <thead class="distren-fondo white-text">
-                                                    <tr>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Categoria</th>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Producto</th>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">ml/cm2</th>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cierre</th>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
-                                                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Subtotal Productos</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        @foreach($item->order as $pedido)
-                                                            <td>{{ $pedido->name_category }}</td>
-                                                            <td>{{ $pedido->name_product }}</td>
-                                                            <td>{{ $pedido->cc }}</td>
-                                                        @endforeach
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary btn-sm">Save changes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td>No hay registros</td>
+                            <th>No hay registros</th>
                         </tr>
                     @endforelse
                     </tbody>
                 </table>
+                @foreach($clientes as $key=>$item)
+                    <div class="modal fade" id="modal_order_{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title w-100" id="myModalLabel">Orden de Compra</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row justify-content-between">
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">DATOS DEL CLIENTE:</h5>
+                                            <p><b class="font-weight-bold">NOMBRE Y APELLIDO: </b> {{ $item->name .' '. $item->surname }}</p>
+                                            <p><b class="font-weight-bold">DOMICILIO: </b> {{ $item->address }}</p>
+                                            <p><b class="font-weight-bold">PROVINCIA: </b> {{ $item->province }}</p>
+                                            <p><b class="font-weight-bold">LOCALIDAD: </b> {{ $item->location }}</p>
+                                            <p><b class="font-weight-bold">TELEFONO: </b> {{ $item->phone }}</p>
+                                            <p><b class="font-weight-bold">EMAIL: </b> <a href="mailto:{{ $item->email }}" class=" ">{{ $item->email }}</a></p>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">ESTADO:</h5>
+                                            <form action="">
+                                                <div class="form-group">
+                                                    <select name="" id="" class="custom-select">
+                                                        <option value="pendiente"  >Pendiente</option>
+                                                        <option value="procesado">Procesado</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                            <p><b class="font-weight-bold">PEDIDO: </b> #0{{ $item->id }}</p>
+                                            <p><b class="font-weight-bold">FECHA DE COMPRA: </b> {{ $item->transaction->created_at}}</p>
+                                            <p><b class="font-weight-bold">FORMA DE ENVIO: </b> {{ $item->transaction->shipping }}</p>
+                                            <p><b class="font-weight-bold">FORMA DE PAGO: </b> {{ $item->transaction->payment }}</p>
+                                            <p><b class="font-weight-bold">TOTAL: </b>${{ number_format($item->transaction->total*1.21,2,',','.') }}</p>
+                                        </div>
+                                        <div class="col-md-12"  >
+                                            <table class="table mt-5">
+                                                <thead class="distren-fondo white-text">
+                                                <tr>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Categoria</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Producto</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cantidad</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Terminaciones</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cierre</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cantidad</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Subtotal</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($item->order as $pedido)
+                                                    <tr>
+                                                        @if($pedido->price_offer)
+                                                        <td>{{ $pedido->name_category }}</td>
+                                                        <td style="width: 170px;">
+                                                            {{ $pedido->name_product }}
+                                                            <p class="m-0"><b>Capacidad: </b>{{ $pedido->cc }}</p>
+                                                            <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_offer,2,',','.') }}</p>
+                                                        </td>
+                                                        <td>{{ $pedido->quantity_cc }}</td>
+                                                        <td style="width: 170px;">
+                                                            {{ $pedido->name_termination }}
+                                                            <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_termination,2,',','.') }}</p>
+                                                        </td>
+                                                        <td style="width: 170px;">
+                                                            {{ $pedido->name_closure }}
+                                                            <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_closure,2,',','.') }}</p>
+                                                        </td>
+                                                        <td>{{ $pedido->quantity_closure }}</td>
+
+                                                            <td>${{ number_format(($pedido->quantity_cc*$pedido->price_offer) + ($pedido->quantity_cc*$pedido->price_termination) + ($pedido->quantity_closure*$pedido->price_closure),2,',','.') }}</td>
+                                                        @else
+                                                            <td>{{ $pedido->name_category }}</td>
+                                                            <td style="width: 170px;">
+                                                                {{ $pedido->name_product }}
+                                                                <p class="m-0"><b>Capacidad: </b>{{ $pedido->cc }}</p>
+                                                                <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_cc,2,',','.') }}</p>
+                                                            </td>
+                                                            <td>{{ $pedido->quantity_cc }}</td>
+                                                            <td style="width: 170px;">
+                                                                {{ $pedido->name_termination }}
+                                                                <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_termination,2,',','.') }}</p>
+                                                            </td>
+                                                            <td style="width: 170px;">
+                                                                {{ $pedido->name_closure }}
+                                                                <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_closure,2,',','.') }}</p>
+                                                            </td>
+                                                            <td>{{ $pedido->quantity_closure }}</td>
+                                                            <td>${{ number_format(($pedido->quantity_cc*$pedido->price_cc) + ($pedido->quantity_cc*$pedido->price_termination) + ($pedido->quantity_closure*$pedido->price_closure),2,',','.') }}</td>
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-4 offset-md-8">
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="">Sub Total</h5>
+                                                <h5 class="">$ {{ number_format($item->transaction->total,2,',', '.') }}</h5>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="">IVA (21%)</h5>
+                                                <h5>${{ number_format($item->transaction->total*0.21,2,',', '.') }}</h5>
+                                            </div>
+                                            {{--<div class="d-flex justify-content-between">--}}
+                                                {{--<h5 class="">Envio</h5>--}}
+                                                {{--<h5>$700</h5>--}}
+                                            {{--</div>--}}
+                                            <div class="d-flex justify-content-between align-item-center mt-3">
+                                                <h5 class="distren-color m-0">Total a pagar</h5>
+                                                <h5 class="m-0 text-dark">${{ number_format($item->transaction->total*1.21,2,',', '.') }}</h5>
+                                            </div>
+                                            <hr class="distren-fondo">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary btn-sm">Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

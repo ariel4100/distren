@@ -20,7 +20,9 @@ class ContentController extends Controller
             $section == 'contacto' ? $datos = json_decode($contenido->text,true) : $datos = [];
             $section == 'condiciones' ? $condiciones = json_decode($contenido->text,true) : $condiciones = [];
             $section == 'redes' ? $redes = json_decode($contenido->text,true) : $redes = [];
-            return view('adm.content.index', compact('contenido', 'section','type','data','logos','datos','redes','condiciones'));
+
+            $section == 'carrito' ? $carrito = json_decode($contenido->text,true) : $carrito = [];
+            return view('adm.content.index', compact('contenido', 'section','type','data','logos','datos','redes','condiciones','carrito'));
         }
 
     }
@@ -52,7 +54,7 @@ class ContentController extends Controller
     }
 
     public function update(Request $request, Content $contenido) {
-        if ( $request->type == 'texto' && $request->section == 'empresa' || $request->section == 'logos' || $request->section == 'contacto' || $request->section == 'redes' || $request->section == 'condiciones')
+        if ( $request->type == 'texto' && $request->section == 'empresa' || $request->section == 'logos' || $request->section == 'contacto' || $request->section == 'redes' || $request->section == 'condiciones' || $request->section == 'carrito')
         {
             $content = json_decode($contenido->text);
             $data = $request->all();

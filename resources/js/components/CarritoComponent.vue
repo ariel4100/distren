@@ -46,7 +46,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td style="vertical-align: middle">${{ item.tipo_terminacion.price }}</td>
+                        <td style="vertical-align: middle">${{ item.tipo_terminacion.price.toFixed(2) }}</td>
                         <!----CIERRES----->
                         <td style="vertical-align: middle">
                             <div class="d-flex align-items-center justify-content-between">
@@ -64,8 +64,8 @@
                                 <input type="number" v-model="item.cantidad_cierre" class="form-control form-control-sm">
                             </div>
                         </td>
-                        <td style="vertical-align: middle">${{ parseFloat(item.tipo_cierre.price) }}</td>
-                        <td style="vertical-align: middle">${{ item.tipo_cierre.price*item.cantidad_cierre }}</td>
+                        <td style="vertical-align: middle">${{ item.tipo_cierre.price.toFixed(2) }}</td>
+                        <td style="vertical-align: middle">${{ (item.tipo_cierre.price*item.cantidad_cierre).toFixed(2) }}</td>
                         <td style="vertical-align: middle">
                             <div class="d-flex align-items-center justify-content-between">
                                 <span v-if="item.oferta.offer">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
@@ -78,7 +78,7 @@
                 </table>
                 <h4  v-if="!carrito.length" class="text-center">Carrito esta vacio</h4>
             </div>
-            <div class="col-md-4 offset-md-8">
+            <div class="col-md-4 offset-md-8" v-if="carrito.length > 0">
                 <div class="mb-3">
                     <h5 class="distren-color border-bottom">Forma de envío</h5>
                     <div class="custom-control custom-radio">
@@ -86,7 +86,7 @@
                         <label class="custom-control-label" for="Retiro en el local">Retiro en el local (sin cargo)</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="caba" value="C.A.B.A y G.B.A" v-model="compra.envio" checked>
+                        <input type="radio" class="custom-control-input" id="caba" value="C.A.B.A y G.B.A" v-model="compra.envio">
                         <label class="custom-control-label" for="caba">Envío a C.A.B.A y G.B.A</label>
                     </div>
                     <div class="" v-if="compra.envio == 'C.A.B.A y G.B.A'">
@@ -125,7 +125,7 @@
                         <h5 class="">$sadasdasdasdas</h5>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="Efectivo" v-model="compra.pago" checked>
+                        <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="Efectivo" v-model="compra.pago">
                         <label class="custom-control-label" for="defaultGroupExample2">Efectivo</label>
                     </div>
                 </div>
@@ -166,10 +166,11 @@
             return{
                 carrito : JSON.parse(localStorage.getItem('carrito')),
                 url : document.__API_URL,
+                //total: 0,
                 compra:{
-                    pago:'',
-                    envio:'',
-                    total: ''
+                    pago:'Efectivo',
+                    envio:'Expreso',
+                    total: 0
                 }
             }
         },
@@ -190,14 +191,14 @@
                 this.carrito.forEach((item, key)=>{
                     if (item.oferta.offer)
                     {
-                        this.compra.total = (((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))*1.21).toFixed(2);
-                        this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
+                        // this.compra.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
+                        this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
                     }else{
-
                         this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
-                        this.compra.total = (((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price)) *1.21).toFixed(2);
+                        // this.compra.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
                     }
-                })
+                });
+                this.compra.total = this.total;
                 return this.total
                 // }, 0)
             },
@@ -217,21 +218,24 @@
             //     //console.log(this.carrito)
             // },
             addCarrito: function (item,index) {
+
                 this.carrito.splice(index+1,0, {
                     categoria: item.categoria,
                     producto:  item.producto,
                     cc: item.cc,
                     precio_cc: item.precio_cc,
-                    cantidad_cc: item.cantidad_cc,
+                    cantidad_cc: 0,
                     terminaciones: item.terminaciones,
                     cierres: item.cierres,
                     tipo_terminacion: item.tipo_terminacion,
                     precio_terminacion: item.precio_terminacion,
-                    cantidad_terminacion: item.cantidad_terminacion,
                     tipo_cierre: item.tipo_cierre,
                     precio_cierre: item.precio_cierre,
-                    cantidad_cierre: item.cantidad_cierre,
-                    activo: false
+                    cantidad_cierre: 0,
+                    activo: false,
+                    precio_oferta: item.precio_oferta,
+                    oferta: item.oferta,
+
                 });
                 //console.log(this.carrito)
             },

@@ -81,13 +81,22 @@
                 <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>
             </ul>
         </li>
-        <!---OFERTAS---->
+        <!---VENTAS---->
         <li class="">
             <a href="#ventas" data-toggle="collapse" aria-expanded="false" class="d-flex">
                 <i class="material-icons">ondemand_video</i>Ventas<i class="fas fa-sort-down ml-auto"></i>
             </a>
             <ul class="collapse list-group list-group-flush " id="ventas">
                 <li><a href="{{ route('ventas.index') }}"><i class="fas fa-chevron-right px-4"></i>Ventas</a></li>
+            </ul>
+        </li>
+        <!---CARRITO---->
+        <li class="">
+            <a href="#carrito" data-toggle="collapse" aria-expanded="false" class="d-flex">
+                <i class="material-icons">ondemand_video</i>Carrito<i class="fas fa-sort-down ml-auto"></i>
+            </a>
+            <ul class="collapse list-group list-group-flush" id="carrito">
+                <li><a href="{{ route('contenido.index', ['seccion' => 'carrito', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Informacion</a></li>
             </ul>
         </li>
         <!---CONTACTO---->

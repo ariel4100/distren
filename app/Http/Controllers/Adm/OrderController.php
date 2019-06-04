@@ -22,7 +22,6 @@ class OrderController extends Controller
 
     public function confirmar(Request $request)
     {
-//      return $request->all();
 
         $datos = $request->datos;
         $compra = $request->compra;
@@ -45,19 +44,47 @@ class OrderController extends Controller
 
         foreach ($pedido as $p)
         {
+            if (isset($p['oferta']['offer']))
+            {
+                $pedidos = Order::create([
+                    'name_category' => $p['categoria'],
+                    'name_product' => $p['producto'],
+                    'cc' => $p['cc']['cc'],
+                    'price_cc' => $p['precio_cc'],
+                    'price_offer' => $p['precio_oferta'],
 
-            $pedidos = Order::create([
-                'name_category' => $p['categoria'],
-                'name_product' => $p['producto'],
-                'cc' => $p['cc']['cc'],
-                'price_cc' => $p['precio_cc'],
-                'quantity_cc' => $p['cantidad_cc'],
-                'name_closure' => $p['tipo_cierre']['title'],
-                'price_closure' => $p['tipo_cierre']['price'],
-                'closure_cc' => $p['cantidad_cierre'],
-                'transaction_id' => $transaccion->id,
-                'client_id' => $cliente->id,
-            ]);
+
+                    'name_termination' => $p['tipo_terminacion']['title'],
+                    'price_termination' => $p['tipo_terminacion']['price'],
+
+                    'quantity_cc' => $p['cantidad_cc'],
+                    'name_closure' => $p['tipo_cierre']['title'],
+                    'price_closure' => $p['tipo_cierre']['price'],
+
+                    'quantity_closure' => $p['cantidad_cierre'],
+                    'transaction_id' => $transaccion->id,
+                    'client_id' => $cliente->id,
+                ]);
+            }else{
+                $pedidos = Order::create([
+                    'name_category' => $p['categoria'],
+                    'name_product' => $p['producto'],
+                    'cc' => $p['cc']['cc'],
+                    'price_cc' => $p['precio_cc'],
+
+                    'name_termination' => $p['tipo_terminacion']['title'],
+                    'price_termination' => $p['tipo_terminacion']['price'],
+
+                    'quantity_cc' => $p['cantidad_cc'],
+                    'name_closure' => $p['tipo_cierre']['title'],
+                    'price_closure' => $p['tipo_cierre']['price'],
+
+                    'quantity_closure' => $p['cantidad_cierre'],
+                    'transaction_id' => $transaccion->id,
+                    'client_id' => $cliente->id,
+                ]);
+            }
+
         }
 
 

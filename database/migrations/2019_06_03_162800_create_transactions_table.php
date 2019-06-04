@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('shipping')->nullable();
             $table->string('payment')->nullable();
+            $table->enum('status',['pendiente','procesado'])->default('pendiente');
             $table->string('total')->nullable();
             $table->timestamps();
         });

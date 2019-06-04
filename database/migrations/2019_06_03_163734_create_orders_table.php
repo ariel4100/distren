@@ -20,13 +20,16 @@ class CreateOrdersTable extends Migration
 
             $table->string('cc')->nullable();
             $table->string('price_cc')->nullable();
+            $table->string('price_offer')->nullable();
             $table->string('quantity_cc')->nullable();
 
             $table->string('name_closure')->nullable();
             $table->string('price_closure')->nullable();
-            $table->string('closure_cc')->nullable();
+            $table->string('quantity_closure')->nullable();
 
-            $table->enum('status',['pendiente','procesado'])->default('pendiente');
+            $table->string('name_termination')->nullable();
+            $table->string('price_termination')->nullable();
+            $table->string('quantity_termination')->nullable();
 
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();

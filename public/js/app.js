@@ -2087,10 +2087,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       carrito: JSON.parse(localStorage.getItem('carrito')),
       url: document.__API_URL,
+      //total: 0,
       compra: {
-        pago: '',
-        envio: '',
-        total: ''
+        pago: 'Efectivo',
+        envio: 'Expreso',
+        total: 0
       }
     };
   },
@@ -2111,13 +2112,13 @@ __webpack_require__.r(__webpack_exports__);
       this.total = 0;
       this.carrito.forEach(function (item, key) {
         if (item.oferta.offer) {
-          _this.compra.total = ((item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price) * 1.21).toFixed(2);
+          // this.compra.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
           _this.total += item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
         } else {
-          _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
-          _this.compra.total = ((item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price) * 1.21).toFixed(2);
+          _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price; // this.compra.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
         }
       });
+      this.compra.total = this.total;
       return this.total; // }, 0)
     }
   },
@@ -2140,16 +2141,17 @@ __webpack_require__.r(__webpack_exports__);
         producto: item.producto,
         cc: item.cc,
         precio_cc: item.precio_cc,
-        cantidad_cc: item.cantidad_cc,
+        cantidad_cc: 0,
         terminaciones: item.terminaciones,
         cierres: item.cierres,
         tipo_terminacion: item.tipo_terminacion,
         precio_terminacion: item.precio_terminacion,
-        cantidad_terminacion: item.cantidad_terminacion,
         tipo_cierre: item.tipo_cierre,
         precio_cierre: item.precio_cierre,
-        cantidad_cierre: item.cantidad_cierre,
-        activo: false
+        cantidad_cierre: 0,
+        activo: false,
+        precio_oferta: item.precio_oferta,
+        oferta: item.oferta
       }); //console.log(this.carrito)
     },
     deleteCarrito: function deleteCarrito(index) {
@@ -2796,13 +2798,23 @@ __webpack_require__.r(__webpack_exports__);
     },
     addCapacidad: function addCapacidad(item, index) {
       this.productocapacidad.splice(index + 1, 0, {
-        priceenvase: item.priceenvase,
+        precio_cc: item.precio_cc,
         cc: item.cc,
-        cantidadenvases: 0,
-        tipo: this.cierres,
-        pricecierre: 0,
-        cantidadcierres: 0,
-        activo: false
+        cantidad_cc: 0,
+        terminaciones: this.terminaciones,
+        precio_terminacion: 0,
+        tipo_cierre: {
+          price: 0
+        },
+        tipo_terminacion: {
+          price: 0
+        },
+        cierres: this.cierres,
+        precio_cierre: 0,
+        cantidad_cierre: 0,
+        activo: false,
+        oferta: item.oferta,
+        precio_oferta: item.precio_oferta
       }); //console.log(this.carrito)
     },
     deleteCapacidad: function deleteCapacidad(index) {
@@ -32978,7 +32990,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                  _vm._v("$" + _vm._s(item.tipo_terminacion.price))
+                  _vm._v("$" + _vm._s(item.tipo_terminacion.price.toFixed(2)))
                 ]),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "vertical-align": "middle" } }, [
@@ -33096,12 +33108,17 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                  _vm._v("$" + _vm._s(parseFloat(item.tipo_cierre.price)))
+                  _vm._v("$" + _vm._s(item.tipo_cierre.price.toFixed(2)))
                 ]),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                   _vm._v(
-                    "$" + _vm._s(item.tipo_cierre.price * item.cantidad_cierre)
+                    "$" +
+                      _vm._s(
+                        (item.tipo_cierre.price * item.cantidad_cierre).toFixed(
+                          2
+                        )
+                      )
                   )
                 ]),
                 _vm._v(" "),
@@ -33173,277 +33190,285 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-4 offset-md-8" }, [
-        _c("div", { staticClass: "mb-3" }, [
-          _c("h5", { staticClass: "distren-color border-bottom" }, [
-            _vm._v("Forma de envío")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "custom-control custom-radio" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.compra.envio,
-                  expression: "compra.envio"
-                }
-              ],
-              staticClass: "custom-control-input",
-              attrs: {
-                type: "radio",
-                id: "Retiro en el local",
-                value: "Retiro en el local"
-              },
-              domProps: {
-                checked: _vm._q(_vm.compra.envio, "Retiro en el local")
-              },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.compra, "envio", "Retiro en el local")
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticClass: "custom-control-label",
-                attrs: { for: "Retiro en el local" }
-              },
-              [_vm._v("Retiro en el local (sin cargo)")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "custom-control custom-radio" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.compra.envio,
-                  expression: "compra.envio"
-                }
-              ],
-              staticClass: "custom-control-input",
-              attrs: {
-                type: "radio",
-                id: "caba",
-                value: "C.A.B.A y G.B.A",
-                checked: ""
-              },
-              domProps: {
-                checked: _vm._q(_vm.compra.envio, "C.A.B.A y G.B.A")
-              },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.compra, "envio", "C.A.B.A y G.B.A")
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              { staticClass: "custom-control-label", attrs: { for: "caba" } },
-              [_vm._v("Envío a C.A.B.A y G.B.A")]
-            )
-          ]),
-          _vm._v(" "),
-          _vm.compra.envio == "C.A.B.A y G.B.A"
-            ? _c("div", {}, [
-                _c("p", { staticClass: "m-0 my-1" }, [
-                  _vm._v("Ingrese Código Postal")
-                ]),
+      _vm.carrito.length > 0
+        ? _c("div", { staticClass: "col-md-4 offset-md-8" }, [
+            _c("div", { staticClass: "mb-3" }, [
+              _c("h5", { staticClass: "distren-color border-bottom" }, [
+                _vm._v("Forma de envío")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "custom-control custom-radio" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.compra.envio,
+                      expression: "compra.envio"
+                    }
+                  ],
+                  staticClass: "custom-control-input",
+                  attrs: {
+                    type: "radio",
+                    id: "Retiro en el local",
+                    value: "Retiro en el local"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.compra.envio, "Retiro en el local")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.compra, "envio", "Retiro en el local")
+                    }
+                  }
+                }),
                 _vm._v(" "),
-                _vm._m(1)
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "custom-control custom-radio" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.compra.envio,
-                  expression: "compra.envio"
-                }
-              ],
-              staticClass: "custom-control-input",
-              attrs: { type: "radio", id: "Expreso", value: "Expreso" },
-              domProps: { checked: _vm._q(_vm.compra.envio, "Expreso") },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.compra, "envio", "Expreso")
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticClass: "custom-control-label",
-                attrs: { for: "Expreso" }
-              },
-              [_vm._v("Expreso")]
-            )
-          ]),
-          _vm._v(" "),
-          _vm.compra.envio == "Expreso"
-            ? _c("div", {}, [
-                _c("p", {}, [
-                  _vm._v(
-                    "Acuerdas la forma de entrega del producto después de la compra."
-                  )
-                ])
-              ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: " " }, [
-          _c("h5", { staticClass: "distren-color border-bottom" }, [
-            _vm._v("Métodos de Pago")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "custom-control custom-radio" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.compra.pago,
-                  expression: "compra.pago"
-                }
-              ],
-              staticClass: "custom-control-input",
-              attrs: {
-                type: "radio",
-                id: "defaultGroupExample1",
-                value: "Transferencia Bancaria"
-              },
-              domProps: {
-                checked: _vm._q(_vm.compra.pago, "Transferencia Bancaria")
-              },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.compra, "pago", "Transferencia Bancaria")
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticClass: "custom-control-label",
-                attrs: { for: "defaultGroupExample1" }
-              },
-              [_vm._v("Transferencia Bancaria")]
-            )
-          ]),
-          _vm._v(" "),
-          _vm.compra.pago == "Transferencia Bancaria"
-            ? _c("div", {}, [
-                _c("h5", {}, [_vm._v("Sdsdsdsdsddd")]),
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "Retiro en el local" }
+                  },
+                  [_vm._v("Retiro en el local (sin cargo)")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "custom-control custom-radio" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.compra.envio,
+                      expression: "compra.envio"
+                    }
+                  ],
+                  staticClass: "custom-control-input",
+                  attrs: {
+                    type: "radio",
+                    id: "caba",
+                    value: "C.A.B.A y G.B.A"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.compra.envio, "C.A.B.A y G.B.A")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.compra, "envio", "C.A.B.A y G.B.A")
+                    }
+                  }
+                }),
                 _vm._v(" "),
-                _c("h5", {}, [_vm._v("$sadasdasdasdas")])
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "custom-control custom-radio" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.compra.pago,
-                  expression: "compra.pago"
-                }
-              ],
-              staticClass: "custom-control-input",
-              attrs: {
-                type: "radio",
-                id: "defaultGroupExample2",
-                value: "Efectivo",
-                checked: ""
-              },
-              domProps: { checked: _vm._q(_vm.compra.pago, "Efectivo") },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.compra, "pago", "Efectivo")
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticClass: "custom-control-label",
-                attrs: { for: "defaultGroupExample2" }
-              },
-              [_vm._v("Efectivo")]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr", { staticClass: "distren-fondo" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex justify-content-between" }, [
-          _c("h5", {}, [_vm._v("Sub Total")]),
-          _vm._v(" "),
-          _c("h5", {}, [_vm._v("$ " + _vm._s(_vm.getTotal.toFixed(2)))])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex justify-content-between" }, [
-          _c("h5", {}, [_vm._v("IVA (21%)")]),
-          _vm._v(" "),
-          _c("h5", [_vm._v("$" + _vm._s((_vm.getTotal * 0.21).toFixed(2)))])
-        ]),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "d-flex justify-content-between align-item-center mt-3"
-          },
-          [
-            _c("h5", { staticClass: "distren-color m-0" }, [
-              _vm._v("Total a pagar")
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "caba" }
+                  },
+                  [_vm._v("Envío a C.A.B.A y G.B.A")]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.compra.envio == "C.A.B.A y G.B.A"
+                ? _c("div", {}, [
+                    _c("p", { staticClass: "m-0 my-1" }, [
+                      _vm._v("Ingrese Código Postal")
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "custom-control custom-radio" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.compra.envio,
+                      expression: "compra.envio"
+                    }
+                  ],
+                  staticClass: "custom-control-input",
+                  attrs: { type: "radio", id: "Expreso", value: "Expreso" },
+                  domProps: { checked: _vm._q(_vm.compra.envio, "Expreso") },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.compra, "envio", "Expreso")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "Expreso" }
+                  },
+                  [_vm._v("Expreso")]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.compra.envio == "Expreso"
+                ? _c("div", {}, [
+                    _c("p", {}, [
+                      _vm._v(
+                        "Acuerdas la forma de entrega del producto después de la compra."
+                      )
+                    ])
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
-            _c("h5", { staticClass: "m-0 text-dark" }, [
-              _vm._v("$" + _vm._s((_vm.getTotal * 1.21).toFixed(2)))
+            _c("div", { staticClass: " " }, [
+              _c("h5", { staticClass: "distren-color border-bottom" }, [
+                _vm._v("Métodos de Pago")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "custom-control custom-radio" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.compra.pago,
+                      expression: "compra.pago"
+                    }
+                  ],
+                  staticClass: "custom-control-input",
+                  attrs: {
+                    type: "radio",
+                    id: "defaultGroupExample1",
+                    value: "Transferencia Bancaria"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.compra.pago, "Transferencia Bancaria")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(
+                        _vm.compra,
+                        "pago",
+                        "Transferencia Bancaria"
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "defaultGroupExample1" }
+                  },
+                  [_vm._v("Transferencia Bancaria")]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.compra.pago == "Transferencia Bancaria"
+                ? _c("div", {}, [
+                    _c("h5", {}, [_vm._v("Sdsdsdsdsddd")]),
+                    _vm._v(" "),
+                    _c("h5", {}, [_vm._v("$sadasdasdasdas")])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "custom-control custom-radio" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.compra.pago,
+                      expression: "compra.pago"
+                    }
+                  ],
+                  staticClass: "custom-control-input",
+                  attrs: {
+                    type: "radio",
+                    id: "defaultGroupExample2",
+                    value: "Efectivo"
+                  },
+                  domProps: { checked: _vm._q(_vm.compra.pago, "Efectivo") },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.compra, "pago", "Efectivo")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "defaultGroupExample2" }
+                  },
+                  [_vm._v("Efectivo")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("hr", { staticClass: "distren-fondo" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex justify-content-between" }, [
+              _c("h5", {}, [_vm._v("Sub Total")]),
+              _vm._v(" "),
+              _c("h5", {}, [_vm._v("$ " + _vm._s(_vm.getTotal.toFixed(2)))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex justify-content-between" }, [
+              _c("h5", {}, [_vm._v("IVA (21%)")]),
+              _vm._v(" "),
+              _c("h5", [_vm._v("$" + _vm._s((_vm.getTotal * 0.21).toFixed(2)))])
+            ]),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "d-flex justify-content-between align-item-center mt-3"
+              },
+              [
+                _c("h5", { staticClass: "distren-color m-0" }, [
+                  _vm._v("Total a pagar")
+                ]),
+                _vm._v(" "),
+                _c("h5", { staticClass: "m-0 text-dark" }, [
+                  _vm._v("$" + _vm._s((_vm.getTotal * 1.21).toFixed(2)))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("hr", { staticClass: "distren-fondo" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex justify-content-between" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn py-2",
+                  staticStyle: { border: "1px solid #8BBF40" },
+                  attrs: { href: "productos" },
+                  on: { click: _vm.updateCarrito }
+                },
+                [_vm._v("Seguir comprando")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn distren-fondo py-2",
+                  attrs: { href: "confirmar" },
+                  on: { click: _vm.updateCarrito }
+                },
+                [_vm._v("Pagar")]
+              )
             ])
-          ]
-        ),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _c("hr", { staticClass: "distren-fondo" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex justify-content-between" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn py-2",
-              staticStyle: { border: "1px solid #8BBF40" },
-              attrs: { href: "productos" },
-              on: { click: _vm.updateCarrito }
-            },
-            [_vm._v("Seguir comprando")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "btn distren-fondo py-2",
-              attrs: { href: "confirmar" },
-              on: { click: _vm.updateCarrito }
-            },
-            [_vm._v("Pagar")]
-          )
-        ])
-      ])
+          ])
+        : _vm._e()
     ])
   ])
 }

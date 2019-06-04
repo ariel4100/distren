@@ -171,6 +171,23 @@
                     </div>
                 </div>
             @endif
+            @if($section == 'carrito')
+                <div class="col-md-12">
+                    <div class="md-form">
+                        <input type="text" id="Titulo" name="title" placeholder="Forma de Envio" class="form-control" value="{!! isset($carrito['title']) ? $carrito['title'] : null !!}">
+                    </div>
+                    <div class="md-form">
+                        <textarea id="text" class="md-textarea form-control" name="text" rows="3">{!! isset($carrito['text']) ? $carrito['text'] : null !!}</textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="md-form">
+                        <input type="text" id="Valores" name="valores" placeholder="Forma de Pago" class="form-control" value="{!! isset($carrito['valores']) ? $carrito['valores'] : null !!}">
+                    </div>
+
+                </div>
+
+            @endif
             <div class="col-md-12 my-4 text-right">
                 <button type="submit" class="btn btn-success">Guardar</button>
             </div>
