@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('address')->nullable();
             $table->string('province')->nullable();
             $table->string('location')->nullable();
+            $table->string('cuit')->nullable();
             $table->string('iva')->nullable();
 
             $table->unsignedBigInteger('transaction_id')->nullable();

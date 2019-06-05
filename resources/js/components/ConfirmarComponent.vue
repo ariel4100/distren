@@ -24,6 +24,19 @@
                             </div>
                         </div>
                         <div class="row">
+                            <!--<div class="col-md-6">-->
+                                <!--<div class="md-form mb-0">-->
+                                    <!--<input type="text" placeholder="CUIT" v-model="datos.nombre" class="form-control" required>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="md-form mb-0">
+                                    <input type="text" placeholder="CUIT" v-model="datos.cuit" class="form-control" required>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
                                     <input type="email" id="form-contact-phone" placeholder="Email" v-model="datos.email" class="form-control" required>
@@ -34,8 +47,6 @@
                                     <input type="text" id="form-contact-company" placeholder="Telefono" v-model="datos.telefono" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
                                     <input type="text" id="Domicilio" placeholder="Domicilio" v-model="datos.domicilio" class="form-control" required>
@@ -46,8 +57,6 @@
                                     <input type="text" id="Provincia" placeholder="Provincia" v-model="datos.provincia" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
                                     <input type="email" id="Localidad" placeholder="Localidad" v-model="datos.localidad" class="form-control" required>
@@ -113,6 +122,14 @@
                     domicilio:'',
                     localidad:'',
                     provincia:'',
+                    cuit: '',
+                    iva: [
+                        'Consumidor Final',
+                        'Exento',
+                        'Monotributo',
+                        'No responsable',
+                        'Responsable inscripto',
+                    ]
                 },
                 loading:false,
                 errors: [],

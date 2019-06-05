@@ -116,7 +116,7 @@ class ProductController extends Controller
 
         }
         //dd($product->capacity()->first()->precio);
-        //Session::flush();
+        Session::forget('productos');
 
         return back()->with('status','Se creó correctamente');
     }
@@ -176,6 +176,7 @@ class ProductController extends Controller
                 'quantity' => $item['quantity'],
             ]);
             //dd($item['id']);
+            Session::forget('productos');
         }
         return back()->with('status','Se actualizó correctamente');
     }

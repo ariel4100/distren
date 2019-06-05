@@ -172,21 +172,32 @@
                 </div>
             @endif
             @if($section == 'carrito')
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="md-form">
-                        <input type="text" id="Titulo" name="title" placeholder="Forma de Envio" class="form-control" value="{!! isset($carrito['title']) ? $carrito['title'] : null !!}">
+                        <input type="text" id="envio" name="envio" placeholder="Forma de Envio" class="form-control" value="{!! isset($carrito['envio']) ? $carrito['envio'] : null !!}">
                     </div>
                     <div class="md-form">
-                        <textarea id="text" class="md-textarea form-control" name="text" rows="3">{!! isset($carrito['text']) ? $carrito['text'] : null !!}</textarea>
+                        <h6>Retiro en el local</h6>
+                        <textarea id="local" class="md-textarea form-control" name="local" rows="3">{!! isset($carrito['local']) ? $carrito['local'] : null !!}</textarea>
+                    </div>
+                    <div class="md-form">
+                        <h6>Expreso</h6>
+                        <textarea id="expreso" class="md-textarea form-control" name="expreso" rows="3">{!! isset($carrito['expreso']) ? $carrito['expreso'] : null !!}</textarea>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="md-form">
-                        <input type="text" id="Valores" name="valores" placeholder="Forma de Pago" class="form-control" value="{!! isset($carrito['valores']) ? $carrito['valores'] : null !!}">
+                        <input type="text" id="pago" name="pago" placeholder="Forma de Pago" class="form-control" value="{!! isset($carrito['pago']) ? $carrito['pago'] : null !!}">
                     </div>
-
+                    <div class="md-form">
+                        <h6>Transferencia Bancaria</h6>
+                        <textarea id="banco" class="md-textarea form-control" name="banco" rows="3">{!! isset($carrito['banco']) ? $carrito['banco'] : null !!}</textarea>
+                    </div>
+                    <div class="md-form">
+                        <h6>Efectivo</h6>
+                        <textarea id="efectivo" class="md-textarea form-control" name="efectivo" rows="3">{!! isset($carrito['efectivo']) ? $carrito['efectivo'] : null !!}</textarea>
+                    </div>
                 </div>
-
             @endif
             <div class="col-md-12 my-4 text-right">
                 <button type="submit" class="btn btn-success">Guardar</button>
@@ -196,6 +207,12 @@
 @endsection
 @section('script')
     <script>
+        CKEDITOR.replace('banco');
+        CKEDITOR.replace('efectivo');
+        CKEDITOR.replace('local');
+        CKEDITOR.replace('expreso');
+
+
         CKEDITOR.replace('text');
         CKEDITOR.replace('text_valores');
         CKEDITOR.replace('text_mision');

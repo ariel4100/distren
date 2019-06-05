@@ -32,7 +32,7 @@
                         <td style="vertical-align: middle" v-else>${{ item.precio_cc.toFixed(2) }}</td>
                         <td style="width: 90px; vertical-align: middle">
                             <div class="form-group m-0">
-                                <input type="number" v-model="item.cantidad_cc" class="form-control form-control-sm">
+                                <input type="number" v-model="item.cantidad_cc" :min="0" :max="(quantity_max_cc[item.cc.id] >= 1) ? quantity_max_cc[item.cc.id] + item.cantidad_cc : 0" @change="changeCantidadCC()" class="form-control form-control-sm">
                             </div>
                         </td>
                         <td style="vertical-align: middle" v-if="item.oferta.offer">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
@@ -80,10 +80,13 @@
             </div>
             <div class="col-md-4 offset-md-8" v-if="carrito.length > 0">
                 <div class="mb-3">
-                    <h5 class="distren-color border-bottom">Forma de envío</h5>
+                    <h5 class="distren-color border-bottom">{{ info.envio }}</h5>
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="Retiro en el local" value="Retiro en el local" v-model="compra.envio">
                         <label class="custom-control-label" for="Retiro en el local">Retiro en el local (sin cargo)</label>
+                    </div>
+                    <div class="" v-if="compra.envio == 'Retiro en el local'">
+                        <div class="" v-html="info.local"></div>
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="caba" value="C.A.B.A y G.B.A" v-model="compra.envio">
@@ -111,22 +114,25 @@
                         <label class="custom-control-label" for="Expreso">Expreso</label>
                     </div>
                     <div class="" v-if="compra.envio == 'Expreso'">
-                        <p class="">Acuerdas la forma de entrega del producto después de la compra.</p>
+                        <div class="" v-html="info.expreso"></div>
                     </div>
+                    <p class="">Acuerdas la forma de entrega del producto después de la compra.</p>
                 </div>
                 <div class=" ">
-                    <h5 class="distren-color border-bottom">Métodos de Pago</h5>
+                    <h5 class="distren-color border-bottom">{{ info.pago }}</h5>
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="defaultGroupExample1" value="Transferencia Bancaria" v-model="compra.pago">
                         <label class="custom-control-label" for="defaultGroupExample1">Transferencia Bancaria</label>
                     </div>
                     <div class="" v-if="compra.pago == 'Transferencia Bancaria'">
-                        <h5 class="">Sdsdsdsdsddd</h5>
-                        <h5 class="">$sadasdasdasdas</h5>
+                        <div class="" v-html="info.banco"></div>
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="Efectivo" v-model="compra.pago">
                         <label class="custom-control-label" for="defaultGroupExample2">Efectivo</label>
+                    </div>
+                    <div class="" v-if="compra.pago == 'Efectivo'">
+                        <div class="" v-html="info.efectivo"></div>
                     </div>
                 </div>
                 <hr class="distren-fondo">
@@ -162,11 +168,14 @@
 <script>
     import toastr from 'toastr';
     export default {
+        props:['info'],
         data(){
             return{
                 carrito : JSON.parse(localStorage.getItem('carrito')),
                 url : document.__API_URL,
                 //total: 0,
+                quantity_max_cierre: {},
+                quantity_max_cc: {},
                 compra:{
                     pago:'Efectivo',
                     envio:'Expreso',
@@ -175,15 +184,38 @@
             }
         },
         mounted() {
-            this.getCapacidad();
-            // if (localStorage.getItem('carrito')) {
-            //     try {
-            //         this.carrito = JSON.parse(localStorage.getItem('carrito'));
-            //     } catch(e) {
-            //         localStorage.removeItem('carrito');
-            //     }
-            // }
+            var self = this
+            // this.cierres.forEach(function(item){
+            //     self.quantity_max_cierre[item.id] = item.quantity;
+            // });
+            this.carrito.forEach(function(item){
+                console.log(['aca',item])
+                //self.quantity_max_cc[item.capacity_id] = item.quantity
+            });
+            //console.log(this.quantity_max_cc)
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            },
+                //this.total_price();
+
+                this.getCapacidad();
+
         },
+
         computed:{
             getTotal: function() {
                 // return this.productocapacidad.reduce((total, product) => {
@@ -204,19 +236,24 @@
             },
         },
         methods:{
+            changeCantidadCC(event){
+                var self = this;
+
+                // this.precio.forEach(function(item){
+                //     self.quantity_max_cc[item.capacity_id] = item.quantity;
+                //     console.log([self.quantity_max_cc])
+                // });
+                this.carrito.forEach(function (item) {
+                    console.log(item)
+                    //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+                });
+
+            },
             getCapacidad: function(){
 
                 console.log(this.carrito)
             },
-            // addCarrito: function () {
-            //     this.carrito.push( {
-            //         cantidadenvases: '',
-            //         terminacion: '',
-            //         cierre: '',
-            //         cantidadcierres: '',
-            //     });
-            //     //console.log(this.carrito)
-            // },
+
             addCarrito: function (item,index) {
 
                 this.carrito.splice(index+1,0, {

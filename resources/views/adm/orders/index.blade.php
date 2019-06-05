@@ -23,6 +23,7 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Email</th>
                         <th scope="col">Pago</th>
@@ -35,6 +36,7 @@
                     <tbody>
                     @forelse ($clientes as $key=>$item)
                         <tr>
+                            <td>#0{{ $item->id }}</td>
                             <td>{{ $item->name .' '. $item->surname }}</td>
                             <td>{{ $item->email }}</td>
                             <td>{{ $item->transaction->payment }}</td>
@@ -65,6 +67,7 @@
                          aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
+                                <form action="{{ route('order.store')}}" method="post">
                                 <div class="modal-header">
                                     <h4 class="modal-title w-100" id="myModalLabel">Orden de Compra</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -76,6 +79,7 @@
                                         <div class="col-md-6">
                                             <h5 class="mb-3">DATOS DEL CLIENTE:</h5>
                                             <p><b class="font-weight-bold">NOMBRE Y APELLIDO: </b> {{ $item->name .' '. $item->surname }}</p>
+                                            <p><b class="font-weight-bold">CUIT: </b> {{ $item->cuit }}</p>
                                             <p><b class="font-weight-bold">DOMICILIO: </b> {{ $item->address }}</p>
                                             <p><b class="font-weight-bold">PROVINCIA: </b> {{ $item->province }}</p>
                                             <p><b class="font-weight-bold">LOCALIDAD: </b> {{ $item->location }}</p>
@@ -85,14 +89,16 @@
                                         </div>
                                         <div class="col-md-6">
                                             <h5 class="mb-3">ESTADO:</h5>
-                                            <form action="">
+                                            <input type="text" class="d-none" value="{{ $item->transaction->id}}" name="transaction_id">
+                                                @csrf
                                                 <div class="form-group">
-                                                    <select name="" id="" class="custom-select">
-                                                        <option value="pendiente"  >Pendiente</option>
-                                                        <option value="procesado">Procesado</option>
+                                                    <select name="status" id="" class="custom-select">
+                                                        @foreach($status as $s)
+                                                        <option value="{{ $s }}" {{ $item->transaction->status == $s ? 'selected' : null }}>{{ $s }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
-                                            </form>
+
                                             <p><b class="font-weight-bold">PEDIDO: </b> #0{{ $item->id }}</p>
                                             <p><b class="font-weight-bold">FECHA DE COMPRA: </b> {{ $item->transaction->created_at}}</p>
                                             <p><b class="font-weight-bold">FORMA DE ENVIO: </b> {{ $item->transaction->shipping }}</p>
@@ -182,8 +188,9 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary btn-sm">Guardar Cambios</button>
+                                    <button type="submit" class="btn btn-primary btn-sm">Guardar Cambios</button>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>

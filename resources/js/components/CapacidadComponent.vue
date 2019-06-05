@@ -91,7 +91,7 @@
                   prefix: '$',
                   // suffix: '',
                   precision: 2,
-                  masked: true /* doesn't work with directive */
+                  masked: false /* doesn't work with directive */
               }
           }
         },

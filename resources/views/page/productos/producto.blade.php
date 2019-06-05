@@ -55,6 +55,7 @@
                         <a href="" class="btn distren-fondo shadow-none m-0 px-4 py-2 p-0">Consultar</a>
                     </div>
                 </div>
+                @if(count($producto->closure) > 0)
                 <h4 class="distren-color mt-5">Cierres Posibles</h4>
                 <div class="row">
                     {{--@dd($productos->closure)--}}
@@ -66,6 +67,8 @@
 
                     @endforelse
                 </div>
+                @endif
+                @if(count($producto->termination) > 0)
                 <h4 class="distren-color mt-5">Terminaciones</h4>
                 <div class="row">
                     {{--@dd($productos->closure)--}}
@@ -77,6 +80,7 @@
 
                     @endforelse
                 </div>
+                @endif
                 <product-component :terminaciones="{{ json_encode($producto->termination) }}" :producto="{{ $producto->capacity }}" :cierres="{{ $producto->closure }}" :nombreproducto="{{ json_encode($producto->title) }}" :nombrecategoria="{{ json_encode($producto->category->title) }}" :precio="{{ json_encode($precio) }}"></product-component>
 
             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Client;
 use App\Mail\OrderMail;
 use App\Order;
+use App\Price;
 use App\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,9 +17,19 @@ class OrderController extends Controller
     {
         $pedidos = Order::orderBy('id','desc')->get();
         $clientes = Client::orderBy('id','desc')->get();
+        $status = array('pendiente','procesado');
 
-        return view('adm.orders.index',compact('pedidos','clientes'));
+        return view('adm.orders.index',compact('pedidos','clientes','status'));
     }
+
+    public function store(Request $request)
+    {
+        $transaction = Transaction::find($request->transaction_id);
+        $transaction->status = $request->status;
+        $transaction->save();
+        return back();
+    }
+
 
     public function confirmar(Request $request)
     {
@@ -39,6 +50,7 @@ class OrderController extends Controller
             'location' => $datos['localidad'],
             'province' => $datos['provincia'],
             'phone' => $datos['telefono'],
+            'cuit' => $datos['cuit'],
             'transaction_id' => $transaccion->id,
         ]);
 
@@ -87,8 +99,15 @@ class OrderController extends Controller
 
         }
 
+        //DESCONTAR EL STOCK A CADA PRESENTACION DE LOS PEDIDOS
+
+//        foreach ($pedidos as $pedido)
+//        {
+//
+//        }
+//        $precio_cc = Price::
 
         //Mail::to('ariel.14.iyf@gmail.com')->send(new OrderMail($data));
-        return $pedido;
+        return $pedidos;
     }
 }

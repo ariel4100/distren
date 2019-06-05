@@ -67,7 +67,7 @@ Route::group([ 'middleware' => 'auth','prefix' => 'adm'],function (){
         Route::get('pedidos', ['uses' => 'Adm\OrderController@index', 'as' => '.index']);
 
     });*/
-    //Route::get('carrito','Adm\OrderController@index')->name('ventas.index');
+    Route::post('ventas/status','Adm\OrderController@store')->name('order.store');
     Route::get('ventas','Adm\OrderController@index')->name('ventas.index');
 
     Route::resource('cierres','Adm\ClosureController');
