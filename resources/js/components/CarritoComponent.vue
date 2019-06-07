@@ -21,7 +21,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(item,index) in carrito" :key="index">
+                    <tr v-if="test == 1"  v-for="(item,index) in carrito" :key="index">
                         <td style="vertical-align: middle">{{ item.categoria }}</td>
                         <td style="vertical-align: middle">{{ item.producto }}</td>
                         <td style="vertical-align: middle">{{ item.cc.cc }}</td>
@@ -174,6 +174,7 @@
                 carrito : JSON.parse(localStorage.getItem('carrito')),
                 url : document.__API_URL,
                 //total: 0,
+                test: 1,
                 quantity_max_cierre: {},
                 quantity_max_cc: {},
                 compra:{
@@ -184,13 +185,14 @@
             }
         },
         mounted() {
-            var self = this
+            var self = this;
             // this.cierres.forEach(function(item){
             //     self.quantity_max_cierre[item.id] = item.quantity;
             // });
             this.carrito.forEach(function(item){
-                console.log(['aca',item])
-                //self.quantity_max_cc[item.capacity_id] = item.quantity
+                console.log(['aca',item]);
+                self.quantity_max_cc = item.quantity_max_cc
+                //console.log(['aca',self.quantity_max_cc])
             });
             //console.log(this.quantity_max_cc)
             toastr.options = {
@@ -238,16 +240,18 @@
         methods:{
             changeCantidadCC(event){
                 var self = this;
-
-                // this.precio.forEach(function(item){
-                //     self.quantity_max_cc[item.capacity_id] = item.quantity;
-                //     console.log([self.quantity_max_cc])
-                // });
+                this.test = 0;
                 this.carrito.forEach(function (item) {
-                    console.log(item)
+                    //console.log(item.quantity_max_cc[item.cc.id]);
+                    self.quantity_max_cc[item.cc.id] = item.quantity_max
                     //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
                 });
-
+                this.carrito.forEach(function (item) {
+                    //console.log(item.quantity_max_cc[item.cc.id]);
+                    self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+                    //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+                });
+                this.test = 1;
             },
             getCapacidad: function(){
 
@@ -272,7 +276,7 @@
                     activo: false,
                     precio_oferta: item.precio_oferta,
                     oferta: item.oferta,
-
+                    quantity_max: item.quantity_max,
                 });
                 //console.log(this.carrito)
             },

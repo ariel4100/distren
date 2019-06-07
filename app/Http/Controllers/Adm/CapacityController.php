@@ -10,7 +10,7 @@ class CapacityController extends Controller
 {
     public function index()
     {
-        $capacidades = Capacity::all();
+        $capacidades = Capacity::orderBy('order')->get();
         return view('adm.capacities.index',compact('capacidades'));
     }
 
@@ -36,5 +36,12 @@ class CapacityController extends Controller
         $capacidad = Capacity::find($id);
         $capacidad->fill($request->all())->save();
         return back()->with('status','Capacidad actualizadó correctamente');
+    }
+
+    public function destroy($id)
+    {
+        $capacidad = Capacity::find($id);
+        $capacidad->delete();
+        return back()->with('status','Capacidad eliminada correctamente');
     }
 }

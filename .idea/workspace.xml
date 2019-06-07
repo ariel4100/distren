@@ -3,20 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2039aece-2379-4289-bb93-c803aa63f621" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Adm/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Adm/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_06_03_162941_create_clients_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_06_03_162941_create_clients_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Adm/CapacityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Adm/CapacityController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/CapacidadComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CapacidadComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/CarritoComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CarritoComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ConfirmarComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ConfirmarComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/ProductComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ProductComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/adm/content/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/adm/content/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/adm/orders/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/adm/orders/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/page/carrito.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/page/carrito.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/page/confirmar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/page/confirmar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/page/productos/producto.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/page/productos/producto.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,11 +23,8 @@
       <file leaf-file-name="ProductComponent.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/components/ProductComponent.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="215" column="41" selection-start-line="215" selection-start-column="41" selection-end-line="215" selection-end-column="41" />
-              <folding>
-                <element signature="e#9109#9714#0" />
-              </folding>
+            <state relative-caret-position="184">
+              <caret line="31" column="49" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -45,7 +32,7 @@
       <file leaf-file-name="OrderController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Adm/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1890">
+            <state relative-caret-position="167">
               <caret line="105" selection-start-line="105" selection-end-line="105" selection-end-column="2" />
               <folding>
                 <element signature="e#44#59#0#PHP" expanded="true" />
@@ -57,11 +44,21 @@
       <file leaf-file-name="CarritoComponent.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/CarritoComponent.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="191" column="41" selection-start-line="191" selection-start-column="41" selection-end-line="191" selection-end-column="41" />
+            <state relative-caret-position="329">
+              <caret line="278" column="52" selection-start-line="278" selection-start-column="52" selection-end-line="278" selection-end-column="52" />
               <folding>
-                <element signature="e#12637#13242#0" />
+                <element signature="n#div#0;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="e#13671#14516#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CapacityController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Adm/CapacityController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="43" column="29" lean-forward="true" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -69,7 +66,7 @@
       <file leaf-file-name="ProductController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
+            <state relative-caret-position="2214">
               <caret line="133" column="49" selection-start-line="133" selection-start-column="49" selection-end-line="133" selection-end-column="49" />
             </state>
           </provider>
@@ -78,7 +75,7 @@
       <file leaf-file-name="ConfirmarComponent.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/ConfirmarComponent.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="58">
+            <state relative-caret-position="1170">
               <caret line="65" column="26" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
             </state>
           </provider>
@@ -99,6 +96,7 @@
       <find>productocapacidad</find>
       <find>changeCantidadCierre</find>
       <find>item</find>
+      <find>precio_cc.t</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,7 +105,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/page/productos/categoria.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/page/ofertas.blade.php" />
         <option value="$PROJECT_DIR$/resources/js/bootstrap.js" />
         <option value="$PROJECT_DIR$/resources/js/app.js" />
@@ -156,8 +153,9 @@
         <option value="$PROJECT_DIR$/resources/views/page/productos/producto.blade.php" />
         <option value="$PROJECT_DIR$/resources/js/components/CapacidadComponent.vue" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php" />
-        <option value="$PROJECT_DIR$/resources/js/components/CarritoComponent.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/ProductComponent.vue" />
+        <option value="$PROJECT_DIR$/resources/js/components/CarritoComponent.vue" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Adm/CapacityController.php" />
       </list>
     </option>
   </component>
@@ -275,6 +273,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -358,7 +357,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -419,16 +417,16 @@
       <workItem from="1559321613236" duration="439000" />
       <workItem from="1559575582441" duration="13972000" />
       <workItem from="1559652411546" duration="22791000" />
-      <workItem from="1559733636849" duration="27989000" />
+      <workItem from="1559733636849" duration="28220000" />
+      <workItem from="1559906322532" duration="7869000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="366707000" />
+    <option name="totallyTimeSpent" value="374807000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20424597" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -459,11 +457,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webpack.mix.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -687,10 +680,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
           <caret line="81" column="100" selection-start-line="81" selection-start-column="100" selection-end-line="81" selection-end-column="100" />
-          <folding>
-            <element signature="e#5958#11781#0#HTML" />
-            <element signature="e#11822#13362#0#HTML" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -752,7 +741,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/ConfirmarComponent.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
+        <state relative-caret-position="1170">
           <caret line="65" column="26" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
         </state>
       </provider>
@@ -766,24 +755,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
+        <state relative-caret-position="2214">
           <caret line="133" column="49" selection-start-line="133" selection-start-column="49" selection-end-line="133" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/CarritoComponent.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="191" column="41" selection-start-line="191" selection-start-column="41" selection-end-line="191" selection-end-column="41" />
-          <folding>
-            <element signature="e#12637#13242#0" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Adm/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
+        <state relative-caret-position="167">
           <caret line="105" selection-start-line="105" selection-end-line="105" selection-end-column="2" />
           <folding>
             <element signature="e#44#59#0#PHP" expanded="true" />
@@ -791,13 +770,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/CarritoComponent.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="278" column="52" selection-start-line="278" selection-start-column="52" selection-end-line="278" selection-end-column="52" />
+          <folding>
+            <element signature="n#div#0;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#13671#14516#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Adm/CapacityController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="43" column="29" lean-forward="true" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/ProductComponent.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="215" column="41" selection-start-line="215" selection-start-column="41" selection-end-line="215" selection-end-column="41" />
-          <folding>
-            <element signature="e#9109#9714#0" />
-          </folding>
+        <state relative-caret-position="184">
+          <caret line="31" column="49" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="49" />
         </state>
       </provider>
     </entry>

@@ -171,7 +171,7 @@
             //this.total_price();
 
             this.ponerdatos()
-            console.log(['dsd',this.quantity_max_cierre])
+            //console.log(['dsd',this.quantity_max_cierre])
         },
         computed:{
 
@@ -308,11 +308,12 @@
 
             },
             getSubTotal(item) {
-                return item.priceenvase*item.cantidadenvases
+                return item.priceenvase*item.cantidadenvases;
             },
             addCarrito(){
                 //let b = localStorage.setItem("carrito",[]);
                 //filtro all los activos
+                console.log(this.productocapacidad);
                 let carro = [];
                 let isactive = this.productocapacidad.filter(item => item.activo);
                 if (localStorage.getItem('carrito')){
@@ -337,7 +338,9 @@
                         precio_cierre: item.precio_cierre,
                         cantidad_cierre: item.cantidad_cierre,
                         oferta: item.oferta,
-                        precio_oferta: item.precio_oferta
+                        precio_oferta: item.precio_oferta,
+                        quantity_max_cc: this.quantity_max_cc,
+                        quantity_max: item.quantity_max,
                     });
                 });
                 localStorage.setItem('carrito', JSON.stringify(carro));
