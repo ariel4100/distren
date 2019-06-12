@@ -58,6 +58,8 @@ class SubcategoryController extends Controller
 
     public function destroy($id)
     {
-        //
+        $subcategoria = Subcategory::find($id);
+        $subcategoria->delete();
+        return back()->with('Subcategoria','Cierre eliminada correctamente');
     }
 }

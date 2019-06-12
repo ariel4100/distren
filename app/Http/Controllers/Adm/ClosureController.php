@@ -53,4 +53,11 @@ class ClosureController extends Controller
 
         return back()->with('status','Cierre actualizadó correctamente');
     }
+
+    public function destroy($id)
+    {
+        $cierre = Closure::find($id);
+        $cierre->delete();
+        return back()->with('status','Cierre eliminada correctamente');
+    }
 }

@@ -20,7 +20,11 @@
                             <td>{{ $item->order }}</td>
                             <td>
                                 <a class="btn btn-sm btn-warning" href="{{ route('subcategoria.edit',$item->id) }}"><i class="fas fa-pen"></i></a>
-                                <a class="btn btn-sm btn-danger" href=" "><i class="fas fa-trash-alt"></i></a>
+                                <form action="{{ route('subcategoria.destroy', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button onclick="return confirm('¿Realmente desea eliminar este registro?')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                </form>
                             </td>
                         </tr>
                     @empty

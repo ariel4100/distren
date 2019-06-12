@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Closure;
 use App\Termination;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -51,5 +52,12 @@ class TerminationController extends Controller
         }
 
         return back()->with('status','Terminación actualizadó correctamente');
+    }
+
+    public function destroy($id)
+    {
+        $terminacion = Termination::find($id);
+        $terminacion->delete();
+        return back()->with('Terminación','Cierre eliminada correctamente');
     }
 }
