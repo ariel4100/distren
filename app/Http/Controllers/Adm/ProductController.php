@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Capacity;
 use App\Category;
 use App\Closure;
+use App\Imports\ProductoImport;
 use App\Price;
 use App\Product;
 use App\Subcategory;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -198,5 +200,27 @@ class ProductController extends Controller
             'cierres' => $cierres,
             'capacidades' => $capacidades
         ]);
+    }
+
+    public function cargapostal() {
+
+        return view('adm.carrito.carga');
+    }
+    public function carga(Request $request) {
+        set_time_limit(0);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('productos')->truncate();
+        DB::table('productooem')->truncate();
+        DB::table('productoimage')->truncate();
+        DB::table('productoaplicaciones')->truncate();
+
+        //$archivo = $request->file("archivo");
+        try {
+            Excel::import(new ProductoImport,request()->file('archivo'));
+        } catch (Exception $e) {
+            return back()->withErrors(['mssg' => "Ocurrió un error"]);
+        }
+        return back()->withSuccess(['mssg' => "Carga finalizada"]);
     }
 }

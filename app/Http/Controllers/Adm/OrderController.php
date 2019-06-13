@@ -37,6 +37,8 @@ class OrderController extends Controller
         $datos = $request->datos;
         $compra = $request->compra;
         $pedido = $request->pedido;
+
+        return $pedido;
         $transaccion = Transaction::create([
             'shipping' => $compra['envio'],
             'payment' => $compra['pago'],

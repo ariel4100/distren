@@ -97,6 +97,7 @@
             </a>
             <ul class="collapse list-group list-group-flush" id="carrito">
                 <li><a href="{{ route('contenido.index', ['seccion' => 'carrito', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Informacion</a></li>
+                <li><a href="{{ route('carga') }}"><i class="fas fa-chevron-right px-4"></i>Carga de Excel</a></li>
             </ul>
         </li>
         <!---CONTACTO---->
