@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
             SliderSeeder::class,
             UserSeeder::class,
         ]);
-        factory('App\Termination',10)->create();
-        factory('App\Subcategory',10)->create();
-        factory('App\Closure',10)->create();
-        factory('App\Capacity',10)->create();
+//        factory('App\Termination',10)->create();
+//        factory('App\Subcategory',10)->create();
+//        factory('App\Closure',10)->create();
+//        factory('App\Capacity',10)->create();
     }
 }

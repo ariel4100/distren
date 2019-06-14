@@ -47,6 +47,11 @@ class ContentSeeder extends Seeder
             'type' => 'texto',
             'text' => '',
         ]);
+        DB::table('contents')->insert([
+            'section' => 'carrito',
+            'type' => 'texto',
+            'text' => '',
+        ]);
 
         //TIPO IMAGEN
         DB::table('contents')->insert([

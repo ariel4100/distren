@@ -25,6 +25,8 @@ class CreateProductsTable extends Migration
             $table->boolean('status')->default(false);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unsignedBigInteger('subcategory_id')->nullable();
+            $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
             $table->string('order')->nullable();
             $table->timestamps();
         });

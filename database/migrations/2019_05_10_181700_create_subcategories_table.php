@@ -21,6 +21,8 @@ class CreateSubcategoriesTable extends Migration
             $table->text('text')->nullable();
             $table->string('order')->nullable();
             $table->boolean('status')->default(false);
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
