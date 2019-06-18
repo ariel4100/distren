@@ -77,7 +77,7 @@ Route::group([ 'middleware' => 'auth','prefix' => 'adm'],function (){
     Route::resource('subcategoria','Adm\SubcategoryController');
     Route::resource('productos','Adm\ProductController');
     Route::get('carga','Adm\ProductController@cargapostal')->name('carga');
-    Route::post('carga-postal','Adm\ProductController@carga')->name('productos.carga');
+    Route::post('carga/productos','Adm\ImportController@index')->name('productos.carga');
     Route::resource('metadatos','Adm\MetadataController');
     Route::get('meta/{id}','Adm\MetadataController@eliminar')->name('metadato.eliminar');
     Route::resource('usuario','Adm\UserController');

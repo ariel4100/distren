@@ -24,7 +24,7 @@
                 <p class="card-text">En el caso de no poseer algún campo, dejar vacío la celda.</p>
 
                 <hr>
-                <form onsubmit="carga()" action="{{ url('productos.carga') }}" method="post" enctype="multipart/form-data">
+                <form onsubmit="carga()" action="{{ route('productos.carga') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row justify-content-center">
                         <div class="col-12 col-md-6">
@@ -33,7 +33,7 @@
                                     <span class="input-group-text" id="inputGroupFileAddon01">Carga</span>
                                 </div>
                                 <div class="custom-file">
-                                    <input name="archivo" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                    <input name="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" data-browser="Buscar" for="inputGroupFile01">Seleccione archivo</label>
                                 </div>
                             </div>
