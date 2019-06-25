@@ -2821,7 +2821,7 @@ __webpack_require__.r(__webpack_exports__);
       this.productocapacidad.forEach(function (item, key) {
         //console.log(item)
         if (item.oferta.offer) {
-          _this.total += item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
+          _this.total += parseFloat(item.precio_oferta) * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
         } else {
           _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
         }
@@ -34963,11 +34963,16 @@ var render = function() {
                         { staticStyle: { "vertical-align": "middle" } },
                         [
                           _c("del", [
-                            _vm._v("$" + _vm._s(item.precio_cc.toFixed(2)))
+                            _vm._v(
+                              "$" +
+                                _vm._s(parseFloat(item.precio_cc).toFixed(2))
+                            )
                           ]),
                           _vm._v(
                             "\n                    $" +
-                              _vm._s(item.precio_oferta.toFixed(2)) +
+                              _vm._s(
+                                parseFloat(item.precio_oferta).toFixed(2)
+                              ) +
                               "\n                "
                           )
                         ]
@@ -34975,7 +34980,11 @@ var render = function() {
                     : _c(
                         "td",
                         { staticStyle: { "vertical-align": "middle" } },
-                        [_vm._v("$" + _vm._s(item.precio_cc.toFixed(2)))]
+                        [
+                          _vm._v(
+                            "$" + _vm._s(parseFloat(item.precio_cc).toFixed(2))
+                          )
+                        ]
                       ),
                   _vm._v(" "),
                   _c(
@@ -35030,9 +35039,10 @@ var render = function() {
                           _vm._v(
                             "$" +
                               _vm._s(
-                                (item.precio_oferta * item.cantidad_cc).toFixed(
-                                  2
-                                )
+                                (
+                                  parseFloat(item.precio_oferta) *
+                                  item.cantidad_cc
+                                ).toFixed(2)
                               )
                           )
                         ]
@@ -35044,7 +35054,9 @@ var render = function() {
                           _vm._v(
                             "$" +
                               _vm._s(
-                                (item.precio_cc * item.cantidad_cc).toFixed(2)
+                                (
+                                  parseFloat(item.precio_cc) * item.cantidad_cc
+                                ).toFixed(2)
                               )
                           )
                         ]
@@ -35367,7 +35379,8 @@ var render = function() {
                                 "$" +
                                   _vm._s(
                                     (
-                                      item.precio_oferta * item.cantidad_cc +
+                                      parseFloat(item.precio_oferta) *
+                                        item.cantidad_cc +
                                       item.cantidad_cc *
                                         item.tipo_terminacion.price +
                                       item.cantidad_cierre *

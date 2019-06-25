@@ -29,17 +29,17 @@
                 <tr v-if="test == 1" v-for="(item,index) in productocapacidad" :key="index">
                     <td style="vertical-align: middle">{{ item.cc.cc }}</td>
                     <td style="vertical-align: middle" v-if="item.oferta.offer">
-                        <del>${{ item.precio_cc.toFixed(2) }}</del>
-                        ${{ item.precio_oferta.toFixed(2) }}
+                        <del>${{ parseFloat(item.precio_cc).toFixed(2) }}</del>
+                        ${{ parseFloat(item.precio_oferta).toFixed(2) }}
                     </td>
-                    <td style="vertical-align: middle" v-else>${{ item.precio_cc.toFixed(2) }}</td>
+                    <td style="vertical-align: middle" v-else>${{ parseFloat(item.precio_cc).toFixed(2) }}</td>
                     <td style="width: 90px; vertical-align: middle">
                         <div class="form-group m-0">
                             <input style="width: 50px;" type="number" :min="0" :max="(quantity_max_cc[item.cc.id] >= 1) ? quantity_max_cc[item.cc.id] + item.cantidad_cc : 0" @change="changeCantidadCC()" v-model="item.cantidad_cc" class="form-control form-control-sm">
                         </div>
                     </td>
-                    <td style="vertical-align: middle" v-if="item.oferta.offer">${{ (item.precio_oferta*item.cantidad_cc).toFixed(2) }}</td>
-                    <td style="vertical-align: middle" v-else>${{ (item.precio_cc*item.cantidad_cc).toFixed(2) }}</td>
+                    <td style="vertical-align: middle" v-if="item.oferta.offer">${{ (parseFloat(item.precio_oferta)*item.cantidad_cc).toFixed(2) }}</td>
+                    <td style="vertical-align: middle" v-else>${{ (parseFloat(item.precio_cc)*item.cantidad_cc).toFixed(2) }}</td>
                     <!---TERMINACIONES--->
                     <td v-if="terminaciones.length > 0" style="width: 90px; vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
@@ -76,7 +76,7 @@
                     <td v-if="cierres.length > 0" style="vertical-align: middle">${{ (item.cantidad_cierre*item.tipo_cierre.price).toFixed(2) }}</td>
                     <td style="vertical-align: middle">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span v-if="item.oferta.offer">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                            <span v-if="item.oferta.offer">${{ ((parseFloat(item.precio_oferta)*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                             <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
                             <span> {{ parseInt((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)) > 0 ? item.activo = true : item.activo = false }}</span>
                             <button @click="deleteCapacidad(index)" class="btn btn-link p-0 ml-3"><i class="fas fa-shopping-cart" v-bind:class="(parseInt(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)) != 0 ? 'distren-color' : null"></i></button>
@@ -190,7 +190,7 @@
                         if (item.oferta.offer)
                         {
 
-                            this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
+                            this.total += ((parseFloat(item.precio_oferta)*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
                         }else{
 
                             this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))

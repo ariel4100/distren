@@ -13,7 +13,7 @@
             {{--@dd($categoria->product[0]->category_id)--}}
             @include('page.partials.botonera')
             <div class="col-md-9">
-                <div class="row justify-content-center my-3">
+                <div class="row justify-content-center mb-3">
                     <div class="col-md-3">
                         <a href="" class="nav-link text-uppercase">
                             Todos

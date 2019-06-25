@@ -147,38 +147,53 @@ class ProductController extends Controller
             $product->fill(['image' => $path]);
         }
         $product->save();
+
         //relacion de Many to Many con las terminaciones , cierres y capacidades
         $apiProductos = Session::get('productos');
-        $capacidad = collect($apiProductos['capacidad']);
-        $cierres = collect($apiProductos['cierre']);
-        $terminacion = collect($apiProductos['terminacion']);
+        //dd(collect($apiProductos['capacidad']));
+        if (isset($apiProductos))
+        {
+            //dd($apiProductos);
+            $capacidad = collect(@$apiProductos['capacidad']);
+            $cierres = collect(@$apiProductos['cierre']);
+            $terminacion = collect(@$apiProductos['terminacion']);
+        }
 
-        $idCapacidad = $capacidad->pluck('id');
-        $idCierres = $cierres->pluck('id');
-        $idTerminacion = $terminacion->pluck('id');
+        if(isset($capacidad) || isset($cierres) || isset($terminacion))
+        {
 
-        $product->subcategory()->sync($request->subcategory_id);
-        $product->capacity()->sync($idCapacidad);
-        $product->closure()->sync($idCierres);
-        $product->termination()->sync($idTerminacion);
+            $idCapacidad = $capacidad->pluck('id');
+            $idCierres = $cierres->pluck('id');
+            $idTerminacion = $terminacion->pluck('id');
+            $product->subcategory()->sync($request->subcategory_id);
+            $product->capacity()->sync($idCapacidad);
+            $product->closure()->sync($idCierres);
+            $product->termination()->sync($idTerminacion);
+        }
 
-        Price::where('product_id', $product->id)->delete();
-        foreach ($capacidad as $item) {
-            $item['price'] = str_replace(".","",$item["price"]);
-            $item['price'] = str_replace(",","",$item["price"]);
-            $item['price'] = str_replace("$","",$item["price"]);
-            $item['offerprice'] = str_replace(".","",$item["offerprice"]);
-            $item['offerprice'] = str_replace(",","",$item["offerprice"]);
-            $item['offerprice'] = str_replace("$","",$item["offerprice"]);
-            Price::create([
-                'product_id' => $product->id,
-                'capacity_id' => $item['id'],
-                'price' => $item['price'],
-                'offer_price' => $item['offerprice'],
-                'quantity' => $item['quantity'],
-            ]);
-            //dd($item['id']);
-            Session::forget('productos');
+
+        if(isset($capacidad))
+        {
+            //dd($capacidad);
+            Price::where('product_id', $product->id)->delete();
+            foreach ($capacidad as $item) {
+                //dd($item['price']);
+                //$item['price'] = str_replace(".","",$item["price"]);
+                //$item['price'] = str_replace(",",".",$item["price"]);
+                //$item['price'] = str_replace("$","",$item["price"]);
+                $item['offerprice'] = str_replace(".","",$item["offerprice"]);
+                $item['offerprice'] = str_replace(",","",$item["offerprice"]);
+                $item['offerprice'] = str_replace("$","",$item["offerprice"]);
+                Price::create([
+                    'product_id' => $product->id,
+                    'capacity_id' => $item['id'],
+                    'price' => $item['price'],
+                    'offer_price' => $item['offerprice'],
+                    'quantity' => $item['quantity'],
+                ]);
+                //dd($item['id']);
+            }
+//            Session::forget('productos');
         }
         return back()->with('status','Se actualizó correctamente');
     }
