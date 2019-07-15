@@ -71,9 +71,9 @@
                         <ul class="text-lg-left list-unstyled px-4">
                             <li v-for="item in carrito" class="d-flex justify-content-between">
                                 {{ item.producto }}
-                                {{ item.cc.cc }}
-                                <span v-if="item.oferta.offer">${{ ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
-                                <span v-else>${{ (parseFloat(item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) + (item.cantidad_cierre*item.tipo_cierre.price)).toFixed(2) }}</span>
+                                {{ item.cc }}
+                                <span v-if="item.oferta">{{ (getSubtotal(item)).toFixed(2) }}</span>
+                                <span v-else>${{ (getSubtotal(item)).toFixed(2) }}</span>
                             </li>
                         </ul>
                         <hr class="hr-light p-0 my-2">
@@ -86,10 +86,10 @@
                                 IVA(21%)
                                 <span>${{ (getTotal*0.21).toFixed(2) }}</span>
                             </li>
-                            <li class="list-inline-item d-flex justify-content-between">
-                                Envio
-                                <span>$ 700</span>
-                            </li>
+                            <!--<li class="list-inline-item d-flex justify-content-between">-->
+                                <!--Envio-->
+                                <!--<span>$ 700</span>-->
+                            <!--</li>-->
                             <li class="list-inline-item d-flex justify-content-between">
                                 Total a Pagar
                                 <span>${{ (getTotal*1.21).toFixed(2) }}</span>
@@ -135,28 +135,40 @@
                 errors: [],
                 carrito : JSON.parse(localStorage.getItem('carrito')),
                 compra : JSON.parse(localStorage.getItem('compra')),
-                url : document.__API_URL,
+                url : document.__API_URL2,
             }
         },
         mounted() {
-
+            //console.log(this.url)
         },
         computed:{
             getTotal: function() {
-                this.total = 0;
+                // return this.productocapacidad.reduce((total, product) => {
+                // console.log(this.carrito)
+                let total = 0;
                 this.carrito.forEach((item, key)=>{
-                    if (item.oferta)
+                    if (item.offer)
                     {
-                        this.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
-                    }else{
+                        total += item.cantidad*item.precio + item.cantidad_cierre*item.cierre.price + item.cantidad*item.terminacion.price
 
-                        this.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price))
+                    }else{
+                        total += item.cantidad*item.precio + item.cantidad_cierre*item.cierre.price + item.cantidad*item.terminacion.price
+
                     }
-                });
-                return this.total
+                })
+
+                return total
+                // }, 0)
             },
         },
         methods:{
+            getSubtotal: function(item) {
+                // console.log(item)
+                let subtotal = 0;
+                subtotal = item.cantidad*item.precio + item.cantidad_cierre*item.cierre.price + item.cantidad*item.terminacion.price
+                return subtotal
+                // }, 0)
+            },
             confirmar(){
                 this.errors = [];
 
@@ -167,7 +179,7 @@
                         this.errors.push("Email requerido");
                     }else{
                         this.loading = true;
-                        axios.post('http://localhost/ariel/distren/public/api/confirmar',{datos: this.datos,pedido: this.carrito,compra: this.compra}).then(res => {
+                        axios.post(this.url+'/api/confirmar',{datos: this.datos,pedido: this.carrito,compra: this.compra}).then(res => {
                             console.log(res.data)
                             this.loading = false;
                             this.$swal({
@@ -180,9 +192,9 @@
                             //     location.href = "productos";
                             // }, 3000);
                         }).catch(e => {
-                            console.log('document.location', this.url);
+                            // console.log('document.location', this.url);
                             this.loading = false;
-                            console.log(e);
+                            // console.log(e);
                         });
                     }
                 }else{

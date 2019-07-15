@@ -1847,7 +1847,7 @@ __webpack_require__.r(__webpack_exports__);
 //Vue.component('multiselect', Multiselect)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['capacidades', 'cierres', 'terminaciones', 'selectedcapacidad'],
+  props: ['selectedcapacidad', 'cierres', 'terminaciones', 'selectedterminacion', 'selectedcierre'],
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a,
     Money: v_money__WEBPACK_IMPORTED_MODULE_2__["Money"]
@@ -1899,13 +1899,29 @@ __webpack_require__.r(__webpack_exports__);
     getCapacidad: function getCapacidad() {
       var _this = this;
 
-      //console.log(this.selectedcapacidad)
+      console.log(this.selectedcapacidad);
       this.selectedcapacidad.forEach(function (item) {
+        console.log(item);
+
         _this.capacidad.push({
           cc: item.cc,
           price: item.price,
           price_offer: item.price_offer,
           offer: item.offer
+        });
+      });
+      this.selectedterminacion.forEach(function (item) {
+        _this.terminacion.push({
+          id: item.id,
+          title: item.title,
+          image: item.image
+        });
+      });
+      this.selectedcierre.forEach(function (item) {
+        _this.cierre.push({
+          id: item.id,
+          title: item.title,
+          image: item.image
         });
       });
     },
@@ -2100,15 +2116,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['info'],
   data: function data() {
     return {
-      carrito: JSON.parse(localStorage.getItem('carrito')),
+      carrito: JSON.parse(localStorage.getItem('carrito')) ? JSON.parse(localStorage.getItem('carrito')) : [],
       url: document.__API_URL,
       //total: 0,
       test: 1,
@@ -2125,119 +2138,123 @@ __webpack_require__.r(__webpack_exports__);
     var self = this; // this.cierres.forEach(function(item){
     //     self.quantity_max_cierre[item.id] = item.quantity;
     // });
-
-    this.carrito.forEach(function (item) {
-      console.log(['aca', item]);
-      self.quantity_max_cc = item.quantity_max_cc; //console.log(['aca',self.quantity_max_cc])
-    }); //console.log(this.quantity_max_cc)
-
-    toastr__WEBPACK_IMPORTED_MODULE_0___default.a.options = {
-      "closeButton": false,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }, //this.total_price();
-    this.getCapacidad();
+    // this.carrito.forEach(function(item){
+    //     //console.log(['aca',item]);
+    //     self.quantity_max_cc = item.quantity_max_cc
+    //     //console.log(['aca',self.quantity_max_cc])
+    // });
+    //console.log(this.quantity_max_cc)
+    // toastr.options = {
+    //     "closeButton": false,
+    //     "debug": false,
+    //     "newestOnTop": false,
+    //     "progressBar": true,
+    //     "positionClass": "toast-top-right",
+    //     "preventDuplicates": false,
+    //     "onclick": null,
+    //     "showDuration": "300",
+    //     "hideDuration": "1000",
+    //     "timeOut": "5000",
+    //     "extendedTimeOut": "1000",
+    //     "showEasing": "swing",
+    //     "hideEasing": "linear",
+    //     "showMethod": "fadeIn",
+    //     "hideMethod": "fadeOut"
+    // },
+    //this.total_price();
+    //this.getCapacidad();
   },
   computed: {
     getTotal: function getTotal() {
-      var _this = this;
-
       // return this.productocapacidad.reduce((total, product) => {
-      this.total = 0;
+      // console.log(this.carrito)
+      var total = 0;
       this.carrito.forEach(function (item, key) {
-        if (item.oferta.offer) {
-          // this.compra.total += ((item.precio_oferta*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
-          _this.total += item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
+        if (item.offer) {
+          total += item.cantidad * item.precio + item.cantidad_cierre * item.cierre.price + item.cantidad * item.terminacion.price;
         } else {
-          _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price; // this.compra.total += ((item.precio_cc*item.cantidad_cc) + (item.cantidad_cc*item.tipo_terminacion.price) +(item.cantidad_cierre*item.tipo_cierre.price));
+          total += item.cantidad * item.precio + item.cantidad_cierre * item.cierre.price + item.cantidad * item.terminacion.price;
         }
-      });
-      this.compra.total = this.total;
-      return this.total; // }, 0)
+      }); // console.log(total)
+
+      return total; // }, 0)
     }
   },
   methods: {
-    changeCantidadCC: function changeCantidadCC(event) {
-      var self = this;
-      this.test = 0;
-      this.carrito.forEach(function (item) {
-        //console.log(item.quantity_max_cc[item.cc.id]);
-        self.quantity_max_cc[item.cc.id] = item.quantity_max; //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
-      });
-      this.carrito.forEach(function (item) {
-        //console.log(item.quantity_max_cc[item.cc.id]);
-        self.quantity_max_cc[item.cc.id] -= item.cantidad_cc; //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
-      });
-      this.test = 1;
+    getSubtotal: function getSubtotal(item) {
+      //console.log(item)
+      var subtotal = 0;
+      subtotal = item.cantidad * item.precio + item.cantidad_cierre * item.cierre.price + item.cantidad * item.terminacion.price;
+      return subtotal; // }, 0)
     },
+    // changeCantidadCC(event){
+    //     var self = this;
+    //     this.test = 0;
+    //     this.carrito.forEach(function (item) {
+    //         //console.log(item.quantity_max_cc[item.cc.id]);
+    //         self.quantity_max_cc[item.cc.id] = item.quantity_max
+    //         //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+    //     });
+    //     this.carrito.forEach(function (item) {
+    //         //console.log(item.quantity_max_cc[item.cc.id]);
+    //         self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+    //         //self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+    //     });
+    //     this.test = 1;
+    // },
     getCapacidad: function getCapacidad() {
       console.log(this.carrito);
     },
-    addCarrito: function addCarrito(item, index) {
+    addProducto: function addProducto(item, index) {
       this.carrito.splice(index + 1, 0, {
         categoria: item.categoria,
         producto: item.producto,
         cc: item.cc,
-        precio_cc: item.precio_cc,
-        cantidad_cc: 0,
+        precio: item.precio,
+        cantidad: 0,
         terminaciones: item.terminaciones,
         cierres: item.cierres,
-        tipo_terminacion: item.tipo_terminacion,
-        precio_terminacion: item.precio_terminacion,
-        tipo_cierre: item.tipo_cierre,
-        precio_cierre: item.precio_cierre,
+        terminacion: item.terminacion,
+        cierre: item.cierre,
         cantidad_cierre: 0,
         activo: false,
         precio_oferta: item.precio_oferta,
-        oferta: item.oferta,
-        quantity_max: item.quantity_max
+        oferta: item.oferta
       }); //console.log(this.carrito)
     },
-    deleteCarrito: function deleteCarrito(index) {
+    deleteProducto: function deleteProducto(index) {
       //console.log(index);
       this.carrito.splice(index, 1);
       localStorage.setItem('carrito', JSON.stringify(this.carrito));
       var b = JSON.parse(localStorage.getItem('carrito'));
       console.log(b); // toastr.success('Have fun storming the castle!', 'Miracle Max Says')
-
-      if (this.carrito.length === 0) this.addCarrito();
+      // if (this.carrito.length === 0)
+      //     this.addCarrito()
     },
     updateCarrito: function updateCarrito() {
       //console.log(this.compra)
       var carro = []; //Actualizo los productos que modifico en el carrito.
+      // this.carrito.forEach((item)=>{
+      //     carro.push({
+      //         categoria: item.categoria,
+      //         producto:  item.producto,
+      //         cc: item.cc,
+      //         terminaciones: item.terminaciones,
+      //         cierres: item.cierres,
+      //         tipo_cierre: item.tipo_cierre,
+      //         tipo_terminacion: item.tipo_terminacion,
+      //         precio_terminacion: item.precio_terminacion,
+      //         cantidad_terminacion: item.cantidad_terminacion,
+      //         precio_cc: item.precio_cc,
+      //         cantidad_cc: item.cantidad_cc,
+      //         precio_cierre: item.precio_cierre,
+      //         cantidad_cierre: item.cantidad_cierre,
+      //         oferta: item.oferta,
+      //         precio_oferta: item.precio_oferta
+      //     });
+      // });
 
-      this.carrito.forEach(function (item) {
-        carro.push({
-          categoria: item.categoria,
-          producto: item.producto,
-          cc: item.cc,
-          terminaciones: item.terminaciones,
-          cierres: item.cierres,
-          tipo_cierre: item.tipo_cierre,
-          tipo_terminacion: item.tipo_terminacion,
-          precio_terminacion: item.precio_terminacion,
-          cantidad_terminacion: item.cantidad_terminacion,
-          precio_cc: item.precio_cc,
-          cantidad_cc: item.cantidad_cc,
-          precio_cierre: item.precio_cierre,
-          cantidad_cierre: item.cantidad_cierre,
-          oferta: item.oferta,
-          precio_oferta: item.precio_oferta
-        });
-      });
-      localStorage.setItem('carrito', JSON.stringify(carro));
+      localStorage.setItem('carrito', JSON.stringify(this.carrito));
       localStorage.setItem('compra', JSON.stringify(this.compra));
       var b = JSON.parse(localStorage.getItem('compra'));
       console.log(b); // toastr.success('Agregado al carrito',this.nombreproducto)
@@ -2569,28 +2586,35 @@ __webpack_require__.r(__webpack_exports__);
       errors: [],
       carrito: JSON.parse(localStorage.getItem('carrito')),
       compra: JSON.parse(localStorage.getItem('compra')),
-      url: document.__API_URL
+      url: document.__API_URL2
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {//console.log(this.url)
+  },
   computed: {
     getTotal: function getTotal() {
-      var _this = this;
-
-      this.total = 0;
+      // return this.productocapacidad.reduce((total, product) => {
+      // console.log(this.carrito)
+      var total = 0;
       this.carrito.forEach(function (item, key) {
-        if (item.oferta) {
-          _this.total += item.precio_oferta * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
+        if (item.offer) {
+          total += item.cantidad * item.precio + item.cantidad_cierre * item.cierre.price + item.cantidad * item.terminacion.price;
         } else {
-          _this.total += item.precio_cc * item.cantidad_cc + item.cantidad_cc * item.tipo_terminacion.price + item.cantidad_cierre * item.tipo_cierre.price;
+          total += item.cantidad * item.precio + item.cantidad_cierre * item.cierre.price + item.cantidad * item.terminacion.price;
         }
       });
-      return this.total;
+      return total; // }, 0)
     }
   },
   methods: {
+    getSubtotal: function getSubtotal(item) {
+      // console.log(item)
+      var subtotal = 0;
+      subtotal = item.cantidad * item.precio + item.cantidad_cierre * item.cierre.price + item.cantidad * item.terminacion.price;
+      return subtotal; // }, 0)
+    },
     confirmar: function confirmar() {
-      var _this2 = this;
+      var _this = this;
 
       this.errors = [];
 
@@ -2599,15 +2623,15 @@ __webpack_require__.r(__webpack_exports__);
           this.errors.push("Email requerido");
         } else {
           this.loading = true;
-          axios.post('http://localhost/ariel/distren/public/api/confirmar', {
+          axios.post(this.url + '/api/confirmar', {
             datos: this.datos,
             pedido: this.carrito,
             compra: this.compra
           }).then(function (res) {
             console.log(res.data);
-            _this2.loading = false;
+            _this.loading = false;
 
-            _this2.$swal({
+            _this.$swal({
               type: 'success',
               title: 'Compra realizado correctamente',
               showConfirmButton: false,
@@ -2617,9 +2641,8 @@ __webpack_require__.r(__webpack_exports__);
             // }, 3000);
 
           })["catch"](function (e) {
-            console.log('document.location', _this2.url);
-            _this2.loading = false;
-            console.log(e);
+            // console.log('document.location', this.url);
+            _this.loading = false; // console.log(e);
           });
         }
       } else {
@@ -2749,6 +2772,342 @@ __webpack_require__.r(__webpack_exports__);
     },
     deleteImage: function deleteImage(index) {
       this.gallery.splice(index, 1); //this.imageData[index]= '';
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductCarritoComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    nombrecategoria: String,
+    nombreproducto: String,
+    cierres: Array,
+    producto: Array,
+    capacidad: Array,
+    terminaciones: Array
+  },
+  components: {
+    Money: v_money__WEBPACK_IMPORTED_MODULE_1__["Money"]
+  },
+  data: function data() {
+    return {
+      carrito: [],
+      productocapacidad: [],
+      total: 0,
+      subtotal: 0,
+      test: 1,
+      quantity_max_cierre: {},
+      quantity_max_cc: {},
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$',
+        // suffix: '',
+        precision: 2,
+        masked: true
+        /* doesn't work with directive */
+
+      }
+    };
+  },
+  mounted: function mounted() {
+    console.log(this.nombrecategoria); //console.log(this.cierres)
+    // toastr.options = {
+    //     "closeButton": false,
+    //     "debug": false,
+    //     "newestOnTop": false,
+    //     "progressBar": true,
+    //     "positionClass": "toast-top-right",
+    //     "preventDuplicates": false,
+    //     "onclick": null,
+    //     "showDuration": "300",
+    //     "hideDuration": "1000",
+    //     "timeOut": "5000",
+    //     "extendedTimeOut": "1000",
+    //     "showEasing": "swing",
+    //     "hideEasing": "linear",
+    //     "showMethod": "fadeIn",
+    //     "hideMethod": "fadeOut"
+    // },
+    //this.total_price();
+
+    this.getCapacidad(); //console.log(['dsd',this.quantity_max_cierre])
+  },
+  computed: {
+    getTotal: function getTotal() {
+      // return this.productocapacidad.reduce((total, product) => {
+      var total = 0;
+      this.productocapacidad.forEach(function (item, key) {
+        if (item.offer) {
+          total += item.qty * item.price + item.qty_cierre * item.cierre.price + item.qty * item.terminacion.price;
+        } else {
+          total += item.qty * item.price + item.qty_cierre * item.cierre.price + item.qty * item.terminacion.price;
+        }
+      }); // console.log(total)
+
+      return total; // }, 0)
+    }
+  },
+  methods: {
+    getSubtotal: function getSubtotal(item) {
+      //console.log(item)
+      var subtotal = 0;
+      subtotal = item.qty * item.price + item.qty_cierre * item.cierre.price + item.qty * item.terminacion.price;
+      return subtotal; // }, 0)
+    },
+    // changeTipoCierre(item){
+    //     this.test = 0;
+    //     item.cantidad_cierre = '';
+    //     this.test = 1;
+    // },
+    // changeCantidadCC(event){
+    //     var self = this;
+    //     this.test = 0;
+    //     this.precio.forEach(function(item){
+    //         self.quantity_max_cc[item.capacity_id] = item.quantity;
+    //         console.log([self.quantity_max_cc])
+    //     });
+    //     this.productocapacidad.forEach(function (item) {
+    //         self.quantity_max_cc[item.cc.id] -= item.cantidad_cc
+    //     });
+    //     this.test = 1;
+    // },
+    // changeCantidadCierre(event, item){
+    //     var self = this;
+    //     this.test = 0;
+    //     this.cierres.forEach(function(item){
+    //         self.quantity_max_cierre[item.id] = item.quantity;
+    //     });
+    //     //
+    //     //console.log(['este', self.quantity_max_cierre])
+    //     this.productocapacidad.some(function (item) {
+    //         self.quantity_max_cierre[item.tipo_cierre.id] -= item.cantidad_cierre
+    //         // item.cierres.forEach(function (cierre) {
+    //         //     self.quantity_max_cierre[cierre.id] -= item.cantidad_cierre
+    //         //     // console.log(self.quantity_max_cierre)
+    //         // });
+    //     });
+    //     this.test = 1;
+    // },
+    getCapacidad: function getCapacidad() {
+      var _this = this;
+
+      //console.log(this.precio);
+      this.capacidad.forEach(function (ob, index) {
+        _this.productocapacidad.push({
+          cc: ob.cc,
+          price: ob.price,
+          price_offer: ob.precio_offer,
+          qty: 0,
+          qty_cierre: 0,
+          cierre: {
+            price: 0
+          },
+          terminacion: {
+            price: 0
+          },
+          offer: ob.offer,
+          activo: false
+        }); //this.quantity_max_cc = ob.quantity;
+
+      }); //console.log(this.productocapacidad)
+    },
+    //
+    addCapacidad: function addCapacidad(item, index) {
+      // let cantidad_max = 0;
+      this.productocapacidad.splice(index + 1, 0, {
+        cc: item.cc,
+        price: item.price,
+        qty: 0,
+        // terminaciones: this.terminaciones,
+        // precio_terminacion: 0,
+        cierre: {
+          price: 0
+        },
+        terminacion: {
+          price: 0
+        },
+        // cierres:this.cierres,
+        price_cierre: 0,
+        qty_cierre: 0,
+        activo: false,
+        // oferta: item.oferta,
+        price_offer: item.price_offer // quantity_max: item.quantity_max-item.cantidad_cc
+
+      }); //console.log(this.productocapacidad)
+    },
+    deleteCapacidad: function deleteCapacidad(index) {
+      this.productocapacidad.splice(index, 1);
+      if (this.productocapacidad.length === 0) this.addCapacidad();
+    },
+    // getSubTotal(item) {
+    //     return item.priceenvase*item.cantidadenvases;
+    // },
+    addCarrito: function addCarrito() {
+      var _this2 = this;
+
+      //let b = localStorage.setItem("carrito",[]);
+      //filtro all los activos
+      var carrito = [];
+      var isactive = this.productocapacidad.filter(function (item) {
+        return item.activo;
+      }); // console.log(isactive);
+
+      if (isactive.length != 0) {
+        // let isactive = this.productocapacidad.filter(item => item.activo);
+        if (localStorage.getItem('carrito')) {
+          carrito = JSON.parse(localStorage.getItem('carrito'));
+        } //Armo el carro para mandarlo al carrito
+
+
+        isactive.forEach(function (item) {
+          // console.log(item)
+          carrito.push({
+            categoria: _this2.nombrecategoria,
+            producto: _this2.nombreproducto,
+            cc: item.cc,
+            terminaciones: _this2.terminaciones,
+            cierres: _this2.cierres,
+            cierre: item.cierre,
+            terminacion: item.terminacion,
+            precio: item.price,
+            cantidad: item.qty,
+            // precio_cierre: item.precio_cierre,
+            cantidad_cierre: item.qty_cierre,
+            oferta: item.offer,
+            precio_oferta: item.price_offer
+          });
+        });
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        var b = JSON.parse(localStorage.getItem('carrito'));
+        console.log(b);
+        toastr__WEBPACK_IMPORTED_MODULE_0___default.a.success('Agregado al carrito', this.nombreproducto);
+      } else {
+        toastr__WEBPACK_IMPORTED_MODULE_0___default.a.warning('Agregue algun producto');
+      }
     }
   }
 });
@@ -3276,6 +3635,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.del[data-v-a13cd294]{\n    position: absolute;\n    top: -1px;\n    z-index: 1;\n    cursor: pointer;\n}\nfieldset[data-v-a13cd294]\n{\n    border: 1px solid #ddd !important;\n    margin: 0;\n    xmin-width: 0;\n    padding: 10px;\n    position: relative;\n    border-radius:4px;\n    background-color:#f5f5f5;\n    padding-left:10px!important;\n}\nlegend[data-v-a13cd294]\n{\n    font-size:14px;\n    font-weight:bold;\n    margin-bottom: 0px;\n    width: 35%;\n    border: 1px solid #ddd;\n    border-radius: 4px;\n    padding: 5px 5px 5px 10px;\n    background-color: #ffffff;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\ntable[data-v-24ca8b6a]{\n    border-bottom: 2px solid #8BBF40 ;\n}\n", ""]);
 
 // exports
 
@@ -34112,6 +34490,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductComponent.vue?vue&type=style&index=0&id=9e91ef8e&scoped=true&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductComponent.vue?vue&type=style&index=0&id=9e91ef8e&scoped=true&lang=css& ***!
@@ -35342,7 +35750,7 @@ var render = function() {
             selectedLabel: "seleccionado",
             label: "title",
             "track-by": "id",
-            "preselect-first": true
+            "preselect-first": false
           },
           scopedSlots: _vm._u([
             {
@@ -35422,7 +35830,7 @@ var render = function() {
             selectedLabel: "seleccionado",
             label: "title",
             "track-by": "id",
-            "preselect-first": true
+            "preselect-first": false
           },
           scopedSlots: _vm._u([
             {
@@ -35563,11 +35971,11 @@ var render = function() {
                                 name: "capacity[" + index + "][price_offer]"
                               },
                               model: {
-                                value: item.offerprice,
+                                value: item.price_offer,
                                 callback: function($$v) {
-                                  _vm.$set(item, "offerprice", $$v)
+                                  _vm.$set(item, "price_offer", $$v)
                                 },
-                                expression: "item.offerprice"
+                                expression: "item.price_offer"
                               }
                             },
                             "money",
@@ -35766,29 +36174,12 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                      _vm._v(_vm._s(item.cc.cc))
+                      _vm._v(_vm._s(item.cc))
                     ]),
                     _vm._v(" "),
-                    item.oferta.offer
-                      ? _c(
-                          "td",
-                          { staticStyle: { "vertical-align": "middle" } },
-                          [
-                            _c("del", [
-                              _vm._v("$" + _vm._s(item.precio_cc.toFixed(2)))
-                            ]),
-                            _vm._v(
-                              "\n                        $" +
-                                _vm._s(item.precio_oferta.toFixed(2)) +
-                                "\n                    "
-                            )
-                          ]
-                        )
-                      : _c(
-                          "td",
-                          { staticStyle: { "vertical-align": "middle" } },
-                          [_vm._v("$" + _vm._s(item.precio_cc.toFixed(2)))]
-                        ),
+                    _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                      _vm._v("$" + _vm._s(item.precio))
+                    ]),
                     _vm._v(" "),
                     _c(
                       "td",
@@ -35805,34 +36196,20 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: item.cantidad_cc,
-                                expression: "item.cantidad_cc"
+                                value: item.cantidad,
+                                expression: "item.cantidad"
                               }
                             ],
                             staticClass: "form-control form-control-sm",
-                            attrs: {
-                              type: "number",
-                              min: 0,
-                              max:
-                                _vm.quantity_max_cc[item.cc.id] >= 1
-                                  ? _vm.quantity_max_cc[item.cc.id] +
-                                    item.cantidad_cc
-                                  : 0
-                            },
-                            domProps: { value: item.cantidad_cc },
+                            staticStyle: { width: "50px" },
+                            attrs: { type: "number", min: 0 },
+                            domProps: { value: item.cantidad },
                             on: {
-                              change: function($event) {
-                                return _vm.changeCantidadCC()
-                              },
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(
-                                  item,
-                                  "cantidad_cc",
-                                  $event.target.value
-                                )
+                                _vm.$set(item, "cantidad", $event.target.value)
                               }
                             }
                           })
@@ -35840,182 +36217,208 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    item.oferta.offer
-                      ? _c(
-                          "td",
-                          { staticStyle: { "vertical-align": "middle" } },
+                    _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                      _vm._v("$" + _vm._s(item.cantidad * item.precio))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticStyle: {
+                          width: "90px",
+                          "vertical-align": "middle"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "d-flex align-items-center justify-content-between"
+                          },
                           [
-                            _vm._v(
-                              "$" +
-                                _vm._s(
-                                  (
-                                    item.precio_oferta * item.cantidad_cc
-                                  ).toFixed(2)
-                                )
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-link p-0",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.addProducto(item, index)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-plus distren-color"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: item.terminacion,
+                                    expression: "item.terminacion"
+                                  }
+                                ],
+                                staticClass:
+                                  "browser-default custom-select custom-select-sm",
+                                staticStyle: { width: "100px" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      item,
+                                      "terminacion",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("option", { attrs: { selected: "" } }, [
+                                  _vm._v("Ninguno")
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(item.terminaciones, function(item) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: item } },
+                                    [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(item.title) +
+                                          "\n                                "
+                                      )
+                                    ]
+                                  )
+                                })
+                              ],
+                              2
                             )
                           ]
                         )
-                      : _c(
-                          "td",
-                          { staticStyle: { "vertical-align": "middle" } },
-                          [
-                            _vm._v(
-                              "$" +
-                                _vm._s(
-                                  (item.precio_cc * item.cantidad_cc).toFixed(2)
-                                )
-                            )
-                          ]
-                        ),
-                    _vm._v(" "),
-                    _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: item.tipo_terminacion,
-                              expression: "item.tipo_terminacion"
-                            }
-                          ],
-                          staticClass:
-                            "browser-default custom-select custom-select-sm",
-                          staticStyle: { width: "100px" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                item,
-                                "tipo_terminacion",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
-                        },
-                        [
-                          _c(
-                            "option",
-                            { attrs: { disabled: "", selected: "" } },
-                            [_vm._v("Seleccionar")]
-                          ),
-                          _vm._v(" "),
-                          _vm._l(item.terminaciones, function(item, index) {
-                            return _c("option", { domProps: { value: item } }, [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(item.title) +
-                                  "\n                            "
-                              )
-                            ])
-                          })
-                        ],
-                        2
-                      )
-                    ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _vm._v(
-                        "$" + _vm._s(item.tipo_terminacion.price.toFixed(2))
+                        "$" +
+                          _vm._s(
+                            item.terminacion.price
+                              ? item.terminacion.price.toFixed(2)
+                              : (item.terminacion.price = 0).toFixed(2)
+                          )
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "d-flex align-items-center justify-content-between"
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-link p-0",
-                              on: {
-                                click: function($event) {
-                                  return _vm.addCarrito(item, index)
+                    _c(
+                      "td",
+                      {
+                        staticStyle: {
+                          width: "90px",
+                          "vertical-align": "middle"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "d-flex align-items-center justify-content-between"
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-link p-0",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.addProducto(item, index)
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "fas fa-plus distren-color"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: item.tipo_cierre,
-                                  expression: "item.tipo_cierre"
-                                }
-                              ],
-                              staticClass:
-                                "browser-default custom-select custom-select-sm",
-                              staticStyle: { width: "100px" },
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    item,
-                                    "tipo_cierre",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c(
-                                "option",
-                                { attrs: { disabled: "", selected: "" } },
-                                [_vm._v("Seleccionar")]
-                              ),
-                              _vm._v(" "),
-                              _vm._l(item.cierres, function(item, index) {
-                                return _c(
-                                  "option",
-                                  { domProps: { value: item } },
-                                  [
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(item.title) +
-                                        "\n                                "
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-plus distren-color"
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: item.cierre,
+                                    expression: "item.cierre"
+                                  }
+                                ],
+                                staticClass:
+                                  "browser-default custom-select custom-select-sm",
+                                staticStyle: { width: "100px" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      item,
+                                      "cierre",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
                                     )
-                                  ]
-                                )
-                              })
-                            ],
-                            2
-                          )
-                        ]
-                      )
-                    ]),
+                                  }
+                                }
+                              },
+                              [
+                                _c("option", { attrs: { selected: "" } }, [
+                                  _vm._v("Ninguno")
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(item.cierres, function(cierre) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: cierre } },
+                                    [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(cierre.title) +
+                                          "\n                                "
+                                      )
+                                    ]
+                                  )
+                                })
+                              ],
+                              2
+                            )
+                          ]
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "td",
@@ -36037,7 +36440,8 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control form-control-sm",
-                            attrs: { type: "number" },
+                            staticStyle: { width: "50px" },
+                            attrs: { type: "number", min: 0 },
                             domProps: { value: item.cantidad_cierre },
                             on: {
                               input: function($event) {
@@ -36057,16 +36461,23 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
-                      _vm._v("$" + _vm._s(item.tipo_cierre.price.toFixed(2)))
+                      _vm._v(
+                        "$" +
+                          _vm._s(
+                            item.cierre.price
+                              ? item.cierre.price.toFixed(2)
+                              : (item.cierre.price = 0).toFixed(2)
+                          )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _vm._v(
                         "$" +
                           _vm._s(
-                            (
-                              item.tipo_cierre.price * item.cantidad_cierre
-                            ).toFixed(2)
+                            (item.cantidad_cierre * item.cierre.price).toFixed(
+                              2
+                            )
                           )
                       )
                     ]),
@@ -36079,37 +36490,11 @@ var render = function() {
                             "d-flex align-items-center justify-content-between"
                         },
                         [
-                          item.oferta.offer
-                            ? _c("span", [
-                                _vm._v(
-                                  "$" +
-                                    _vm._s(
-                                      (
-                                        item.precio_oferta * item.cantidad_cc +
-                                        item.cantidad_cc *
-                                          item.tipo_terminacion.price +
-                                        item.cantidad_cierre *
-                                          item.tipo_cierre.price
-                                      ).toFixed(2)
-                                    )
-                                )
-                              ])
-                            : _c("span", [
-                                _vm._v(
-                                  "$" +
-                                    _vm._s(
-                                      (
-                                        parseFloat(
-                                          item.precio_cc * item.cantidad_cc
-                                        ) +
-                                        item.cantidad_cc *
-                                          item.tipo_terminacion.price +
-                                        item.cantidad_cierre *
-                                          item.tipo_cierre.price
-                                      ).toFixed(2)
-                                    )
-                                )
-                              ]),
+                          _c("span", [
+                            _vm._v(
+                              "$" + _vm._s(_vm.getSubtotal(item).toFixed(2))
+                            )
+                          ]),
                           _vm._v(" "),
                           _c(
                             "button",
@@ -36117,7 +36502,7 @@ var render = function() {
                               staticClass: "btn btn-link p-0 ml-3",
                               on: {
                                 click: function($event) {
-                                  return _vm.deleteCarrito(index)
+                                  return _vm.deleteProducto(index)
                                 }
                               }
                             },
@@ -37359,38 +37744,16 @@ var render = function() {
                         "\n                            " +
                           _vm._s(item.producto) +
                           "\n                            " +
-                          _vm._s(item.cc.cc) +
+                          _vm._s(item.cc) +
                           "\n                            "
                       ),
-                      item.oferta.offer
+                      item.oferta
                         ? _c("span", [
-                            _vm._v(
-                              "$" +
-                                _vm._s(
-                                  (
-                                    item.precio_oferta * item.cantidad_cc +
-                                    item.cantidad_cc *
-                                      item.tipo_terminacion.price +
-                                    item.cantidad_cierre *
-                                      item.tipo_cierre.price
-                                  ).toFixed(2)
-                                )
-                            )
+                            _vm._v(_vm._s(_vm.getSubtotal(item).toFixed(2)))
                           ])
                         : _c("span", [
                             _vm._v(
-                              "$" +
-                                _vm._s(
-                                  (
-                                    parseFloat(
-                                      item.precio_cc * item.cantidad_cc
-                                    ) +
-                                    item.cantidad_cc *
-                                      item.tipo_terminacion.price +
-                                    item.cantidad_cierre *
-                                      item.tipo_cierre.price
-                                  ).toFixed(2)
-                                )
+                              "$" + _vm._s(_vm.getSubtotal(item).toFixed(2))
                             )
                           ])
                     ]
@@ -37431,8 +37794,6 @@ var render = function() {
                     ])
                   ]
                 ),
-                _vm._v(" "),
-                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "li",
@@ -37486,23 +37847,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "li",
-      { staticClass: "list-inline-item d-flex justify-content-between" },
-      [
-        _vm._v(
-          "\n                            Envio\n                            "
-        ),
-        _c("span", [_vm._v("$ 700")])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -37657,6 +38002,650 @@ var render = function() {
       ],
       1
     )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row my-3" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("h4", { staticClass: "distren-color my-3" }, [_vm._v("Capacidad")]),
+      _vm._v(" "),
+      _c("table", { staticClass: "table table-responsive " }, [
+        _c("thead", { staticClass: "distren-fondo white-text" }, [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                staticClass: "align-middle py-1 text-center",
+                staticStyle: {
+                  "border-right": "1px solid white",
+                  "line-height": "1"
+                },
+                attrs: { rowspan: "2" }
+              },
+              [_vm._v("ml/cm2")]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "align-middle py-1 text-center",
+                staticStyle: {
+                  "border-right": "1px solid white",
+                  "line-height": "1"
+                },
+                attrs: { colspan: "3" }
+              },
+              [_vm._v("Envases")]
+            ),
+            _vm._v(" "),
+            _vm.terminaciones.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    },
+                    attrs: { colspan: "2" }
+                  },
+                  [_vm._v("Terminacion")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.cierres.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    },
+                    attrs: { colspan: "4" }
+                  },
+                  [_vm._v("Cierre")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "align-middle py-1 text-center",
+                staticStyle: {
+                  "border-right": "1px solid white",
+                  "line-height": "1"
+                },
+                attrs: { rowspan: "2" }
+              },
+              [_vm._v("Subtotal Productos")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c(
+              "th",
+              {
+                staticClass: "align-middle py-1 text-center",
+                staticStyle: {
+                  "border-right": "1px solid white",
+                  "line-height": "1"
+                }
+              },
+              [_vm._v("Precio")]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "align-middle py-1 text-center",
+                staticStyle: {
+                  "border-right": "1px solid white",
+                  "line-height": "1"
+                }
+              },
+              [_vm._v("Cant. Envases / Potes")]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "align-middle py-1 text-center",
+                staticStyle: {
+                  "border-right": "1px solid white",
+                  "line-height": "1"
+                }
+              },
+              [_vm._v("Subtotal")]
+            ),
+            _vm._v(" "),
+            _vm.terminaciones.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    }
+                  },
+                  [_vm._v("Tipo")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.terminaciones.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    }
+                  },
+                  [_vm._v("Precio")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.cierres.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    }
+                  },
+                  [_vm._v("Tipo")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.cierres.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    }
+                  },
+                  [_vm._v("Cant.")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.cierres.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    }
+                  },
+                  [_vm._v("Precio")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.cierres.length > 0
+              ? _c(
+                  "th",
+                  {
+                    staticClass: "align-middle py-1 text-center",
+                    staticStyle: {
+                      "border-right": "1px solid white",
+                      "line-height": "1"
+                    }
+                  },
+                  [_vm._v("Subtotal")]
+                )
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.productocapacidad, function(item, index) {
+            return _vm.test == 1
+              ? _c("tr", { key: index }, [
+                  _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v(_vm._s(item.cc))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v("$" + _vm._s(item.price.toFixed(2)))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticStyle: { width: "90px", "vertical-align": "middle" }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group m-0" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: item.qty,
+                              expression: "item.qty"
+                            }
+                          ],
+                          staticClass: "form-control form-control-sm",
+                          staticStyle: { width: "50px" },
+                          attrs: { type: "number", min: 0 },
+                          domProps: { value: item.qty },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(item, "qty", $event.target.value)
+                            }
+                          }
+                        })
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v("$" + _vm._s((item.qty * item.price).toFixed(2)))
+                  ]),
+                  _vm._v(" "),
+                  _vm.terminaciones.length > 0
+                    ? _c(
+                        "td",
+                        {
+                          staticStyle: {
+                            width: "90px",
+                            "vertical-align": "middle"
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center justify-content-between"
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-link p-0",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.addCapacidad(item, index)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-plus distren-color"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: item.terminacion,
+                                      expression: "item.terminacion"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "browser-default custom-select custom-select-sm",
+                                  staticStyle: { width: "100px" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        item,
+                                        "terminacion",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { selected: "" } }, [
+                                    _vm._v("Ninguno")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.terminaciones, function(item) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: item } },
+                                      [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(item.title) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.terminaciones.length > 0
+                    ? _c(
+                        "td",
+                        { staticStyle: { "vertical-align": "middle" } },
+                        [
+                          _vm._v(
+                            "$" +
+                              _vm._s(
+                                item.terminacion.price
+                                  ? item.terminacion.price.toFixed(2)
+                                  : (item.terminacion.price = 0).toFixed(2)
+                              )
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.cierres.length > 0
+                    ? _c(
+                        "td",
+                        {
+                          staticStyle: {
+                            width: "90px",
+                            "vertical-align": "middle"
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center justify-content-between"
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-link p-0",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.addCapacidad(item, index)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-plus distren-color"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: item.cierre,
+                                      expression: "item.cierre"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "browser-default custom-select custom-select-sm",
+                                  staticStyle: { width: "100px" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        item,
+                                        "cierre",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { selected: "" } }, [
+                                    _vm._v("Ninguno")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.cierres, function(cierre) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: cierre } },
+                                      [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(cierre.title) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticStyle: { width: "90px", "vertical-align": "middle" }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group m-0" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: item.qty_cierre,
+                              expression: "item.qty_cierre"
+                            }
+                          ],
+                          staticClass: "form-control form-control-sm",
+                          staticStyle: { width: "50px" },
+                          attrs: { type: "number", min: 0 },
+                          domProps: { value: item.qty_cierre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(item, "qty_cierre", $event.target.value)
+                            }
+                          }
+                        })
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v(
+                      "$" +
+                        _vm._s(
+                          item.cierre.price
+                            ? item.cierre.price.toFixed(2)
+                            : (item.cierre.price = 0).toFixed(2)
+                        )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                    _vm._v(
+                      "$" +
+                        _vm._s((item.qty_cierre * item.cierre.price).toFixed(2))
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        "vertical-align": "middle",
+                        width: "100px"
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "d-flex align-items-center justify-content-between"
+                        },
+                        [
+                          item.offer
+                            ? _c("span", [
+                                _vm._v(
+                                  "$" + _vm._s(_vm.getSubtotal(item).toFixed(2))
+                                )
+                              ])
+                            : _c("span", [
+                                _vm._v(
+                                  "$" + _vm._s(_vm.getSubtotal(item).toFixed(2))
+                                )
+                              ]),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.getSubtotal(item) > 0
+                                    ? (item.activo = true)
+                                    : (item.activo = false)
+                                )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-link p-0 ml-3",
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteCapacidad(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fas fa-shopping-cart",
+                                class:
+                                  _vm.getSubtotal(item) != 0
+                                    ? "distren-color"
+                                    : null
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              : _vm._e()
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-4 offset-md-8" }, [
+      _c("div", { staticClass: "d-flex justify-content-between" }, [
+        _c("h4", {}, [_vm._v("Sub Total")]),
+        _vm._v(" "),
+        _c("h4", {}, [_vm._v("$ " + _vm._s(_vm.getTotal.toFixed(2)))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "d-flex justify-content-between" }, [
+        _c("h4", {}, [_vm._v("IVA (21%)")]),
+        _vm._v(" "),
+        _c("h4", [_vm._v("$" + _vm._s((_vm.getTotal * 0.21).toFixed(2)))])
+      ]),
+      _vm._v(" "),
+      _c("hr", { staticClass: " bg-dark" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "d-flex justify-content-between" }, [
+        _c("h4", { staticClass: "distren-color" }, [_vm._v("TOTAL")]),
+        _vm._v(" "),
+        _c("h4", {}, [_vm._v(_vm._s((_vm.getTotal * 1.21).toFixed(2)))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "d-flex justify-content-end" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn distren-fondo p-2 mx-0",
+            on: { click: _vm.addCarrito }
+          },
+          [
+            _c("i", { staticClass: "fas fa-shopping-cart text-white" }),
+            _vm._v(" Añadir al carrito")
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -54027,6 +55016,7 @@ Vue.component('cierres-component', __webpack_require__(/*! ./components/CierresC
 Vue.component('capacidad-component', __webpack_require__(/*! ./components/CapacidadComponent.vue */ "./resources/js/components/CapacidadComponent.vue")["default"]);
 Vue.component('gallery-component', __webpack_require__(/*! ./components/GalleryComponent.vue */ "./resources/js/components/GalleryComponent.vue")["default"]);
 Vue.component('select-component', __webpack_require__(/*! ./components/SelectComponent.vue */ "./resources/js/components/SelectComponent.vue")["default"]);
+Vue.component('product-carrito', __webpack_require__(/*! ./components/ProductCarritoComponent.vue */ "./resources/js/components/ProductCarritoComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -54493,6 +55483,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GalleryComponent_vue_vue_type_template_id_a13cd294_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GalleryComponent_vue_vue_type_template_id_a13cd294_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductCarritoComponent.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/ProductCarritoComponent.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductCarritoComponent_vue_vue_type_template_id_24ca8b6a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true& */ "./resources/js/components/ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true&");
+/* harmony import */ var _ProductCarritoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductCarritoComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ProductCarritoComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css& */ "./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ProductCarritoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductCarritoComponent_vue_vue_type_template_id_24ca8b6a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProductCarritoComponent_vue_vue_type_template_id_24ca8b6a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "24ca8b6a",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ProductCarritoComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductCarritoComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/ProductCarritoComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductCarritoComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=style&index=0&id=24ca8b6a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_style_index_0_id_24ca8b6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true& ***!
+  \********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_template_id_24ca8b6a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCarritoComponent.vue?vue&type=template&id=24ca8b6a&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_template_id_24ca8b6a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCarritoComponent_vue_vue_type_template_id_24ca8b6a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

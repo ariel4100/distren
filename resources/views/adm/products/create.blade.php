@@ -60,12 +60,12 @@
                         <label class="custom-control-label" for="customSwitch1">Destacado</label>
                     </div>
                 </div>
-                {{--                    <div class="col-md-6 d-flex align-items-center justify-content-center">--}}
-                {{--                        <div class="custom-control custom-switch">--}}
-                {{--                            <input type="checkbox" class="custom-control-input" id="Oferta" name="offer">--}}
-                {{--                            <label class="custom-control-label" for="Oferta">Oferta</label>--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="Oferta" name="offer">
+                        <label class="custom-control-label" for="Oferta">Oferta</label>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12 my-4 text-right">
                 <button type="submit"  class="btn btn-success">Guardar</button>

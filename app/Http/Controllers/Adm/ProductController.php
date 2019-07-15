@@ -29,31 +29,31 @@ class ProductController extends Controller
         }
     }
 
-    //API
-    public function apiAddProduct(Request $request)
-    {
-        //str_replace("$ ","",$dataRequest["precio"]);
-        $product = Session::get('productos');
-        $product['capacidad'] = $request->capacidad;
+//    //API
+//    public function apiAddProduct(Request $request)
+//    {
+//        //str_replace("$ ","",$dataRequest["precio"]);
+//        $product = Session::get('productos');
+//        $product['capacidad'] = $request->capacidad;
+//
+//        //return str_replace("$","",$product['capacidad'][0]['price']);
+//        $product['cierre'] =  $request->cierre;
+//        $product['terminacion'] = $request->terminacion;
+//        Session::put('productos',$product);
+//        $product = Session::get('productos');
+//        return $product;
+//
+//    }
 
-        //return str_replace("$","",$product['capacidad'][0]['price']);
-        $product['cierre'] =  $request->cierre;
-        $product['terminacion'] = $request->terminacion;
-        Session::put('productos',$product);
-        $product = Session::get('productos');
-        return $product;
-
-    }
-
-    public function apiUpdateProduct(Request $request){
-        $product = Session::get('productos');
-        $product['capacidad'] = $request->capacidad;
-        $product['cierre'] =  $request->cierre;
-        $product['terminacion'] = $request->terminacion;
-        Session::put('productos',$product);
-        $product = Session::get('productos');
-        return $product;
-    }
+//    public function apiUpdateProduct(Request $request){
+//        $product = Session::get('productos');
+//        $product['capacidad'] = $request->capacidad;
+//        $product['cierre'] =  $request->cierre;
+//        $product['terminacion'] = $request->terminacion;
+//        Session::put('productos',$product);
+//        $product = Session::get('productos');
+//        return $product;
+//    }
 
     //FIN DE API
 
@@ -137,72 +137,55 @@ class ProductController extends Controller
         $categorias = Category::all();
         $producto = Product::find($id);
         $subcategorias = Subcategory::all();
+        $cierres = Closure::all();
+        $terminaciones = Termination::all();
 //        dd(json_encode($productos));
-        return view('adm.products.edit',compact('producto','categorias','precio','subcategorias'));
+        return view('adm.products.edit',compact('producto','categorias','subcategorias','terminaciones','cierres'));
     }
 
     public function update(Request $request, $id)
     {
+//        dd($request->all());
         $product = Product::find($id);
-        $product->fill($request->except('featured','offer'));
+        $product->title = $request->title;
+        $product->text = $request->text;
+        $product->featured = isset($request->featured) ? true : false;
+        $product->offer = isset($request->offer) ? true : false;
+        $product->order = $request->order;
+        $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
 
-        isset($request->featured) ? $product->fill(['featured' => true]) : $product->fill(['featured' => false]);
-        isset($request->offer) ? $product->fill(['offer' => true]) : $product->fill(['offer' => false]);
-
-        if ($request->file('image'))
-        {
-            $path = Storage::disk('public')->put("uploads/productos",$request->file('image'));
-            $product->fill(['image' => $path]);
-        }
+//        if ($request->file('image'))
+//        {
+//            $path = Storage::disk('public')->put("uploads/productos",$request->file('image'));
+//            $product->fill(['image' => $path]);
+//        }
         $product->save();
 
-        //relacion de Many to Many con las terminaciones , cierres y capacidades
-        $apiProductos = Session::get('productos');
-        //dd(collect($apiProductos['capacidad']));
-        if (isset($apiProductos))
-        {
-            //dd($apiProductos);
-            $capacidad = collect(@$apiProductos['capacidad']);
-            $cierres = collect(@$apiProductos['cierre']);
-            $terminacion = collect(@$apiProductos['terminacion']);
+//        dd($request->capacity);
+
+        Capacity::where('product_id', $product->id)->delete();
+        foreach ($request->capacity as $item) {
+//            dd($item);
+            $item['price'] = str_replace(".","",$item["price"]);
+            $item['price'] = str_replace(",",".",$item["price"]);
+            $item['price'] = str_replace("$","",$item["price"]);
+            $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+            $item['price_offer'] = str_replace(",",".",$item["price_offer"]);
+            $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+
+            Capacity::create([
+                'cc' => $item['cc'],
+                'price' => $item['price'],
+                'price_offer' => $item['price_offer'],
+                'offer' => isset($item['offer']) ? true : false,
+                'product_id' => $product->id,
+            ]);
         }
-
-        if(isset($capacidad) || isset($cierres) || isset($terminacion))
-        {
-
-            $idCapacidad = $capacidad->pluck('id');
-            $idCierres = $cierres->pluck('id');
-            $idTerminacion = $terminacion->pluck('id');
-            $product->subcategory()->sync($request->subcategory_id);
-            $product->capacity()->sync($idCapacidad);
-            $product->closure()->sync($idCierres);
-            $product->termination()->sync($idTerminacion);
-        }
+        $product->closure()->sync($request->cierre_id);
+        $product->termination()->sync($request->terminacion_id);
 
 
-        if(isset($capacidad))
-        {
-            //dd($capacidad);
-            Price::where('product_id', $product->id)->delete();
-            foreach ($capacidad as $item) {
-                //dd($item['price']);
-                //$item['price'] = str_replace(".","",$item["price"]);
-                //$item['price'] = str_replace(",",".",$item["price"]);
-                //$item['price'] = str_replace("$","",$item["price"]);
-                $item['offerprice'] = str_replace(".","",$item["offerprice"]);
-                $item['offerprice'] = str_replace(",","",$item["offerprice"]);
-                $item['offerprice'] = str_replace("$","",$item["offerprice"]);
-                Price::create([
-                    'product_id' => $product->id,
-                    'capacity_id' => $item['id'],
-                    'price' => $item['price'],
-                    'offer_price' => $item['offerprice'],
-                    'quantity' => $item['quantity'],
-                ]);
-                //dd($item['id']);
-            }
-//            Session::forget('productos');
-        }
         return back()->with('status','Se actualizó correctamente');
     }
 

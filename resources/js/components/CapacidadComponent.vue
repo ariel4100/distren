@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 mt-4">
             <label class="typo__label">Seleccionar Terminaciones</label>
-            <multiselect v-model="terminacion" :options="terminaciones" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="true">
+            <multiselect v-model="terminacion" :options="terminaciones" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="false">
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <div class="row my-4">
@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-6 mt-4">
             <label class="typo__label">Seleccionar Cierres</label>
-            <multiselect v-model="cierre" :options="cierres" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="true">
+            <multiselect v-model="cierre" :options="cierres" :multiple="true" :custom-label="cierreNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="title" track-by="id" :preselect-first="false">
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <div class="row my-4">
@@ -51,7 +51,7 @@
                             <money v-model="item.price" :name="'capacity['+index+'][price]'"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
                         </td>
                         <td>
-                            <money v-model="item.offerprice" :name="'capacity['+index+'][price_offer]'"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
+                            <money v-model="item.price_offer" :name="'capacity['+index+'][price_offer]'"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
                         </td>
                         <td class="text-center position-relative">
                             <div class="custom-control custom-checkbox">
@@ -77,7 +77,7 @@
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
-        props:['capacidades','cierres','terminaciones','selectedcapacidad'],
+        props:['selectedcapacidad','cierres','terminaciones','selectedterminacion','selectedcierre'],
         components: {
             Multiselect,
             Money
@@ -122,14 +122,33 @@
             },
 
             getCapacidad(){
-                //console.log(this.selectedcapacidad)
+                console.log(this.selectedcapacidad)
                 this.selectedcapacidad.forEach((item)=>{
+                    console.log(item)
                     this.capacidad.push(
                         {
                             cc: item.cc,
                             price: item.price,
                             price_offer: item.price_offer,
                             offer: item.offer
+                        }
+                    )
+                });
+                this.selectedterminacion.forEach((item)=>{
+                    this.terminacion.push(
+                        {
+                            id: item.id,
+                            title: item.title,
+                            image: item.image,
+                        }
+                    )
+                });
+                this.selectedcierre.forEach((item)=>{
+                    this.cierre.push(
+                        {
+                            id: item.id,
+                            title: item.title,
+                            image: item.image,
                         }
                     )
                 });

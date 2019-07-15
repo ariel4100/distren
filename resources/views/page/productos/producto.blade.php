@@ -62,6 +62,7 @@
                     @forelse($producto->closure as $cierre)
                         <div class="col-md-2 mb-4">
                             <img src="{{ asset($cierre->image) }}" alt="" class="img-fluid" style="height: 100px;">
+                            <p class="">{{ $cierre->title }}</p>
                         </div>
                     @empty
 
@@ -75,14 +76,16 @@
                     @forelse($producto->termination as $terminacion)
                         <div class="col-md-2 mb-4">
                             <img src="{{ asset($terminacion->image) }}" alt="" class="img-fluid" style="height: 100px;">
+                            <p class="">{{ $terminacion->title }}</p>
                         </div>
                     @empty
 
                     @endforelse
                 </div>
                 @endif
-                <product-component :terminaciones="{{ json_encode($producto->termination) }}" :producto="{{ $producto->capacity }}" :cierres="{{ $producto->closure }}" :nombreproducto="{{ json_encode($producto->title) }}" :nombrecategoria="{{ json_encode($producto->category->title) }}" :precio="{{ json_encode($precio) }}"></product-component>
-
+                {{--<product-component :terminaciones="{{ json_encode($producto->termination) }}" :producto="{{ $producto->capacity }}" :cierres="{{ $producto->closure }}" :nombreproducto="{{ json_encode($producto->title) }}" :nombrecategoria="{{ json_encode($producto->category->title) }}" :precio="{{ json_encode($precio) }}"></product-component>--}}
+{{--                @dd($producto->category->title )--}}
+                <product-carrito :capacidad="{{ json_encode($producto->capacity) }}" :cierres="{{ json_encode($producto->closure) }}" :terminaciones="{{ json_encode($producto->termination) }}" nombreproducto="{{ $producto->title }}" nombrecategoria="{{ $producto->category->title }}"></product-carrito>
             </div>
         </div>
     </div>

@@ -33,12 +33,12 @@ class OrderController extends Controller
 
     public function confirmar(Request $request)
     {
-
+//        return $request->all();
         $datos = $request->datos;
         $compra = $request->compra;
         $pedido = $request->pedido;
 
-        return $pedido;
+
         $transaccion = Transaction::create([
             'shipping' => $compra['envio'],
             'payment' => $compra['pago'],
@@ -58,22 +58,22 @@ class OrderController extends Controller
 
         foreach ($pedido as $p)
         {
-            if (isset($p['oferta']['offer']))
+            if (isset($p['oferta']))
             {
                 $pedidos = Order::create([
                     'name_category' => $p['categoria'],
                     'name_product' => $p['producto'],
-                    'cc' => $p['cc']['cc'],
-                    'price_cc' => $p['precio_cc'],
-                    'price_offer' => $p['precio_oferta'],
+                    'cc' => $p['cc'],
+                    'price_cc' => $p['precio'],
+                    'price_offer' => $p['precio_oferta'] ?? null,
 
 
-                    'name_termination' => $p['tipo_terminacion']['title'],
-                    'price_termination' => $p['tipo_terminacion']['price'],
+                    'name_termination' => $p['terminacion']['title'],
+                    'price_termination' => $p['terminacion']['price'],
 
-                    'quantity_cc' => $p['cantidad_cc'],
-                    'name_closure' => $p['tipo_cierre']['title'],
-                    'price_closure' => $p['tipo_cierre']['price'],
+                    'quantity_cc' => $p['cantidad'],
+                    'name_closure' => $p['cierre']['title'],
+                    'price_closure' => $p['cierre']['price'],
 
                     'quantity_closure' => $p['cantidad_cierre'],
                     'transaction_id' => $transaccion->id,
@@ -83,15 +83,15 @@ class OrderController extends Controller
                 $pedidos = Order::create([
                     'name_category' => $p['categoria'],
                     'name_product' => $p['producto'],
-                    'cc' => $p['cc']['cc'],
-                    'price_cc' => $p['precio_cc'],
+                    'cc' => $p['cc'],
+                    'price_cc' => $p['precio'],
 
-                    'name_termination' => $p['tipo_terminacion']['title'],
-                    'price_termination' => $p['tipo_terminacion']['price'],
+                    'name_termination' => $p['termination']['title'],
+                    'price_termination' => $p['termination']['price'],
 
-                    'quantity_cc' => $p['cantidad_cc'],
-                    'name_closure' => $p['tipo_cierre']['title'],
-                    'price_closure' => $p['tipo_cierre']['price'],
+                    'quantity_cc' => $p['cantidad'],
+                    'name_closure' => $p['cierre']['title'],
+                    'price_closure' => $p['cierre']['price'],
 
                     'quantity_closure' => $p['cantidad_cierre'],
                     'transaction_id' => $transaccion->id,
@@ -109,7 +109,7 @@ class OrderController extends Controller
 //        }
 //        $precio_cc = Price::
 
-        //Mail::to('ariel.14.iyf@gmail.com')->send(new OrderMail($data));
+        Mail::to('ariel.14.iyf@gmail.com')->send(new OrderMail($request->all()));
         return $pedidos;
     }
 }

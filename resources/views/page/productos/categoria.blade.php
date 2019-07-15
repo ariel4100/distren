@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                     <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                                    <h5 class="text-center">Desde <del>${{ $item->price->min('price') }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>
+                                    {{--<h5 class="text-center">Desde <del>${{ $item->price->min('price') }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>--}}
                                 </a>
                             </div>
                         @else
@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
                                     <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                                    <h5 class="text-center">Desde <span class="distren-color">${{ $item->price->min('price') }}</span></h5>
+{{--                                    <h5 class="text-center">Desde <span class="distren-color">${{ $item->price->min('price') }}</span></h5>--}}
                                 </a>
                             </div>
                         @endif

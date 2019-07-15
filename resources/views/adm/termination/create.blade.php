@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container p-4">
-        <a class="text-decoration-none " href="{{ route('cierres.index') }}"><< Volver</a>
-        <form class="" method="POST" action="{{ route('cierres.store') }}" enctype="multipart/form-data">
+        <a class="text-decoration-none " href="{{ route('terminaciones.index') }}"><< Volver</a>
+        <form class="" method="POST" action="{{ route('terminaciones.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-8">
