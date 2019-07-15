@@ -28,7 +28,8 @@ Vue.component('carrito-component', require('./components/CarritoComponent.vue').
 Vue.component('confirmar-component', require('./components/ConfirmarComponent.vue').default);
 Vue.component('cierres-component', require('./components/CierresComponent.vue').default);
 Vue.component('capacidad-component', require('./components/CapacidadComponent.vue').default);
-
+Vue.component('gallery-component', require('./components/GalleryComponent.vue').default);
+Vue.component('select-component', require('./components/SelectComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

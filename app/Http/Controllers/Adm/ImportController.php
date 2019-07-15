@@ -12,7 +12,8 @@ class ImportController extends Controller
 {
 
     public function index(Request $request) {
-//        set_time_limit(0);
+         set_time_limit(0);
+        ini_set('memory_limit', '-1');
         //dd($request->all());
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('products')->truncate();
@@ -23,9 +24,10 @@ class ImportController extends Controller
 //        DB::table('productoaplicaciones')->truncate();
 
         //dd($request->all());
-        //$archivo = $request->file("archivo");
+        $archivo = $request->file("file");
+        //dd($archivo);
         try {
-            Excel::import(new ProductImport,request()->file('file'));
+            Excel::import(new ProductImport,$archivo);
         } catch (Exception $e) {
             return back()->withErrors(['status' => "Ocurrió un error"]);
         }

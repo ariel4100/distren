@@ -7,21 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Capacity extends Model
 {
     protected $fillable = [
-        'cc', 'price', 'qty','order'
+        'cc', 'price', 'price_offer','order','product_id','offer','status'
     ];
 
-    public function Product()
-    {
-        return $this->belongsToMany('App\Product');
-    }
-
-    public function producto()
+    public function product()
     {
         return $this->belongsTo('App\Product');
     }
 
-    public function precio()
-    {
-        return $this->hasMany('App\Price');
-    }
 }

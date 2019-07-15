@@ -207,16 +207,19 @@
 @endsection
 @section('script')
     <script>
+        CKEDITOR.replace('text');
+        CKEDITOR.replace('text_valores');
+        CKEDITOR.replace('text_mision');
+        CKEDITOR.replace('text_vision');
+        CKEDITOR.config.width = '100%';
+    </script>
+    <script>
         CKEDITOR.replace('banco');
         CKEDITOR.replace('efectivo');
         CKEDITOR.replace('local');
         CKEDITOR.replace('expreso');
 
 
-        CKEDITOR.replace('text');
-        CKEDITOR.replace('text_valores');
-        CKEDITOR.replace('text_mision');
-        CKEDITOR.replace('text_vision');
         CKEDITOR.config.width = '100%';
     </script>
 @stop

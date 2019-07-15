@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Adm;
 use App\Capacity;
 use App\Category;
 use App\Closure;
-use App\Imports\ProductoImport;
+use App\Imports\ProductImport;
 use App\Price;
 use App\Product;
 use App\Subcategory;
 use App\Termination;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -74,51 +75,59 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+
+       //dd($request->all());
         //relacion de Many to Many con las terminaciones , cierres y capacidades
-        $apiProductos = Session::get('productos');
-//        dd($apiProductos);
-        $capacidad = collect($apiProductos['capacidad']);
-        $cierres = collect($apiProductos['cierre']);
-        $terminacion = collect($apiProductos['terminacion']);
+//        $apiProductos = Session::get('productos');
+////        dd($apiProductos);
+//        $capacidad = collect($apiProductos['capacidad']);
+//        $cierres = collect($apiProductos['cierre']);
+//        $terminacion = collect($apiProductos['terminacion']);
 
-        $product = Product::create($request->except(['featured','subcategory_id','offer']));
-
-        isset($request->featured) ? $product->fill(['featured' => true]) : null;
-        isset($request->offer) ? $product->fill(['offer' => true]) : null;
-        if ($request->file('image'))
-        {
-            $path = Storage::disk('public')->put("uploads/productos",$request->file('image'));
-            $product->fill(['image' => $path]);
-        }
+        $product = new Product();
+        $product->title = $request->title;
+        $product->text = $request->text;
+        $product->featured = isset($request->featured) ? true : false;
+        $product->offer = isset($request->offer) ? true : false;
+        $product->order = $request->order;
+        $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+//        if ($request->file('image'))
+//        {
+//            $path = Storage::disk('public')->put("uploads/productos",$request->file('image'));
+//            $product->fill(['image' => $path]);
+//        }
         $product->save();
+//
+////        $idCapacidad = $capacidad->pluck('id');
+////        $idCierres = $cierres->pluck('id');
+////        $idTerminacion = $terminacion->pluck('id');
+//
+////        $product->subcategory()->sync($request->subcategory_id);
+////        $product->capacity()->sync($idCapacidad);
+//        $product->closure()->sync($idCierres);
+//        $product->termination()->sync($idTerminacion);
 
-        $idCapacidad = $capacidad->pluck('id');
-        $idCierres = $cierres->pluck('id');
-        $idTerminacion = $terminacion->pluck('id');
-
-        $product->subcategory()->sync($request->subcategory_id);
-        $product->capacity()->sync($idCapacidad);
-        $product->closure()->sync($idCierres);
-        $product->termination()->sync($idTerminacion);
-        foreach ($capacidad as $item) {
+        foreach ($request->capacity as $item) {
+//            dd($item['price']);
             $item['price'] = str_replace(".","",$item["price"]);
-            $item['price'] = str_replace(",","",$item["price"]);
+            $item['price'] = str_replace(",",".",$item["price"]);
             $item['price'] = str_replace("$","",$item["price"]);
-            $item['offerprice'] = str_replace(".","",$item["offerprice"]);
-            $item['offerprice'] = str_replace(",","",$item["offerprice"]);
-            $item['offerprice'] = str_replace("$","",$item["offerprice"]);
+            $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+            $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+            $item['price_offer'] = str_replace("$","",$item["price_offer"]);
 
-            Price::create([
-                'product_id' => $product->id,
-                'capacity_id' => $item['id'],
+            Capacity::create([
+                'cc' => $item['cc'],
                 'price' => $item['price'],
-                'offer_price' => $item['offerprice'],
-                'quantity' => $item['quantity'],
+                'price_offer' => $item['price_offer'],
+                'offer' => isset($item['offer']) ? true : false,
+                'product_id' => $product->id,
             ]);
 
         }
         //dd($product->capacity()->first()->precio);
-        Session::forget('productos');
+//        Session::forget('productos');
 
         return back()->with('status','Se creó correctamente');
     }
@@ -127,7 +136,6 @@ class ProductController extends Controller
     {
         $categorias = Category::all();
         $producto = Product::find($id);
-        $precio = Price::with("capacity")->where('product_id',$producto->id)->get();
         $subcategorias = Subcategory::all();
 //        dd(json_encode($productos));
         return view('adm.products.edit',compact('producto','categorias','precio','subcategorias'));
@@ -222,6 +230,7 @@ class ProductController extends Controller
         return view('adm.carrito.carga');
     }
     public function carga(Request $request) {
+        dd($request->all());
         set_time_limit(0);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -230,12 +239,13 @@ class ProductController extends Controller
         DB::table('productoimage')->truncate();
         DB::table('productoaplicaciones')->truncate();
 
-        //$archivo = $request->file("archivo");
+        $archivo = $request->file("archivo");
+        dd($archivo);
         try {
-            Excel::import(new ProductoImport,request()->file('archivo'));
+            Excel::import(new ProductImport,$request->file('archivo'));
         } catch (Exception $e) {
-            return back()->withErrors(['mssg' => "Ocurrió un error"]);
+            return back()->withErrors(['status' => "Ocurrió un error"]);
         }
-        return back()->withSuccess(['mssg' => "Carga finalizada"]);
+        return back()->withSuccess(['status' => "Carga finalizada"]);
     }
 }

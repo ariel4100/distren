@@ -27,50 +27,50 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customFileLang" name="image" lang="es">
-                            <label class="custom-file-label" for="customFileLang">Seleccionar Imagen Principal</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3 d-flex align-items-center justify-content-center">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1" name="featured">
-                            <label class="custom-control-label" for="customSwitch1">Destacado</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3 d-flex align-items-center justify-content-center">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="Oferta" name="offer">
-                            <label class="custom-control-label" for="Oferta">Oferta</label>
-                        </div>
-                    </div>
-                </div>
-            <div class="row">
-                <div class="col-md-6 mt-4">
-                    <p>Seleccionar Categoria</p>
-                    <select class="custom-select form-control select2" name="category_id">
-                        @forelse($categorias as $item)
-                            <option value="{!! $item->id !!}">{!! $item->title !!}</option>
-                        @empty
-                            <option value="" selected disabled>No hay registros</option>
-                        @endforelse
-                    </select>
-                </div>
-                <div class="col-md-6 mt-4">
-                    <p>Seleccionar Subcategoria</p>
-                    <select class="custom-select form-control select2" name="subcategory_id">
-                        @forelse($subcategorias as $item)
-                            <option value="{!! $item->id !!}">{!! $item->title !!}</option>
-                        @empty
-                            <option value="" selected disabled>No hay registros</option>
-                        @endforelse
-                    </select>
-                </div>
-            </div>
+
+            <select-component :categoria="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}"></select-component>
+{{--            <div class="row">--}}
+{{--                <div class="col-md-6 mt-4">--}}
+{{--                    <p>Seleccionar Categoria</p>--}}
+{{--                    <select class="custom-select form-control select2" name="category_id">--}}
+{{--                        @forelse($categorias as $item)--}}
+{{--                            <option value="{!! $item->id !!}">{!! $item->title !!}</option>--}}
+{{--                        @empty--}}
+{{--                            <option value="" selected disabled>No hay registros</option>--}}
+{{--                        @endforelse--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-6 mt-4">--}}
+{{--                    <p>Seleccionar Subcategoria</p>--}}
+{{--                    <select class="custom-select form-control select2" name="subcategory_id">--}}
+{{--                        @forelse($subcategorias as $item)--}}
+{{--                            <option value="{!! $item->id !!}">{!! $item->title !!}</option>--}}
+{{--                        @empty--}}
+{{--                            <option value="" selected disabled>No hay registros</option>--}}
+{{--                        @endforelse--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <capacidad-component :terminaciones="{{ json_encode($terminaciones) }}" :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
-            </form>
+            <gallery-component></gallery-component>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="featured">
+                        <label class="custom-control-label" for="customSwitch1">Destacado</label>
+                    </div>
+                </div>
+                {{--                    <div class="col-md-6 d-flex align-items-center justify-content-center">--}}
+                {{--                        <div class="custom-control custom-switch">--}}
+                {{--                            <input type="checkbox" class="custom-control-input" id="Oferta" name="offer">--}}
+                {{--                            <label class="custom-control-label" for="Oferta">Oferta</label>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+            </div>
+            <div class="col-md-12 my-4 text-right">
+                <button type="submit"  class="btn btn-success">Guardar</button>
+            </div>
+        </form>
     </div>
 @endsection
 @section('script')

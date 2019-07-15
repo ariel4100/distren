@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8BBF41;">
 
     <!-- Navbar brand -->
-    <a class="text-white " href="#">Bienvenido/a {{ ucwords(Auth::user()->username) }}</a>
+    <a class="text-white " href="#">Bienvenido/a  </a>
 
     <!-- Collapse button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"

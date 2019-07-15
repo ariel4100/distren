@@ -36,7 +36,7 @@ Route::post('enviar-contacto', 'MailController@contacto')->name('contacto.mail')
 
 
 /*************************RUTAS ADM******************************/
-Route::group([ 'middleware' => 'auth','prefix' => 'adm'],function (){
+Route::group([ 'prefix' => 'adm'],function (){
     Route::view('/',  'adm.dashboard.index');
     Route::group(['prefix' => 'slider', 'as' => 'slider'], function() {
         Route::get('{seccion}/create', ['uses' => 'Adm\SliderController@create', 'as' => '.create']);

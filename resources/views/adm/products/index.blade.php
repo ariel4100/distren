@@ -27,7 +27,7 @@
                                     @method('DELETE')
                                     <button onclick="return confirm('¿Realmente desea eliminar este registro?')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </form>
-                                <a class="btn btn-sm btn-info" href="{{ route('galeria.index',$item->id) }}"><i class="far fa-images"></i></a>
+{{--                                <a class="btn btn-sm btn-info" href="{{ route('galeria.index',$item->id) }}"><i class="far fa-images"></i></a>--}}
                             </td>
                         </tr>
                     @empty

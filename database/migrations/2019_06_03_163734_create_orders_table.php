@@ -39,13 +39,6 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('closure_id')->nullable();
             $table->unsignedBigInteger('termination_id')->nullable();
 
-
-            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('capacity_id')->references('id')->on('capacities')->onDelete('cascade');
-            $table->foreign('closure_id')->references('id')->on('closures')->onDelete('cascade');
-            $table->foreign('termination_id')->references('id')->on('terminations')->onDelete('cascade');
             $table->timestamps();
         });
     }

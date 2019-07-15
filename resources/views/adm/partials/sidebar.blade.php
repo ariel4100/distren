@@ -78,7 +78,7 @@
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Productos</a></li>
                 <li><a class="border-top" href="{{ route('terminaciones.index') }}"><i class="fas fa-chevron-right px-4"></i>Terminaciones</a></li>
                 <li><a href="{{ route('cierres.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>
-                <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>
+{{--                <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>--}}
             </ul>
         </li>
         <!---VENTAS---->

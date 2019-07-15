@@ -6,7 +6,8 @@
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <div class="row my-4">
-                <div class="col-md-3" v-for="item in terminacion">
+                <div class="col-md-3" v-for="(item,index) in terminacion">
+                    <input type="text" class="d-none" :name="'terminacion_id['+index+']'" :value="item.id">
                     <img :src="item.image" style="height: 100px;" alt="" class="img-fluid">
                     <p class="text-center">{{ item.title }}</p>
                 </div>
@@ -18,41 +19,46 @@
                 <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
             </multiselect>
             <div class="row my-4">
-                <div class="col-md-3" v-for="item in cierre">
+                <div class="col-md-3" v-for="(item,index) in cierre">
+                    <input type="text" class="d-none" :name="'cierre_id['+index+']'" :value="item.id">
                     <img :src="item.image" style="height: 100px;" alt="" class="img-fluid">
                     <p class="text-center">{{ item.title }}</p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-12">
-            <label class="typo__label">Seleccionar Capacidades</label>
-            <multiselect v-model="capacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id">
-                <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>
-            </multiselect>
+        <div class="col-md-12">
+            <a @click="addCapacidad" class="btn btn-md btn-info">Añadir Capacidad</a>
+<!--            <multiselect v-model="capacidad" :options="capacidades" :multiple="true" :custom-label="capacidadNombre" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="" selectLabel="Haga click para seleccionar" deselectLabel="Haga click para eliminar" selectedLabel="seleccionado" label="cc" track-by="id">-->
+<!--                <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">opciones seleccionadas {{ values.length }}</span></template>-->
+<!--            </multiselect>-->
             <!--<pre class="language-json"><code>{{ cierre  }}</code></pre>-->
             <div class=" my-4">
-                <table class="table">
+                <table class="table" v-if="capacidad.length > 0">
                     <thead class="distren-fondo white-text">
                     <tr>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">cc</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
                         <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio de Oferta</th>
-                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Stock</th>
+                        <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Oferta</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in capacidad">
-                        <td>{{ item.cc}}</td>
-                        <td>
-                            <money v-model="item.price"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
-                            <!--<input v-model="item.price" v-money="money"/>-->
-                            <!--<input type="number" v-model="item.price" class="form-control form-control-sm">-->
+                    <tr v-for="(item,index) in capacidad" :key="index">
+                        <td style="width: 100px">
+                            <input type="text" v-model="item.cc" :name="'capacity['+index+'][cc]'" class="form-control form-control-sm">
                         </td>
                         <td>
-                            <money v-model="item.offerprice"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
+                            <money v-model="item.price" :name="'capacity['+index+'][price]'"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
                         </td>
                         <td>
-                            <input type="number" v-model="item.quantity" class="form-control form-control-sm">
+                            <money v-model="item.offerprice" :name="'capacity['+index+'][price_offer]'"  class="form-control form-control-sm" style="text-align: right"  v-bind="money"></money>
+                        </td>
+                        <td class="text-center position-relative">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" v-model="item.offer" :name="'capacity['+index+'][offer]'" class="custom-control-input" :id="'customCheck_'+index">
+                                <label class="custom-control-label" :for="'customCheck_'+index"></label>
+                            </div>
+                            <span @click="deleteCapacidad(index)" class="px-1 btn-danger position-absolute" style="cursor: pointer;bottom: 25px; right: 0px;">X</span>
                         </td>
                     </tr>
                     </tbody>
@@ -60,9 +66,7 @@
 
             </div>
         </div>
-        <div class="col-md-12 my-4 text-right">
-            <button @click="addProduct" type="submit"  class="btn btn-success">Guardar</button>
-        </div>
+
     </div>
 </template>
 
@@ -73,7 +77,7 @@
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
-        props:['capacidades','cierres','terminaciones'],
+        props:['capacidades','cierres','terminaciones','selectedcapacidad'],
         components: {
             Multiselect,
             Money
@@ -106,7 +110,7 @@
                     symbolSpacing: true
                 })
             }
-            //this.preciocantidad()
+            this.getCapacidad()
             //console.log(this.capacidad)
         },
         methods: {
@@ -117,13 +121,32 @@
                 return `${cc}`
             },
 
-            addProduct(){
-                //console.log(this.capacidad)
-                axios.post(this.url+'/api/addproduct',{capacidad: this.capacidad,cierre: this.cierre,terminacion: this.terminacion}).then(res => {
-                    console.log(res.data)
-                }).catch(e => {
-                    console.log(e);
+            getCapacidad(){
+                //console.log(this.selectedcapacidad)
+                this.selectedcapacidad.forEach((item)=>{
+                    this.capacidad.push(
+                        {
+                            cc: item.cc,
+                            price: item.price,
+                            price_offer: item.price_offer,
+                            offer: item.offer
+                        }
+                    )
                 });
+            },
+            addCapacidad(){
+                this.capacidad.push(
+                    {
+                        cc:'',
+                        price:'',
+                        price_offer:'',
+                        offer:''
+                    }
+                )
+            },
+            deleteCapacidad(index) {
+                this.capacidad.splice(index, 1);
+                //this.imageData[index]= '';
             }
         }
     }

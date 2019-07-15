@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Category;
 use App\Subcategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,11 +18,13 @@ class SubcategoryController extends Controller
 
     public function create()
     {
-        return view('adm.subcategories.create');
+        $categories  = Category::all();
+        return view('adm.subcategories.create',compact('categories'));
     }
 
     public function store(Request $request)
     {
+//        dd($request->all());
         $subcategoria = Subcategory::create($request->all());
 
         if ($request->file('image'))
@@ -40,7 +43,8 @@ class SubcategoryController extends Controller
     public function edit($id)
     {
         $subcategoria = Subcategory::find($id);
-        return view('adm.subcategories.edit',compact('subcategoria'));
+        $categories  = Category::all();
+        return view('adm.subcategories.edit',compact('subcategoria','categories'));
     }
 
     public function update(Request $request, $id)

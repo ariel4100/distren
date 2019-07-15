@@ -63,7 +63,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @yield('style')
 </head>
-<body style="font-family: 'Titillium Web regular'; color: #9FA3A5;">
+<body style="font-family: 'Titillium Web', sans-serif; color: #9FA3A5;">
 <div id="app">
     @include('page.partials.header')
     <main class=" ">

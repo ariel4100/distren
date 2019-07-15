@@ -6,8 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $casts = [
+
+        'image' => 'array',
+
+    ];
+
+
     protected $fillable = [
-        'code', 'image', 'title','subtitle','text','featured','category_id','order','offer'
+        'code', 'image', 'title','subtitle','text','featured','category_id','order','offer','subcategory_id'
     ];
 
     public function category() {
@@ -28,16 +35,7 @@ class Product extends Model
     }
     public function capacity()
     {
-        return $this->belongsToMany('App\Capacity');
-    }
-
-    public function capacidad()
-    {
         return $this->hasMany('App\Capacity');
     }
 
-    public function price()
-    {
-        return $this->hasMany('App\Price');
-    }
 }

@@ -16,18 +16,18 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code')->nullable();
-            $table->text('image')->nullable();
+            $table->json('image')->nullable();
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();
             $table->text('text')->nullable();
             $table->boolean('featured')->default(false);
             $table->boolean('offer')->default(false);
             $table->boolean('status')->default(false);
+            $table->string('order')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->unsignedBigInteger('subcategory_id')->nullable();
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
-            $table->string('order')->nullable();
             $table->timestamps();
         });
     }

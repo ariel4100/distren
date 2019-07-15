@@ -18,6 +18,16 @@
                         <label for="order" class="">Orden</label>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <select name="category_id" id="" class="custom-select">
+                            <option disabled selected>Seleccionar categoria</option>
+                            @foreach($categories as $item)
+                                <option value="{{ $item->id }}">{{ $item->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
             {{--<div class="row">--}}
                 {{--<div class="col-md-12">--}}
