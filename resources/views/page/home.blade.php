@@ -19,7 +19,12 @@
                 <div class="col-md-3 text-center">
                     <a href="{{ route('producto',$item->id) }}" class="" style="color: #9FA3A5;">
                         <div class="view overlay">
-                            <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                            {{--<img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">--}}
+                            @if($item->image)
+                                <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                            @else
+                                <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                            @endif
                             <div class="mask flex-center rgba-black-strong">
                                 <span class="text-white">+</span>
                             </div>
@@ -107,7 +112,11 @@
                             <div class="img position-relative">
                                 <img class="position-absolute img-fluid " style="z-index: 1; left: -8px; top: -8px;" src="http://osolelaravel.com/partscam/images/general/ofertas.fw.png" alt="">
                             </div>
-                            <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image"  >
+                            @if($item->image)
+                                <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                            @else
+                                <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                            @endif
                             <div class="mask flex-center rgba-black-strong">
                                 <span class="text-white">+</span>
                             </div>

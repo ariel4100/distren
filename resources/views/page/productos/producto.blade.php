@@ -9,6 +9,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!--Carousel Wrapper-->
+                        @if($producto->image)
                         <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
                             <!--Indicators-->
                             <ol class="carousel-indicators">
@@ -48,6 +49,9 @@
                             </a>
                         </div>
                         <!--/.Carousel Wrapper-->
+                        @else
+                            <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                        @endif
                     </div>
                     <div class="col-md-6">
                         <h4 class="distren-color font-weight-bold">{!! $producto->title !!}</h4>
@@ -61,8 +65,12 @@
                     {{--@dd($productos->closure)--}}
                     @forelse($producto->closure as $cierre)
                         <div class="col-md-2 mb-4">
-                            <img src="{{ asset($cierre->image) }}" alt="" class="img-fluid" style="height: 100px;">
-                            <p class="">{{ $cierre->title }}</p>
+                            @if($cierre->image)
+                                <img src="{{ asset($cierre->image) }}" alt="" class="img-fluid" style="height: 100px;">
+                            @else
+                                <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                            @endif
+                            <p class="text-center">{{ $cierre->title }}</p>
                         </div>
                     @empty
 
@@ -75,8 +83,12 @@
                     {{--@dd($productos->closure)--}}
                     @forelse($producto->termination as $terminacion)
                         <div class="col-md-2 mb-4">
-                            <img src="{{ asset($terminacion->image) }}" alt="" class="img-fluid" style="height: 100px;">
-                            <p class="">{{ $terminacion->title }}</p>
+                            @if($terminacion->image)
+                                <img src="{{ asset($terminacion->image) }}" alt="" class="img-fluid" style="height: 100px;">
+                            @else
+                                <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                            @endif
+                            <p class="text-center">{{ $terminacion->title }}</p>
                         </div>
                     @empty
 

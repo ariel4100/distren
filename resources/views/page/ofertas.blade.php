@@ -13,13 +13,17 @@
                                     <div class="img position-relative">
                                         <img class="position-absolute img-fluid " style="z-index: 1; left: -8px; top: -8px;" src="http://osolelaravel.com/partscam/images/general/ofertas.fw.png" alt="">
                                     </div>
-                                    <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image"  >
+                                    @if($item->image)
+                                        <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                                    @else
+                                        <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                                    @endif
                                     <div class="mask flex-center rgba-black-strong">
                                         <span class="text-white">+</span>
                                     </div>
                                 </div>
                                 <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                                <h5 class="text-center">Desde <del>${{ $item->price->min('price') }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>
+                                <h5 class="text-center">Desde <del>${{ $item->price->min('price') ?? '' }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>
                             </a>
                         </div>
                     @empty

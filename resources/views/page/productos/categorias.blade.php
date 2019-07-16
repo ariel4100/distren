@@ -7,7 +7,11 @@
             <div class="col-md-4 my-4">
                 <a href="{{ route('categoria',$item->id) }}" class="" style="color: #9FA3A5;">
                     <div class="view overlay d-flex justify-content-center">
-                        <img src="{{ asset($item->image) }}" class="img-fluid" style="height: 300px;" alt="smaple image">
+                        @if($item->image)
+                            <img src="{{ asset($item->image) }}" class="img-fluid" style="height: 300px;" alt="smaple image">
+                        @else
+                            <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                        @endif
                         <div class="mask flex-center rgba-black-strong">
                             <span class="text-white">+</span>
                         </div>

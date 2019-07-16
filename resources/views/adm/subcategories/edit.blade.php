@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <select name="category_id" id="" class="custom-select">
+                        <select name="category_id" id="" class="custom-select" required>
                             <option disabled selected>Seleccionar categoria</option>
                             @foreach($categories as $item)
                                 <option value="{{ $item->id }}">{{ $item->title }}</option>
