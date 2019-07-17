@@ -29,29 +29,29 @@
                 </div>
             </div>
 
-
+            <select-component :categoria="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}"></select-component>
             <div class="row">
-                <div class="col-md-6 mt-4">
-                    <p>Seleccionar Categoria</p>
-                    <select class="custom-select form-control select2" name="category_id">
-                        @forelse($categorias as $item)
-                            <option value="{!! $item->id !!}" {{ $producto->category_id == $item->id  ? 'selected' : null }}>{!! $item->title !!}</option>
-                        @empty
-                            <option value="" selected disabled>No hay registros</option>
-                        @endforelse
-                    </select>
-                </div>
-                {{--@dd($producto->subcategory()->first())--}}
-                <div class="col-md-6 mt-4">
-                    <p>Seleccionar Subcategoria</p>
-                    <select class="custom-select form-control select2" name="subcategory_id">
-                        @forelse($subcategorias as $item)
-                            <option value="{!! $item->id !!}" >{!! $item->title !!}</option>
-                        @empty
-                            <option value="" selected disabled>No hay registros</option>
-                        @endforelse
-                    </select>
-                </div>
+{{--                <div class="col-md-6 mt-4">--}}
+{{--                    <p>Seleccionar Categoria</p>--}}
+{{--                    <select class="custom-select form-control select2" name="category_id">--}}
+{{--                        @forelse($categorias as $item)--}}
+{{--                            <option value="{!! $item->id !!}" {{ $producto->category_id == $item->id  ? 'selected' : null }}>{!! $item->title !!}</option>--}}
+{{--                        @empty--}}
+{{--                            <option value="" selected disabled>No hay registros</option>--}}
+{{--                        @endforelse--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+{{--                --}}{{--@dd($producto->subcategory()->first())--}}
+{{--                <div class="col-md-6 mt-4">--}}
+{{--                    <p>Seleccionar Subcategoria</p>--}}
+{{--                    <select class="custom-select form-control select2" name="subcategory_id">--}}
+{{--                        @forelse($subcategorias as $item)--}}
+{{--                            <option value="{!! $item->id !!}" >{!! $item->title !!}</option>--}}
+{{--                        @empty--}}
+{{--                            <option value="" selected disabled>No hay registros</option>--}}
+{{--                        @endforelse--}}
+{{--                    </select>--}}
+{{--                </div>--}}
             </div>
 {{--            @dd($producto->capacity)--}}
 {{--            <cierres-component :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :terminacion="{{ json_encode($producto->termination) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>--}}

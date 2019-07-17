@@ -2,14 +2,14 @@
     <div class="row">
         <div class="col-md-6 mt-4">
             <p>Seleccionar Categoria</p>
-            <select class="custom-select form-control select2" name="category_id">
-                <option v-for="item in categoria" value=" ">{{ item.title}}</option>
+            <select class="custom-select form-control select2" v-model="seleccionado" @change="getSubcategoria()" name="category_id" >
+                <option v-for="item in categoria" :value="item.id">{{ item.title}}</option>
             </select>
         </div>
         <div class="col-md-6 mt-4">
             <p>Seleccionar Subcategoria</p>
             <select class="custom-select form-control select2" name="subcategory_id">
-                <option v-for="item in subcategoria" value="">{{ item.title}}</option>
+                <option v-for="item in subcate" :value="item.id">{{ item.title}}</option>
             </select>
         </div>
     </div>
@@ -29,6 +29,8 @@
         },
         data(){
           return{
+              seleccionado:1,
+              subcate:[],
               terminacion:[],
 
               url : document.__API_URL,
@@ -36,24 +38,14 @@
           }
         },
         mounted() {
-
-            this.getCapacidad()
+            this.getSubcategoria()
+            // this.getCapacidad()
             //console.log(this.capacidad)
         },
         methods: {
-
-            getCapacidad(){
-                //console.log(this.selectedcapacidad)
-                this.selectedcapacidad.forEach((item)=>{
-                    this.capacidad.push(
-                        {
-                            cc: item.cc,
-                            price: item.price,
-                            price_offer: item.price_offer,
-                            offer: item.offer
-                        }
-                    )
-                });
+            getSubcategoria(){
+                this.subcate = this.subcategoria.filter(item => item.category_id == this.seleccionado);
+                console.log(this.subcate)
             },
             addCapacidad(){
                 this.capacidad.push(

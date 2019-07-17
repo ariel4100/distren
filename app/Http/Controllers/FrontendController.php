@@ -42,7 +42,7 @@ class FrontendController extends Controller
     {
         $categorias = Category::all();
         $categoria = Category::find($id);
-        $subcategorias = Subcategory::orderBy('order')->limit(2)->orderBy('order')->get();
+        $subcategorias = Subcategory::where('category_id',$categoria->id)->orderBy('order')->limit(2)->orderBy('order')->get();
         return view('page.productos.categoria',compact('categoria','categorias','subcategorias'));
     }
 

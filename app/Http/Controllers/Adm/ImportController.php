@@ -71,6 +71,7 @@ class ImportController extends Controller
                     ]);
                     $producto->closure()->sync($cierre->id);
                     $producto->termination()->sync($terminacion->id);
+
                     $item = str_replace(".","",$row[7]);
                     $item = str_replace(",",".",$row[7]);
                     $item = str_replace("$","",$row[7]);
