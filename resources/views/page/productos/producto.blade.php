@@ -7,36 +7,47 @@
             @include('page.partials.botonera')
             <div class="col-md-9">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-center">
+                        {{--@dd($producto->offer)--}}
                         <!--Carousel Wrapper-->
+
                         @if($producto->image)
                         <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
                             <!--Indicators-->
+
                             <ol class="carousel-indicators">
-                                @if($producto->image)
-                                    <li data-target="#carousel-example-1z" style="background-color: darkgray;" data-slide-to="0" class="active"></li>
-                                @endif
-                                @forelse($galery as $k=>$item)
-                                    <li data-target="#carousel-example-1z" style="background-color: darkgray;" data-slide-to="{{ $k+1 }}"  ></li>
+                                @forelse($producto->image as $k=>$item)
+                                    <li data-target="#carousel-example-1z" style="background-color: darkgray;" data-slide-to="{{ $k }}" class="{{ $k==0 ? 'active' : '' }}" ></li>
                                 @empty
                                 @endforelse
                             </ol>
                             <!--/.Indicators-->
                             <!--Slides-->
                             <div class="carousel-inner" role="listbox">
-                                @if($producto->image)
-                                    <div class="carousel-item  active">
-                                        <img class="d-block w-100" style="height: 297px" src="{!! asset($producto->image) !!}"
-                                             alt="First slide">
-                                    </div>
-                                @endif
-                                @forelse($galery as $k=>$item)
-                                    <div class="carousel-item">
-                                        <img class="d-block w-100" style="height: 297px" src="{!! asset($item->image) !!}"
-                                             alt="First slide">
+                                {{--@dd($producto->image)--}}
+                                    {{--<div class="carousel-item  active">--}}
+                                        {{--<img class="d-block w-100" style="height: 297px" src="{!! asset($producto->image[0]['image']) !!}"--}}
+                                             {{--alt="First slide">--}}
+                                    {{--</div>--}}
+                                {{--@endif--}}
+
+                                @forelse($producto->image as $k=>$item)
+                                    {{--@dd($item['image'])--}}
+
+                                    <div class="carousel-item  {{ $k == 0 ? 'active' : '' }}">
+                                        @if($producto->offer)
+                                            <div class="img position-relative d-inline-block">
+                                                <img class="position-absolute img-fluid " style="z-index: 11; left: -8px; top: -2px;" src="http://osolelaravel.com/partscam/images/general/ofertas.fw.png" alt="">
+                                                <img class="img-fluid" style="height: 297px" src="{{ asset($item['image']) }}"
+                                                     alt="First slide">
+                                            </div>
+                                        @else
+                                            <img class="img-fluid" style="height: 297px" src="{{ asset($item['image']) }}"
+                                                 alt="First slide">
+                                        @endif
                                     </div>
                                 @empty
-                                    <img src="{!! asset($producto->image) !!}" alt="" class="img-fluid">
+                                    {{--<img src="{!! asset($producto->image) !!}" alt="" class="img-fluid">--}}
                                 @endforelse
                             </div>
                             <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
@@ -53,10 +64,10 @@
                             <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
                         @endif
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mt-2">
                         <h4 class="distren-color font-weight-bold">{!! $producto->title !!}</h4>
                         {!! $producto->text !!}
-                        <a href="" class="btn distren-fondo shadow-none m-0 px-4 py-2 p-0">Consultar</a>
+                        <a href="{{ route('contacto') }}" class="btn distren-fondo shadow-none m-0 px-4 py-2 p-0">Consultar</a>
                     </div>
                 </div>
                 @if(count($producto->closure) > 0)
@@ -64,7 +75,7 @@
                 <div class="row">
                     {{--@dd($productos->closure)--}}
                     @forelse($producto->closure as $cierre)
-                        <div class="col-md-2 mb-4">
+                        <div class="col-md-2 col-sm-4 mb-4">
                             @if($cierre->image)
                                 <img src="{{ asset($cierre->image) }}" alt="" class="img-fluid" style="height: 100px;">
                             @else

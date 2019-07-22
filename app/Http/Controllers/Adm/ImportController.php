@@ -66,26 +66,39 @@ class ImportController extends Controller
                         'title' => $row[3],
                         'category_id' => $familia->id,
                         'subcategory_id' => $subfamily->id,
-                        'offer' => $row[10] == 'si' ? true : false,
-                        'featured' => $row[11] == 'si' ? true : false,
+                        'offer' => $row[10] == 'SI' ? true : false,
+                        'featured' => $row[11] == 'SI' ? true : false,
                     ]);
-                    $producto->closure()->sync($cierre->id);
-                    $producto->termination()->sync($terminacion->id);
 
-                    $item = str_replace(".","",$row[7]);
-                    $item = str_replace(",",".",$row[7]);
-                    $item = str_replace("$","",$row[7]);
+                    DB::table('closure_product')->updateOrInsert([
+                        'closure_id' => $cierre->id,
+                        'product_id' => $producto->id,
+                    ]);
+                    DB::table('product_termination')->updateOrInsert([
+                        'termination_id' => $terminacion->id,
+                        'product_id' => $producto->id,
+                    ]);
+//                    $producto->closure()->sync($cierre->id);
+//                    $producto->termination()->sync($terminacion->id);
+
+                    $precio = str_replace(".","",$row[7]);
+                    $precio = str_replace(",",".",$row[7]);
+                    $precio = str_replace("$","",$row[7]);
+                    $precio_oferta = str_replace(".","",$row[8]);
+                    $precio_oferta = str_replace(",",".",$row[8]);
+                    $precio_oferta = str_replace("$","",$row[8]);
 //                    dd(floatval($item));
                     $capacidad = Capacity::firstOrCreate([
                         'cc' => $row[5],
-                        'price' => floatval($item),
-                        'price_offer' => floatval($row[8]),
-                        'offer' => $row[10] == 'si' ? true : false,
+                        'price' => floatval($precio),
+                        'price_offer' => floatval($precio_oferta),
+//                        'offer' => $row[10] == 'si' ? true : false,
                         'product_id' => $producto->id,
                     ]);
                 }
             }
 
+            return back()->with('status', "Carga finalizada");
         }
 
 
@@ -107,6 +120,6 @@ class ImportController extends Controller
 //        } catch (Exception $e) {
 //            return back()->withErrors(['status' => "Ocurrió un error"]);
 //        }
-        return back()->withSuccess(['status' => "Carga finalizada"]);
+
     }
 }

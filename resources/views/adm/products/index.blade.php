@@ -17,7 +17,14 @@
                     <tbody>
                     @forelse ($productos as $item)
                         <tr>
-                            <td><img src="{{  asset($item->image) }}" style="width: 150px"></td>
+                            <td style="width: 100px;">
+                                @if($item->image)
+                                    {{--@dd($item->image[0]['image'])--}}
+                                    <img src="{{ asset($item->image[0]['image']) }}" class="img-fluid" alt="smaple image">
+                                @else
+                                    <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                                @endif
+                            </td>
                             <td>{{ $item->title }}</td>
                             <td>{{ $item->order }}</td>
                             <td>

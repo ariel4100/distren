@@ -42,7 +42,6 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
                             <select style="width: 100px;" class="browser-default custom-select custom-select-sm" v-model="item.terminacion">
-                                <option selected>Ninguno</option>
                                 <option v-for="item in terminaciones" :value="item">
                                     {{ item.title }}
                                 </option>
@@ -55,7 +54,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <button @click="addCapacidad(item,index)" class="btn btn-link p-0"><i class="fas fa-plus distren-color"></i></button>
                             <select style="width: 100px;" class="browser-default custom-select custom-select-sm" v-model="item.cierre">
-                                <option selected>Ninguno</option>
+                                <option selected :value="{price: 0}">Ninguno</option>
                                 <option v-for="cierre in cierres" :value="cierre">
                                     {{ cierre.title }}
                                 </option>
@@ -122,7 +121,6 @@
             return{
                 carrito:[],
                 productocapacidad:[],
-
                 total: 0,
                 subtotal:0,
                 test: 1,
@@ -233,13 +231,13 @@
                     this.productocapacidad.push(
                         {
                             cc: ob.cc,
-                            price: ob.price,
-                            price_offer: ob.precio_offer,
+                            price: parseFloat(ob.price),
+                            price_offer: parseFloat(ob.precio_offer),
                             qty: 0,
                             qty_cierre: 0,
                             cierre: {price: 0},
-                            terminacion: {price: 0},
-                            offer: ob.offer,
+                            terminacion: this.terminaciones[0],
+                            offer: parseInt(ob.offer),
                             activo: false,
                         }
                     )

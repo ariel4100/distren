@@ -10,7 +10,7 @@
                         @if($item->image)
                             <img src="{{ asset($item->image) }}" class="img-fluid" style="height: 300px;" alt="smaple image">
                         @else
-                            <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                            <img src="{{ asset('uploads/no-img.png') }}" alt="" style="height: 300px;" class="img-fluid w-100">
                         @endif
                         <div class="mask flex-center rgba-black-strong">
                             <span class="text-white">+</span>

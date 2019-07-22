@@ -84,6 +84,22 @@ class ProductController extends Controller
 //        $cierres = collect($apiProductos['cierre']);
 //        $terminacion = collect($apiProductos['terminacion']);
 
+        $gallery = $request->gallery;
+
+        if (isset($gallery))
+        {
+            //dd($gallery);
+            foreach ($gallery as $k => $item) {
+//                dd($item['image']);
+                if ( $item['image'] )
+                {
+//                    dd($item['image']);
+                    $path = $item['image']->store("uploads/productos");
+                    $gallery[$k]['image'] = $path;
+                }
+            }
+        }
+
         $product = new Product();
         $product->title = $request->title;
         $product->text = $request->text;
@@ -145,9 +161,29 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
+//        dd($request->all());
         $product = Product::find($id);
+        $gallery = $request->gallery;
+
+        if (isset($gallery))
+        {
+            //dd($gallery);
+            foreach ($gallery as $k => $item) {
+//                dd($item['image']);
+                if (is_string($item['image']))
+                {
+//                    dd($product->image[$k]);
+                    $gallery[$k]['image'] = $product->image[$k]['image'];
+                }else{
+//                    dd($item['image']);
+                    $path = $item['image']->store("productos/imagenes");
+                    $gallery[$k]['image'] = $path;
+                }
+            }
+        }
+
         $product->title = $request->title;
+        $product->image = $gallery;
         $product->text = $request->text;
         $product->featured = isset($request->featured) ? true : false;
         $product->offer = isset($request->offer) ? true : false;

@@ -7,8 +7,9 @@
                 <div class="bg-white p-5 rounded">
                     @php($logos = \App\Content::seccionTipo('logos','texto')->first())
                     @php($data = json_decode($logos->text))
+{{--                    @dd($data)--}}
                     <div class="text-center">
-                        <img src="{{ $data->image }}" alt="" class="img-fluid">
+                        <img src="{{ $data->image_2 }}" alt="" class="img-fluid">
                     </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

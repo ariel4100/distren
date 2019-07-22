@@ -89,4 +89,18 @@ class FrontendController extends Controller
     {
         return view('page.confirmar');
     }
+
+    public function buscador(Request $request)
+    {
+//        dd($request->name);
+        if (isset($request->name))
+        {
+            $resultado = Product::Orwhere('title', 'LIKE', "%$request->name%")->get();
+        }else{
+            $resultado = [];
+        }
+        //$resultado = Product::whereLike(['text->title_'.App::getLocale(), 'text->text_'.App::getLocale()], $request->name)->get();
+        //dd($resultado);
+        return view('page.buscador',compact('resultado'));
+    }
 }

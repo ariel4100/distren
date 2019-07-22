@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-
+{{--            @dd($subcategorias)--}}
             <select-component :categoria="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}"></select-component>
 {{--            <div class="row">--}}
 {{--                <div class="col-md-6 mt-4">--}}

@@ -79,6 +79,7 @@
                 <li><a class="border-top" href="{{ route('terminaciones.index') }}"><i class="fas fa-chevron-right px-4"></i>Terminaciones</a></li>
                 <li><a href="{{ route('cierres.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>
 {{--                <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>--}}
+                <li><a href="{{ route('carga') }}"><i class="fas fa-chevron-right px-4"></i>Carga de Excel</a></li>
             </ul>
         </li>
         <!---VENTAS---->
@@ -97,7 +98,6 @@
             </a>
             <ul class="collapse list-group list-group-flush" id="carrito">
                 <li><a href="{{ route('contenido.index', ['seccion' => 'carrito', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Informacion</a></li>
-                <li><a href="{{ route('carga') }}"><i class="fas fa-chevron-right px-4"></i>Carga de Excel</a></li>
             </ul>
         </li>
         <!---CONTACTO---->
@@ -113,7 +113,7 @@
         <!---DISTREN---->
         <li class="">
             <a href="#Logos" data-toggle="collapse" aria-expanded="false" class="d-flex">
-                DISTREN<i class="fas fa-sort-down ml-auto"></i>
+                <i class="material-icons">settings</i>DISTREN<i class="fas fa-sort-down ml-auto"></i>
             </a>
             <ul class="collapse list-group list-group-flush " id="Logos">
                 <li><a href="{{ route('contenido.index', ['seccion' => 'logos', 'tipo' => 'texto']) }}"><i class="fas fa-chevron-right px-4"></i>Logos</a></li>

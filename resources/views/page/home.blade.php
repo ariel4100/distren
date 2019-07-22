@@ -21,7 +21,7 @@
                         <div class="view overlay">
                             {{--<img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">--}}
                             @if($item->image)
-                                <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                                <img src="{{ asset($item->image[0]['image']) }}" class="img-fluid " alt="smaple image">
                             @else
                                 <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
                             @endif
@@ -90,7 +90,7 @@
         <div class="container">
             <div class="row">
                 @foreach($contenido as $item)
-                    <div class="col-md-4 d-flex align-items-center">
+                    <div class="col-md-4 d-flex align-items-center mt-4">
                         <img src="{{ asset($item->image) }}" alt="" class="img-fluid mx-3">
                         {!! $item->text !!}
                     </div>
@@ -113,7 +113,7 @@
                                 <img class="position-absolute img-fluid " style="z-index: 1; left: -8px; top: -8px;" src="http://osolelaravel.com/partscam/images/general/ofertas.fw.png" alt="">
                             </div>
                             @if($item->image)
-                                <img src="{{ asset($item->image) }}" class="img-fluid " alt="smaple image">
+                                <img src="{{ asset($item->image[0]['image']) }}" class="img-fluid " alt="smaple image">
                             @else
                                 <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
                             @endif
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                        {{--<h5 class="text-center">Desde <del>${{ $item->price->min('price') }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>--}}
+                        <h5 class="text-center">Desde <del>${{ $item->capacity->min('price') }} </del> <span class="distren-color"> ${{ $item->capacity->min('price_offer') }}</span></h5>
                     </a>
                     <a href="{{ route('producto',$item->id) }}" class="btn py-1 px-4 distren-fondo">Ver más</a>
                 </div>

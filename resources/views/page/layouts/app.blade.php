@@ -31,7 +31,7 @@
             color: white !important;
         }
         .distren-bold{
-            font-family: 'Titillium Web semibold' !important;
+            font-family: 'Titillium Web', sans-serif;
         }
         .activo{
             border-bottom: 2px solid #8BBF40;

@@ -2723,6 +2723,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
  // register globally
@@ -3013,7 +3015,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3135,17 +3136,15 @@ __webpack_require__.r(__webpack_exports__);
       this.capacidad.forEach(function (ob, index) {
         _this.productocapacidad.push({
           cc: ob.cc,
-          price: ob.price,
-          price_offer: ob.precio_offer,
+          price: parseFloat(ob.price),
+          price_offer: parseFloat(ob.precio_offer),
           qty: 0,
           qty_cierre: 0,
           cierre: {
             price: 0
           },
-          terminacion: {
-            price: 0
-          },
-          offer: ob.offer,
+          terminacion: _this.terminaciones[0],
+          offer: parseInt(ob.offer),
           activo: false
         }); //this.quantity_max_cc = ob.quantity;
 
@@ -3637,31 +3636,35 @@ __webpack_require__.r(__webpack_exports__);
 //Vue.component('multiselect', Multiselect)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['capacidades', 'cierres', 'subcategoria', 'categoria'],
+  props: ['capacidades', 'producto', 'subcategoria', 'categoria'],
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a,
     Money: v_money__WEBPACK_IMPORTED_MODULE_2__["Money"]
   },
   data: function data() {
     return {
-      seleccionado: 1,
+      catseleccionado: this.producto && this.producto.category_id ? this.producto.category_id : 1,
+      subcatseleccionado: this.producto && this.producto.subcategory_id ? this.producto.subcategory_id : 1,
       subcate: [],
+      cate: [],
       terminacion: [],
       url: document.__API_URL
     };
   },
   mounted: function mounted() {
     this.getSubcategoria(); // this.getCapacidad()
-    //console.log(this.capacidad)
   },
   methods: {
     getSubcategoria: function getSubcategoria() {
       var _this = this;
 
+      // this.catseleccionado = this.producto.category_id != null ? this.producto.category_id : 0;
+      // this.subcatseleccionado = this.producto.subcategory_id != null ? this.producto.subcategory_id : 0;
+      // console.log(this.subcategoria)
+      // this.cate = this.categoria.filter(item => item.id == this.producto.category_id);
       this.subcate = this.subcategoria.filter(function (item) {
-        return item.category_id == _this.seleccionado;
-      });
-      console.log(this.subcate);
+        return item.category_id && item.category_id == _this.catseleccionado;
+      }); // console.log(this.subcate)
     },
     addCapacidad: function addCapacidad() {
       this.capacidad.push({
@@ -37986,9 +37989,9 @@ var render = function() {
   return _c("div", { staticClass: "col-md-9" }, [
     _c(
       "div",
-      { staticClass: "row justify-content-center mb-3" },
+      { staticClass: "r ow d-flex justify-content-center flex-row mb-3" },
       [
-        _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "col-m d-3" }, [
           _c(
             "a",
             {
@@ -38004,7 +38007,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _vm._l(_vm.subcategoria, function(item) {
-          return _c("div", { staticClass: "col-md-3" }, [
+          return _c("div", { staticClass: "col- md-3" }, [
             _c(
               "a",
               {
@@ -38033,66 +38036,68 @@ var render = function() {
       "div",
       { staticClass: "row" },
       _vm._l(_vm.filterproduct, function(item) {
-        return item.offer
-          ? _c("div", { staticClass: "col-md-3 text-center mt-4" }, [
+        return _c("div", { staticClass: "col-md-3 text-center mt-4" }, [
+          _c(
+            "a",
+            {
+              staticClass: "position-relative",
+              staticStyle: { color: "#9FA3A5" },
+              attrs: { href: _vm.url + "/familias/producto/" + item.id }
+            },
+            [
               _c(
-                "a",
+                "div",
                 {
-                  staticClass: "position-relative",
-                  staticStyle: { color: "#9FA3A5" },
-                  attrs: { href: "producto" }
+                  staticClass: "view overlay",
+                  staticStyle: { cursor: "pointer" }
                 },
                 [
-                  _c("div", { staticClass: "view overlay" }, [
-                    _vm._m(0, true),
-                    _vm._v(" "),
-                    item.image
-                      ? _c("img", {
-                          staticClass: "img-fluid ",
-                          attrs: { src: "", alt: "smaple image" }
+                  parseInt(item.offer)
+                    ? _c("div", { staticClass: "img position-relative" }, [
+                        _c("img", {
+                          staticClass: "position-absolute img-fluid ",
+                          staticStyle: {
+                            "z-index": "1",
+                            left: "-8px",
+                            top: "-8px"
+                          },
+                          attrs: {
+                            src:
+                              "http://osolelaravel.com/partscam/images/general/ofertas.fw.png",
+                            alt: ""
+                          }
                         })
-                      : _c("img", {
-                          staticClass: "img-fluid",
-                          attrs: { src: "uploads/no-img.png", alt: "" }
-                        }),
-                    _vm._v(" "),
-                    _vm._m(1, true)
-                  ]),
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("h4", { staticClass: "text-center py-1 m-0" }, [
-                    _vm._v(_vm._s(item.title) + " ")
-                  ])
-                ]
-              )
-            ])
-          : _c("div", { staticClass: "col-md-3 mt-4" }, [
-              _c(
-                "a",
-                {
-                  staticStyle: { color: "#9FA3A5" },
-                  attrs: { href: _vm.url + "/productos/producto/" + item.id }
-                },
-                [
-                  _c("div", { staticClass: "view overlay" }, [
-                    item.image
-                      ? _c("img", {
-                          staticClass: "img-fluid ",
-                          attrs: { src: "", alt: "smaple image" }
-                        })
-                      : _c("img", {
-                          staticClass: "img-fluid",
-                          attrs: { src: "../../uploads/no-img.png", alt: "" }
-                        }),
-                    _vm._v(" "),
-                    _vm._m(2)
-                  ]),
+                  item.image
+                    ? _c("img", {
+                        staticClass: "img-fluid ",
+                        staticStyle: { height: "184px" },
+                        attrs: {
+                          src: _vm.url + "/" + item.image[0].image,
+                          alt: "smaple image"
+                        }
+                      })
+                    : _c("img", {
+                        staticClass: "img-fluid",
+                        attrs: {
+                          src:
+                            "http://osolelaravel.com/distren/uploads/no-img.png",
+                          alt: ""
+                        }
+                      }),
                   _vm._v(" "),
-                  _c("h4", { staticClass: "text-center py-1 m-0" }, [
-                    _vm._v(_vm._s(item.title))
-                  ])
+                  _vm._m(0, true)
                 ]
-              )
-            ])
+              ),
+              _vm._v(" "),
+              _c("h4", { staticClass: "text-center py-1 m-0" }, [
+                _vm._v(_vm._s(item.title))
+              ])
+            ]
+          )
+        ])
       }),
       0
     )
@@ -38103,32 +38108,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "img position-relative" }, [
-      _c("img", {
-        staticClass: "position-absolute img-fluid ",
-        staticStyle: { "z-index": "1", left: "-8px", top: "-8px" },
-        attrs: {
-          src: "http://osolelaravel.com/partscam/images/general/ofertas.fw.png",
-          alt: ""
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mask flex-center rgba-black-strong" }, [
-      _c("span", { staticClass: "text-white" }, [_vm._v("+")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mask flex-center rgba-black-strong" }, [
-      _c("span", { staticClass: "text-white" }, [_vm._v("+")])
-    ])
+    return _c(
+      "div",
+      {
+        staticClass: "mask flex-center rgba-black-strong",
+        staticStyle: { cursor: "pointer" }
+      },
+      [_c("span", { staticClass: "text-white" }, [_vm._v("+")])]
+    )
   }
 ]
 render._withStripped = true
@@ -38630,26 +38617,20 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [
-                                  _c("option", { attrs: { selected: "" } }, [
-                                    _vm._v("Ninguno")
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.terminaciones, function(item) {
-                                    return _c(
-                                      "option",
-                                      { domProps: { value: item } },
-                                      [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(item.title) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    )
-                                  })
-                                ],
-                                2
+                                _vm._l(_vm.terminaciones, function(item) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: item } },
+                                    [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(item.title) +
+                                          "\n                            "
+                                      )
+                                    ]
+                                  )
+                                }),
+                                0
                               )
                             ]
                           )
@@ -38746,9 +38727,14 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _c("option", { attrs: { selected: "" } }, [
-                                    _vm._v("Ninguno")
-                                  ]),
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { selected: "" },
+                                      domProps: { value: { price: 0 } }
+                                    },
+                                    [_vm._v("Ninguno")]
+                                  ),
                                   _vm._v(" "),
                                   _vm._l(_vm.cierres, function(cierre) {
                                     return _c(
@@ -39734,8 +39720,8 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.seleccionado,
-              expression: "seleccionado"
+              value: _vm.catseleccionado,
+              expression: "catseleccionado"
             }
           ],
           staticClass: "custom-select form-control select2",
@@ -39751,7 +39737,7 @@ var render = function() {
                     var val = "_value" in o ? o._value : o.value
                     return val
                   })
-                _vm.seleccionado = $event.target.multiple
+                _vm.catseleccionado = $event.target.multiple
                   ? $$selectedVal
                   : $$selectedVal[0]
               },
@@ -39776,8 +39762,31 @@ var render = function() {
       _c(
         "select",
         {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.subcatseleccionado,
+              expression: "subcatseleccionado"
+            }
+          ],
           staticClass: "custom-select form-control select2",
-          attrs: { name: "subcategory_id" }
+          attrs: { name: "subcategory_id" },
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.subcatseleccionado = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
         },
         _vm._l(_vm.subcate, function(item) {
           return _c("option", { domProps: { value: item.id } }, [

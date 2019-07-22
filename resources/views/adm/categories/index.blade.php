@@ -17,7 +17,13 @@
                     <tbody>
                     @forelse ($categorias as $item)
                         <tr>
-                            <td><img src="{{  asset($item->image) }}" style="width: 150px"></td>
+                            <td style="width: 100px;">
+                                @if($item->image)
+                                    <img src="{{ asset($item->image) }}" class="img-fluid" alt="smaple image">
+                                @else
+                                    <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
+                                @endif
+                            </td>
                             <td>{{ $item->title }}</td>
                             <td>{{ $item->order }}</td>
                             <td>

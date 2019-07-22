@@ -5,11 +5,11 @@
     <div class="container p-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Atención</h5>
+                <h5 class="card-title">Carga de Productos</h5>
                 <p class="card-text">Para hacer la carga de productos mediante un archivo Excel, deberá cumplir lo siguiente:</p>
                 <ol>
-                    <li>El archivo debe guardarlo en formato xls</li>
-                    <li>No tener CABECERA en la tabla</li>
+                    <li>El archivo debe guardarlo en formato xlsx</li>
+                    {{--<li>No tener CABECERA en la tabla</li>--}}
 {{--                    <li>Este archivo debe estar estructurado por columnas, las cuales deberan ser cada campo de la tabla. Deberán ser 6 columnas.--}}
 {{--                        <ul>--}}
 {{--                            <li>[A] FV</li>--}}
@@ -21,10 +21,10 @@
 {{--                        </ul>--}}
 {{--                    </li>--}}
                 </ol>
-                <p class="card-text">En el caso de no poseer algún campo, dejar vacío la celda.</p>
+                {{--<p class="card-text">En el caso de no poseer algún campo, dejar vacío la celda.</p>--}}
 
                 <hr>
-                <form onsubmit="carga()" action="{{ route('productos.carga') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('productos.carga') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row justify-content-center">
                         <div class="col-12 col-md-6">
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="custom-file">
                                     <input name="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" data-browser="Buscar" for="inputGroupFile01">Seleccione archivo</label>
+                                    <label class="custom-file-label" data-browser="Subir" for="inputGroupFile01">Seleccione archivo</label>
                                 </div>
                             </div>
 
