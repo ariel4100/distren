@@ -14,7 +14,7 @@ class Product extends Model
 
 
     protected $fillable = [
-        'code', 'image', 'title','subtitle','text','featured','category_id','order','offer','subcategory_id'
+        'code', 'image', 'title','subtitle','text','featured','category_id','order','offer','subcategory_id','price', 'price_offer','group_product_id'
     ];
 
     public function category() {
@@ -22,20 +22,23 @@ class Product extends Model
     }
 
     public function subcategory() {
-        return $this->belongsToMany('App\Subcategory','subcategory_product');
+        return $this->belongsTo('App\Subcategory');
     }
 
-    public function termination()
-    {
-        return $this->belongsToMany('App\Termination');
+    public function group_product() {
+        return $this->belongsTo('App\GroupProduct');
     }
-    public function closure()
-    {
-        return $this->belongsToMany('App\Closure');
-    }
-    public function capacity()
-    {
-        return $this->hasMany('App\Capacity');
-    }
+//    public function termination()
+//    {
+//        return $this->belongsToMany('App\Termination');
+//    }
+//    public function closure()
+//    {
+//        return $this->belongsToMany('App\Closure');
+//    }
+//    public function capacity()
+//    {
+//        return $this->hasMany('App\Capacity');
+//    }
 
 }

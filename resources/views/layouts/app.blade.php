@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Distren</title>
-    <link rel="icon" href="{{ asset(isset($data->image) ? asset($data->image) : null) }}">
+    <link rel="icon" href=" ">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- Bootstrap core CSS -->

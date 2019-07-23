@@ -5,6 +5,7 @@ namespace App\Http\Controllers\adm;
 use App\Capacity;
 use App\Category;
 use App\Closure;
+use App\GroupProduct;
 use App\Imports\ProductImport;
 use App\Product;
 use App\Subcategory;
@@ -12,6 +13,7 @@ use App\Termination;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Writer\Xls as WriterXls;
@@ -33,10 +35,11 @@ class ImportController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file')->storeAs('public/excel', Str::random(4).'-'.$request->file('file')->getClientOriginalName());
-            $file = storage_path('app/'.$file);
+//            $file = storage_path('app/'.$file);
             $reader = new ReaderXlsx();
             $spreadsheet = $reader->load($file);
             $sheet = $spreadsheet->getActiveSheet();
+//            dd(Storage::url($file));
             $rows = $sheet->toArray();
             $col2 = [];
             foreach ($rows as $k => $row)
@@ -47,12 +50,12 @@ class ImportController extends Controller
 
                 }else{
 //                    dd($row);
-                    $cierre = Closure::firstOrCreate([
-                        'title' => $row[6],
-                    ]);
-                    $terminacion = Termination::firstOrCreate([
-                        'title' => $row[4],
-                    ]);
+//                    $cierre = Closure::firstOrCreate([
+//                        'title' => $row[6],
+//                    ]);
+//                    $terminacion = Termination::firstOrCreate([
+//                        'title' => $row[4],
+//                    ]);
 
                     $familia = Category::firstOrCreate([
                         'title' => $row[1]
@@ -62,24 +65,12 @@ class ImportController extends Controller
                         'title' => $row[2],
                         'category_id' => $familia->id,
                     ]);
-                    $producto = Product::firstOrCreate([
+
+                    $group_products = GroupProduct::firstOrCreate([
                         'title' => $row[3],
                         'category_id' => $familia->id,
                         'subcategory_id' => $subfamily->id,
-                        'offer' => $row[10] == 'SI' ? true : false,
-                        'featured' => $row[11] == 'SI' ? true : false,
                     ]);
-
-                    DB::table('closure_product')->updateOrInsert([
-                        'closure_id' => $cierre->id,
-                        'product_id' => $producto->id,
-                    ]);
-                    DB::table('product_termination')->updateOrInsert([
-                        'termination_id' => $terminacion->id,
-                        'product_id' => $producto->id,
-                    ]);
-//                    $producto->closure()->sync($cierre->id);
-//                    $producto->termination()->sync($terminacion->id);
 
                     $precio = str_replace(".","",$row[7]);
                     $precio = str_replace(",",".",$row[7]);
@@ -87,14 +78,39 @@ class ImportController extends Controller
                     $precio_oferta = str_replace(".","",$row[8]);
                     $precio_oferta = str_replace(",",".",$row[8]);
                     $precio_oferta = str_replace("$","",$row[8]);
-//                    dd(floatval($item));
-                    $capacidad = Capacity::firstOrCreate([
-                        'cc' => $row[5],
+
+                    $producto = Product::firstOrCreate([
+                        'code' => $row[0],
+                        'title' => $row[6],
+                        'category_id' => $familia->id,
+                        'subcategory_id' => $subfamily->id,
+                        'group_product_id' => $group_products->id,
                         'price' => floatval($precio),
                         'price_offer' => floatval($precio_oferta),
-//                        'offer' => $row[10] == 'si' ? true : false,
-                        'product_id' => $producto->id,
+                        'offer' => $row[10] == 'SI' ? true : false,
+                        'featured' => $row[11] == 'SI' ? true : false,
                     ]);
+
+//                    DB::table('closure_product')->updateOrInsert([
+//                        'closure_id' => $cierre->id,
+//                        'product_id' => $producto->id,
+//                    ]);
+//                    DB::table('product_termination')->updateOrInsert([
+//                        'termination_id' => $terminacion->id,
+//                        'product_id' => $producto->id,
+//                    ]);
+//                    $producto->closure()->sync($cierre->id);
+//                    $producto->termination()->sync($terminacion->id);
+
+
+//                    dd(floatval($item));
+//                    $capacidad = Capacity::firstOrCreate([
+//                        'cc' => $row[5],
+//                        'price' => floatval($precio),
+//                        'price_offer' => floatval($precio_oferta),
+////                        'offer' => $row[10] == 'si' ? true : false,
+//                        'product_id' => $producto->id,
+//                    ]);
                 }
             }
 

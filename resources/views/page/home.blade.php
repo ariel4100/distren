@@ -92,7 +92,7 @@
                 @foreach($contenido as $item)
                     <div class="col-md-4 d-flex align-items-center mt-4">
                         <img src="{{ asset($item->image) }}" alt="" class="img-fluid mx-3">
-                        {!! $item->text !!}
+                        {!! $item->text ?? '' !!}
                     </div>
                 @endforeach
             </div>
@@ -100,7 +100,7 @@
     </div>
     <div class="" style="background-color: #EAEAEA">
         <div class="container py-4 text-center">
-            {!! $home->text !!}
+            {!! $home->text ?? ''!!}
         </div>
     </div>
     <div class="container my-5">
@@ -121,8 +121,8 @@
                                 <span class="text-white">+</span>
                             </div>
                         </div>
-                        <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                        <h5 class="text-center">Desde <del>${{ $item->capacity->min('price') }} </del> <span class="distren-color"> ${{ $item->capacity->min('price_offer') }}</span></h5>
+                        <h4 class="text-center py-1 m-0">{!! $item->title ?? '' !!} </h4>
+                        <h5 class="text-center">Desde <del>$  </del> <span class="distren-color"> $ </span></h5>
                     </a>
                     <a href="{{ route('producto',$item->id) }}" class="btn py-1 px-4 distren-fondo">Ver más</a>
                 </div>

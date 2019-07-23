@@ -12,11 +12,10 @@
         </div>
     </div>
 </div>
-@php($logos = \App\Content::seccionTipo('logos','texto')->first())
-@php($data = json_decode($logos->text))
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-0" style="box-shadow: unset; ">
 <div class="container">
-    <a class="navbar-brand" href="{{ route('home') }}"><img src="{!! isset($data->image_2) ? asset($data->image_2) : null !!}" alt="" style="/*height: 50px*/" class="img-fluid"></a>
+    <a class="navbar-brand" href="{{ route('home') }}"><img src=" " alt="" style="/*height: 50px*/" class="img-fluid"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

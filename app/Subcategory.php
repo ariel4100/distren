@@ -14,4 +14,8 @@ class Subcategory extends Model
     public function category() {
         return $this->belongsTo('App\Category');
     }
+
+    public function group_product() {
+        return $this->hasMany('App\GroupProduct');
+    }
 }

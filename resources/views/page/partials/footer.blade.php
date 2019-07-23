@@ -3,9 +3,8 @@
     <div class="container text-md-left py-2">
         <div class="row mt-3">
             <div class="col-sm-12 col-md-5 mt-4  d-flex justify-content-start align-items-center">
-                @php($logos = \App\Content::seccionTipo('logos','texto')->first())
-                @php($data = json_decode($logos->text))
-                <img src="{!! isset($data->image_3) ? asset($data->image_3) : null!!}" alt="" class="img-fluid">
+
+                <img src=" " alt="" class="img-fluid">
                 <!--<div class="d-flex my-5">
                     <p style="font-size: 13px">SEGUINOS EN</p>
                     <a href="" class="tpn-blue mx-2"><i class="fab fa-facebook fa-lg"></i></a>
@@ -21,15 +20,14 @@
                 <a href="{{ route('carrito') }}" class="nav-link m-0 p-0">Carrito</a>
                 <a href="{{ route('contacto') }}" class="nav-link m-0 p-0">Contacto</a>
             </div>
-            @php($contacto = \App\Content::seccionTipo('contacto','texto')->first())
-            @php($datos = json_decode($contacto->text))
+
 
             <div class="col-sm-12 col-md-4 mt-4 ">
                 <h6 class="text-uppercase distren-color distren-bold">DISTREN ENVASES</h6>
                 <ul class="list-group" style="font-size: 13px">
                     <li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">
                         <i class="material-icons distren-color mr-3">location_on</i>
-                        <a href="https://bit.ly/309sR9i" target="_blank">{!! isset($datos->direccion) ? $datos->direccion : null !!}</a>
+                        <a href="https://bit.ly/309sR9i" target="_blank"> </a>
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">
                         <i class="material-icons distren-color mr-3">phone_in_talk</i>

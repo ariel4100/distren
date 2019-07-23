@@ -4,7 +4,8 @@
     <div class="container my-5">
         @include('page.partials.breadcrumb')
         <div class="row">
-            @include('page.partials.botonera')
+            {{--@include('page.partials.botonera')--}}
+            <botonera-component :categorias="{{ json_encode($categorias) }}" :category="{{ json_encode($categoria) }}" :grupo="{{$grupo_productos}}" :producto="{{ json_encode($producto) }}"></botonera-component>
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-6 text-center">
@@ -66,49 +67,15 @@
                     </div>
                     <div class="col-md-6 mt-2">
                         <h4 class="distren-color font-weight-bold">{!! $producto->title !!}</h4>
+                        <p class="font-weight-bold"><b>Codigo: </b> {!! $producto->code !!}</p>
                         {!! $producto->text !!}
-                        <a href="{{ route('contacto') }}" class="btn distren-fondo shadow-none m-0 px-4 py-2 p-0">Consultar</a>
+                        {{--<a href="{{ route('contacto') }}" class="btn distren-fondo shadow-none m-0 px-4 py-2 p-0">Consultar</a>--}}
+                        <producto-carro :producto="{{ json_encode($producto) }}"></producto-carro>
                     </div>
                 </div>
-                @if(count($producto->closure) > 0)
-                <h4 class="distren-color mt-5">Cierres Posibles</h4>
-                <div class="row">
-                    {{--@dd($productos->closure)--}}
-                    @forelse($producto->closure as $cierre)
-                        <div class="col-md-2 col-sm-4 mb-4">
-                            @if($cierre->image)
-                                <img src="{{ asset($cierre->image) }}" alt="" class="img-fluid" style="height: 100px;">
-                            @else
-                                <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
-                            @endif
-                            <p class="text-center">{{ $cierre->title }}</p>
-                        </div>
-                    @empty
-
-                    @endforelse
-                </div>
-                @endif
-                @if(count($producto->termination) > 0)
-                <h4 class="distren-color mt-5">Terminaciones</h4>
-                <div class="row">
-                    {{--@dd($productos->closure)--}}
-                    @forelse($producto->termination as $terminacion)
-                        <div class="col-md-2 mb-4">
-                            @if($terminacion->image)
-                                <img src="{{ asset($terminacion->image) }}" alt="" class="img-fluid" style="height: 100px;">
-                            @else
-                                <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
-                            @endif
-                            <p class="text-center">{{ $terminacion->title }}</p>
-                        </div>
-                    @empty
-
-                    @endforelse
-                </div>
-                @endif
                 {{--<product-component :terminaciones="{{ json_encode($producto->termination) }}" :producto="{{ $producto->capacity }}" :cierres="{{ $producto->closure }}" :nombreproducto="{{ json_encode($producto->title) }}" :nombrecategoria="{{ json_encode($producto->category->title) }}" :precio="{{ json_encode($precio) }}"></product-component>--}}
 {{--                @dd($producto->category->title )--}}
-                <product-carrito :capacidad="{{ json_encode($producto->capacity) }}" :cierres="{{ json_encode($producto->closure) }}" :terminaciones="{{ json_encode($producto->termination) }}" nombreproducto="{{ $producto->title }}" nombrecategoria="{{ $producto->category->title }}"></product-carrito>
+                {{--<product-carrito :capacidad="{{ json_encode($producto->capacity) }}" :cierres="{{ json_encode($producto->closure) }}" :terminaciones="{{ json_encode($producto->termination) }}" nombreproducto="{{ $producto->title }}" nombrecategoria="{{ $producto->category->title }}"></product-carrito>--}}
             </div>
         </div>
     </div>

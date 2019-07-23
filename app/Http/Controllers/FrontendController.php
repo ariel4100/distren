@@ -6,6 +6,7 @@ use App\Capacity;
 use App\Category;
 use App\Content;
 use App\Galery;
+use App\GroupProduct;
 use App\Price;
 use App\Product;
 use App\Slider;
@@ -40,28 +41,40 @@ class FrontendController extends Controller
 
     public function categoriaproductos($id)
     {
-        $categorias = Category::all();
-        $categoria = Category::find($id);
-        $subcategorias = Subcategory::where('category_id',$categoria->id)->orderBy('order')->limit(2)->orderBy('order')->get();
-        return view('page.productos.categoria',compact('categoria','categorias','subcategorias'));
+        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->get();
+        $categoria = Category::with('subcategory')->with('group_product')->with('group_product.product')->where('id',$id)->first();
+//        dd($categoria);
+        //$subcategorias = Subcategory::where('category_id',$categoria->id)->orderBy('order')->limit(2)->orderBy('order')->get();
+        return view('page.productos.categoria',compact('categoria','categorias'));
     }
 
-    public function subcategoria($id)
+//    public function subcategoria($id)
+//    {
+//        $categorias = Category::all();
+//        $subcategoria = Subcategory::find($id);
+//        $subcategorias = Subcategory::orderBy('order')->limit(2)->orderBy('order')->get();
+//        return view('page.productos.subcategoria',compact('categorias','subcategoria','subcategorias'));
+//    }
+
+    public function grupo_productos($id)
     {
-        $categorias = Category::all();
-        $subcategoria = Subcategory::find($id);
+        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->get();
+        $grupo_productos = GroupProduct::with('product')->where('id',$id)->first();
+        $categoria = Category::find($grupo_productos->category_id);
+//        dd($grupo_productos);
         $subcategorias = Subcategory::orderBy('order')->limit(2)->orderBy('order')->get();
-        return view('page.productos.subcategoria',compact('categorias','subcategoria','subcategorias'));
+        return view('page.productos.grupoproductos',compact('categorias','subcategorias','grupo_productos','categoria'));
     }
 
     public function producto($id)
     {
         $producto = Product::find($id);
-        $categorias = Category::all();
+        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->get();
         $categoria = Category::find($producto->category_id);
-        $capacidad = Capacity::where('product_id',$id)->get();
-        $galery = Galery::where('product_id',$producto->id)->get();
-        return view('page.productos.producto',compact('producto','categorias','categoria','capacidad','galery'));
+        $grupo_productos = GroupProduct::with('product')->where('id',$producto->group_product_id)->first();
+//        $capacidad = Capacity::where('product_id',$id)->get();
+//        $galery = Galery::where('product_id',$producto->id)->get();
+        return view('page.productos.producto',compact('producto','categorias','categoria','grupo_productos'));
     }
 
     public function ofertas()

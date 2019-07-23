@@ -21,7 +21,7 @@ Route::get('empresa','FrontendController@empresa')->name('empresa');
 Route::group([ 'prefix' => 'familias'],function (){
     Route::get('/','FrontendController@categorias')->name('categorias');
     Route::get('categoria/{id}','FrontendController@categoriaproductos')->name('categoria');
-    Route::get('subcategoria/{id}','FrontendController@subcategoria')->name('subcategoria');
+    Route::get('grupos/{id}','FrontendController@grupo_productos')->name('grupo_productos');
     Route::get('producto/{id}','FrontendController@producto')->name('producto');
 });
 
@@ -37,7 +37,7 @@ Route::post('enviar-contacto', 'MailController@contacto')->name('contacto.mail')
 
 
 /*************************RUTAS ADM******************************/
-Route::group([ 'middleware' => 'auth','prefix' => 'adm'],function (){
+Route::group([ 'prefix' => 'adm'],function (){
     Route::view('/',  'adm.dashboard.index');
     Route::group(['prefix' => 'slider', 'as' => 'slider'], function() {
         Route::get('{seccion}/create', ['uses' => 'Adm\SliderController@create', 'as' => '.create']);
