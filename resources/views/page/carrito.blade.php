@@ -7,5 +7,5 @@
     @php($data = \App\Content::seccionTipo('carrito', 'texto')->first())
     @php($info = json_decode($data->text))
 
-    <carrito-component :info="{{ json_encode($info) }}"></carrito-component>
+    <carro-component :info="{{ json_encode($info) }}"></carro-component>
 @endsection

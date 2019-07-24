@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ContentSeeder::class,
             MetadataSeeder::class,
-            CategorySeeder::class,
+//            CategorySeeder::class,
             SliderSeeder::class,
             UserSeeder::class,
         ]);
@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
 //        factory('App\Subcategory',10)->create();
 //        factory('App\Closure',10)->create();
 //        factory('App\Capacity',10)->create();
+        $this->call(ContentsTableSeeder::class);
+        $this->call(SlidersTableSeeder::class);
     }
 }

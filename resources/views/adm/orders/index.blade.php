@@ -109,11 +109,10 @@
                                             <table class="table mt-5">
                                                 <thead class="distren-fondo white-text">
                                                 <tr>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Codigo</th>
                                                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Categoria</th>
                                                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Producto</th>
-                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cantidad</th>
-                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Terminaciones</th>
-                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cierre</th>
+                                                    <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Precio</th>
                                                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Cantidad</th>
                                                     <th class="align-middle py-1 text-center" style="border-right: 1px solid white; line-height: 1">Subtotal</th>
                                                 </tr>
@@ -121,44 +120,17 @@
                                                 <tbody>
                                                 @foreach($item->order as $pedido)
                                                     <tr>
-                                                        @if($pedido->price_offer)
-                                                        <td>{{ $pedido->name_category }}</td>
-                                                        <td style="width: 170px;">
+                                                        <td >{{ $pedido->cc }}</td>
+                                                        <td  style="width: 170px;">{{ $pedido->name_category }}</td>
+                                                        <td>
                                                             {{ $pedido->name_product }}
-                                                            <p class="m-0"><b>Capacidad: </b>{{ $pedido->cc }}</p>
-                                                            <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_offer,2,',','.') }}</p>
+                                                            {{--<p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_cc,2,',','.') }}</p>--}}
                                                         </td>
-                                                        <td>{{ $pedido->quantity_cc }}</td>
-                                                        <td style="width: 170px;">
-                                                            {{ $pedido->name_termination }}
-                                                            <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_termination,2,',','.') }}</p>
+                                                        <td>${{  number_format($pedido->price_cc,2,',','.') }}</td>
+                                                        <td class="text-center" >
+                                                            {{ $pedido->quantity_cc }}
                                                         </td>
-                                                        <td style="width: 170px;">
-                                                            {{ $pedido->name_closure }}
-                                                            <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_closure,2,',','.') }}</p>
-                                                        </td>
-                                                        <td>{{ $pedido->quantity_closure }}</td>
-
-                                                            <td>${{ number_format(($pedido->quantity_cc*$pedido->price_offer) + ($pedido->quantity_cc*$pedido->price_termination) + ($pedido->quantity_closure*$pedido->price_closure),2,',','.') }}</td>
-                                                        @else
-                                                            <td>{{ $pedido->name_category }}</td>
-                                                            <td style="width: 170px;">
-                                                                {{ $pedido->name_product }}
-                                                                <p class="m-0"><b>Capacidad: </b>{{ $pedido->cc }}</p>
-                                                                <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_cc,2,',','.') }}</p>
-                                                            </td>
-                                                            <td>{{ $pedido->quantity_cc }}</td>
-                                                            <td style="width: 170px;">
-                                                                {{ $pedido->name_termination }}
-                                                                <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_termination,2,',','.') }}</p>
-                                                            </td>
-                                                            <td style="width: 170px;">
-                                                                {{ $pedido->name_closure }}
-                                                                <p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_closure,2,',','.') }}</p>
-                                                            </td>
-                                                            <td>{{ $pedido->quantity_closure }}</td>
-                                                            <td>${{ number_format(($pedido->quantity_cc*$pedido->price_cc) + ($pedido->quantity_cc*$pedido->price_termination) + ($pedido->quantity_closure*$pedido->price_closure),2,',','.') }}</td>
-                                                        @endif
+                                                        <td>${{ number_format(($pedido->quantity_cc*$pedido->price_cc),2,',','.') }}</td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>

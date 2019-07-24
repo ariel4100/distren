@@ -75,9 +75,10 @@
             <ul class="collapse list-group list-group-flush " id="calidad">
                 <li><a href="{{ route('categoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Categoria</a></li>
                 <li><a href="{{ route('subcategoria.index') }}"><i class="fas fa-chevron-right px-4"></i>Subcategoria</a></li>
+                <li><a href="{{ route('grupoproducto.index') }}"><i class="fas fa-chevron-right px-4"></i>Grupo de Producto</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-chevron-right px-4"></i>Productos</a></li>
-                <li><a class="border-top" href="{{ route('terminaciones.index') }}"><i class="fas fa-chevron-right px-4"></i>Terminaciones</a></li>
-                <li><a href="{{ route('cierres.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>
+                {{--<li><a class="border-top" href="{{ route('terminaciones.index') }}"><i class="fas fa-chevron-right px-4"></i>Terminaciones</a></li>--}}
+                {{--<li><a href="{{ route('cierres.index') }}"><i class="fas fa-chevron-right px-4"></i>Cierres</a></li>--}}
 {{--                <li><a href="{{ route('capacidades.index') }}"><i class="fas fa-chevron-right px-4"></i>Capacidades</a></li>--}}
                 <li><a href="{{ route('carga') }}"><i class="fas fa-chevron-right px-4"></i>Carga de Excel</a></li>
             </ul>

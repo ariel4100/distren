@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Capacity;
 use App\Category;
 use App\Closure;
+use App\GroupProduct;
 use App\Imports\ProductImport;
 use App\Price;
 use App\Product;
@@ -108,6 +109,7 @@ class ProductController extends Controller
         $product->order = $request->order;
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
+        $product->group_product_id = $request->group_product_id;
 //        if ($request->file('image'))
 //        {
 //            $path = Storage::disk('public')->put("uploads/productos",$request->file('image'));
@@ -124,24 +126,24 @@ class ProductController extends Controller
 //        $product->closure()->sync($idCierres);
 //        $product->termination()->sync($idTerminacion);
 
-        foreach ($request->capacity as $item) {
-//            dd($item['price']);
-            $item['price'] = str_replace(".","",$item["price"]);
-            $item['price'] = str_replace(",",".",$item["price"]);
-            $item['price'] = str_replace("$","",$item["price"]);
-            $item['price_offer'] = str_replace(".","",$item["price_offer"]);
-            $item['price_offer'] = str_replace(",","",$item["price_offer"]);
-            $item['price_offer'] = str_replace("$","",$item["price_offer"]);
-
-            Capacity::create([
-                'cc' => $item['cc'],
-                'price' => $item['price'],
-                'price_offer' => $item['price_offer'],
-                'offer' => isset($item['offer']) ? true : false,
-                'product_id' => $product->id,
-            ]);
-
-        }
+//        foreach ($request->capacity as $item) {
+////            dd($item['price']);
+//            $item['price'] = str_replace(".","",$item["price"]);
+//            $item['price'] = str_replace(",",".",$item["price"]);
+//            $item['price'] = str_replace("$","",$item["price"]);
+//            $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+//            $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+//            $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+//
+//            Capacity::create([
+//                'cc' => $item['cc'],
+//                'price' => $item['price'],
+//                'price_offer' => $item['price_offer'],
+//                'offer' => isset($item['offer']) ? true : false,
+//                'product_id' => $product->id,
+//            ]);
+//
+//        }
         //dd($product->capacity()->first()->precio);
 //        Session::forget('productos');
 
@@ -150,13 +152,13 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $categorias = Category::all();
+        $categorias = Category::with('subcategory')->with('subcategory.group_product')->get();
         $producto = Product::find($id);
         $subcategorias = Subcategory::all();
         $cierres = Closure::all();
-        $terminaciones = Termination::all();
-//        dd(json_encode($productos));
-        return view('adm.products.edit',compact('producto','categorias','subcategorias','terminaciones','cierres'));
+        $grupoproductos = GroupProduct::all();
+//        dd($categorias);
+        return view('adm.products.edit',compact('producto','categorias','subcategorias','grupoproductos','cierres'));
     }
 
     public function update(Request $request, $id)

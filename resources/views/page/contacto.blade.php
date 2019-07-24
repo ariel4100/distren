@@ -19,7 +19,7 @@
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center">
                         <i class="fab fa-whatsapp distren-color mr-3" style="padding: 2px; font-size: 24px"></i>
-                        <a href="tel:{!! $contacto->telefono_1 !!}" class="text-muted" target="_blank">{!! $contacto->telefono_1 !!}</a>
+                        <a href="tel:{!! $contacto->telefono_2 !!}" class="text-muted" target="_blank">{!! $contacto->telefono_2 !!}</a>
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center">
                         <i class="material-icons distren-color mr-3">mail_outline</i>

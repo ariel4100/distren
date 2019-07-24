@@ -68,7 +68,7 @@ class FrontendController extends Controller
 
     public function producto($id)
     {
-        $producto = Product::find($id);
+        $producto = Product::with('category')->with('group_product')->where('id',$id)->first();
         $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->get();
         $categoria = Category::find($producto->category_id);
         $grupo_productos = GroupProduct::with('product')->where('id',$producto->group_product_id)->first();

@@ -37,6 +37,7 @@ Vue.component('product-carrito', require('./components/ProductCarritoComponent.v
 Vue.component('familia-component', require('./components/FamiliaComponent.vue').default);
 Vue.component('botonera-component', require('./components/BotoneraComponent.vue').default);
 Vue.component('producto-carro', require('./components/ProductCarroComponent.vue').default);
+Vue.component('carro-component', require('./components/CarroComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

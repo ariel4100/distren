@@ -152,12 +152,13 @@
                 </div>
             @endif
             @if($section == 'redes')
+                {{--@dd($redes)--}}
                 <div class="col-md-12">
                     <div class="md-form">
-                        <input type="text" id="Titulo" name="facebook" placeholder="URL Facebook" class="form-control" value="{!! isset($data['facebook']) ? $data['facebook'] : null !!}">
+                        <input type="text" id="Titulo" name="facebook" placeholder="URL Facebook" class="form-control" value="{!! isset($redes['facebook']) ? $redes['facebook'] : null !!}">
                     </div>
                     <div class="md-form">
-                        <input type="text" id="Titulo" name="youtube" placeholder="URL Youtube" class="form-control" value="{!! isset($data['youtube']) ? $data['youtube'] : null !!}">
+                        <input type="text" id="Titulo" name="youtube" placeholder="URL Youtube" class="form-control" value="{!! isset($redes['youtube']) ? $redes['youtube'] : null !!}">
                     </div>
                 </div>
             @endif

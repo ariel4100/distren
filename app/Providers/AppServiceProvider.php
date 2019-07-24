@@ -28,8 +28,11 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $logos = Content::where('section','logos')->first();
-        $logos = json_decode($logos->text);
+        $contacto= Content::where('section','contacto')->first();
+        $logos = $logos ? json_decode($logos->text) : '';
+        $contacto = $contacto ? json_decode($contacto->text) : '';
 //        dd($logos);
         view()->share('logos',$logos);
+        view()->share('contacto',$contacto);
     }
 }

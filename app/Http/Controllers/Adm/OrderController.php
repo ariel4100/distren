@@ -58,47 +58,21 @@ class OrderController extends Controller
 
         foreach ($pedido as $p)
         {
-            if (isset($p['oferta']))
-            {
-                $pedidos = Order::create([
-                    'name_category' => $p['categoria'],
-                    'name_product' => $p['producto'],
-                    'cc' => $p['cc'],
-                    'price_cc' => $p['precio'],
-                    'price_offer' => $p['precio_oferta'] ?? null,
+//            return $p;
+            $pedidos = Order::create([
+                'name_category' => $p['producto']['category']['title'],
+                'name_product' => $p['producto']['title'],
+                'cc' => $p['producto']['code'],
+
+                'price_cc' => $p['producto']['price'],
+                'price_offer' => $p['producto']['offer'] ? $p['producto']['price_offer'] : null,
 
 
-                    'name_termination' => $p['terminacion']['title'],
-                    'price_termination' => $p['terminacion']['price'],
+                'quantity_cc' => $p['qty'],
 
-                    'quantity_cc' => $p['cantidad'],
-                    'name_closure' => $p['cierre']['title'],
-                    'price_closure' => $p['cierre']['price'],
-
-                    'quantity_closure' => $p['cantidad_cierre'],
-                    'transaction_id' => $transaccion->id,
-                    'client_id' => $cliente->id,
-                ]);
-            }else{
-                $pedidos = Order::create([
-                    'name_category' => $p['categoria'],
-                    'name_product' => $p['producto'],
-                    'cc' => $p['cc'],
-                    'price_cc' => $p['precio'],
-
-                    'name_termination' => $p['termination']['title'],
-                    'price_termination' => $p['termination']['price'],
-
-                    'quantity_cc' => $p['cantidad'],
-                    'name_closure' => $p['cierre']['title'],
-                    'price_closure' => $p['cierre']['price'],
-
-                    'quantity_closure' => $p['cantidad_cierre'],
-                    'transaction_id' => $transaccion->id,
-                    'client_id' => $cliente->id,
-                ]);
-            }
-
+                'transaction_id' => $transaccion->id,
+                'client_id' => $cliente->id,
+            ]);
         }
 
         //DESCONTAR EL STOCK A CADA PRESENTACION DE LOS PEDIDOS

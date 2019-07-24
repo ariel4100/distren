@@ -20,33 +20,32 @@
                 <a href="{{ route('carrito') }}" class="nav-link m-0 p-0">Carrito</a>
                 <a href="{{ route('contacto') }}" class="nav-link m-0 p-0">Contacto</a>
             </div>
-
-
+{{--            @dd($contacto)--}}
             <div class="col-sm-12 col-md-4 mt-4 ">
                 <h6 class="text-uppercase distren-color distren-bold">DISTREN ENVASES</h6>
                 <ul class="list-group" style="font-size: 13px">
                     <li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">
                         <i class="material-icons distren-color mr-3">location_on</i>
-                        <a href="https://bit.ly/309sR9i" target="_blank"> </a>
+                        <a href="https://bit.ly/309sR9i" target="_blank">{!! $contacto->direccion !!}</a>
                     </li>
                     <li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">
                         <i class="material-icons distren-color mr-3">phone_in_talk</i>
                         <div class="">
-                            <a href="tel:{!! isset($datos->telefono_1) ? $datos->telefono_1 : null!!}">{!! isset($datos->telefono_1) ? $datos->telefono_1 : null !!}</a>
+                            <a href="tel:{!! $contacto->telefono_1 ?? '' !!}">{!! $contacto->telefono_1 ?? '' !!}</a>
                             <br>
-                            <a href="tel:{!! isset($datos->telefono_2) ? $datos->telefono_2 : null !!}">{!! isset($datos->telefono_2) ? $datos->telefono_2 : null !!}</a>
+                            <a href="tel:{!! $contacto->telefono_2 ?? '' !!}">{!! $contacto->telefono_2 ?? '' !!}</a>
                         </div>
                     </li>
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">
-                        <i class="fab fa-whatsapp distren-color mr-3" style="padding: 2px; font-size: 24px"></i>
-                        <a href="tel:{!! isset($datos->telefono_1) ? $datos->telefono_1 : null !!}" target="_blank">{!! isset($datos->telefono_1) ? $datos->telefono_1 : null !!}</a>
-                    </li>
+                    {{--<li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">--}}
+                        {{--<i class="fab fa-whatsapp distren-color mr-3" style="padding: 2px; font-size: 24px"></i>--}}
+                        {{--<a href="tel:{!! isset($datos->telefono_1) ? $datos->telefono_1 : null !!}" target="_blank">{!! isset($datos->telefono_1) ? $datos->telefono_1 : null !!}</a>--}}
+                    {{--</li>--}}
                     <li class="list-group-item border-0 d-flex align-items-center px-0 py-1" style="background-color: unset">
                         <i class="material-icons distren-color mr-3">mail_outline</i>
                         <div class="">
-                            <a href="mailto:{!! isset($datos->correo) ? $datos->correo : null !!}">{!! isset($datos->correo) ? $datos->correo : null !!}</a>
+                            <a href="mailto:{!! $contacto->correo ?? '' !!}">{!! $contacto->correo ?? '' !!}</a>
                             <br>
-                            <a href="mailto:{!! isset($datos->correo_2) ? $datos->correo_2 : null !!}">{!! isset($datos->correo_2) ? $datos->correo_2 : null !!}</a>
+                            <a href="mailto:{!! $contacto->correo_2 ?? '' !!}">{!! $contacto->correo_2 ?? '' !!}</a>
                         </div>
                     </li>
 

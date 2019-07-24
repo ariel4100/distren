@@ -70,8 +70,7 @@
                         <h3 class="my-4 pb-2">Resumen del Pedido</h3>
                         <ul class="text-lg-left list-unstyled px-4">
                             <li v-for="item in carrito" class="d-flex justify-content-between">
-                                {{ item.producto }}
-                                {{ item.cc }}
+                                {{ item.producto.title }}
                                 <span v-if="item.oferta">{{ (getSubtotal(item)).toFixed(2) }}</span>
                                 <span v-else>${{ (getSubtotal(item)).toFixed(2) }}</span>
                             </li>
@@ -139,7 +138,7 @@
             }
         },
         mounted() {
-            //console.log(this.url)
+            // console.log(this.carrito)
         },
         computed:{
             getTotal: function() {
@@ -149,10 +148,12 @@
                 this.carrito.forEach((item, key)=>{
                     if (item.offer)
                     {
-                        total += item.cantidad*item.precio + item.cantidad_cierre*item.cierre.price + item.cantidad*item.terminacion.price
+                        // console.log(item)
+                        total += item.qty*item.producto.price_offer
 
                     }else{
-                        total += item.cantidad*item.precio + item.cantidad_cierre*item.cierre.price + item.cantidad*item.terminacion.price
+                        // console.log(item)
+                        total += item.qty*item.producto.price
 
                     }
                 })
@@ -165,7 +166,7 @@
             getSubtotal: function(item) {
                 // console.log(item)
                 let subtotal = 0;
-                subtotal = item.cantidad*item.precio + item.cantidad_cierre*item.cierre.price + item.cantidad*item.terminacion.price
+                subtotal = item.producto.price*item.qty
                 return subtotal
                 // }, 0)
             },
@@ -188,9 +189,10 @@
                                 showConfirmButton: false,
                                 timer: 3500
                             })
-                            // setTimeout(function(){
-                            //     location.href = "productos";
-                            // }, 3000);
+                            localStorage.removeItem('carrito');
+                            setTimeout(function(){
+                                location.href = "familias";
+                            }, 3000);
                         }).catch(e => {
                             // console.log('document.location', this.url);
                             this.loading = false;

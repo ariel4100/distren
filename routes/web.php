@@ -73,6 +73,7 @@ Route::group([ 'prefix' => 'adm'],function (){
 
     Route::resource('cierres','Adm\ClosureController');
     Route::resource('capacidades','Adm\CapacityController');
+    Route::resource('grupoproducto','Adm\GroupProductController');
     Route::resource('terminaciones','Adm\TerminationController');
     Route::resource('categoria','Adm\CategoryController');
     Route::resource('subcategoria','Adm\SubcategoryController');

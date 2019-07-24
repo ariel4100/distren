@@ -29,8 +29,8 @@
                 </div>
             </div>
             {{--@DD($producto)--}}
-            <select-component :categoria="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}" :producto="{{ json_encode($producto) }}"></select-component>
-            <div class="row">
+            <select-component :categorias="{{ json_encode($categorias) }}"  :subcategoria="{{ json_encode($subcategorias) }}" :grupoproductos="{{ json_encode($producto) }}" :producto="{{ json_encode($producto) }}"></select-component>
+            <div class="row my-5">
 {{--                <div class="col-md-6 mt-4">--}}
 {{--                    <p>Seleccionar Categoria</p>--}}
 {{--                    <select class="custom-select form-control select2" name="category_id">--}}
@@ -55,7 +55,7 @@
             </div>
 {{--            @dd($producto->capacity)--}}
 {{--            <cierres-component :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :terminacion="{{ json_encode($producto->termination) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>--}}
-            <capacidad-component :selectedcapacidad="{{ json_encode($producto->capacity) }}" :cierres="{{ json_encode($cierres) }}" :terminaciones="{{ json_encode($terminaciones) }}" :selectedcierre="{{ json_encode($producto->closure) }}" :selectedterminacion="{{ json_encode($producto->termination) }}"></capacidad-component>
+            {{--<capacidad-component :selectedcapacidad="{{ json_encode($producto->capacity) }}" :cierres="{{ json_encode($cierres) }}" :terminaciones="{{ json_encode($terminaciones) }}" :selectedcierre="{{ json_encode($producto->closure) }}" :selectedterminacion="{{ json_encode($producto->termination) }}"></capacidad-component>--}}
             <gallery-component :galeria="{{ json_encode($producto->image) }}"></gallery-component>
             <div class="row mt-5">
                 {{--                <div class="col-md-6 d-flex align-items-center justify-content-center">--}}

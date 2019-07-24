@@ -18,10 +18,12 @@ class OrderMail extends Mailable
      */
     public $datos;
     public $pedido;
+    public $compra;
 
     public function __construct($data)
     {
         $this->datos = $data['datos'];
+        $this->compra = $data['compra'];
         $this->pedido = $data['pedido'];
 
     }
