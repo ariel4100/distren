@@ -13,10 +13,10 @@
     </style>
 @endpush
 @section('content')
-    <div class="container" style="margin-top: 8rem">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="py-2" style="border-bottom: 2px solid #8BBF40; width: 100px">Buscador</h2>
+                <h3 class="distren-color text-uppercase font-weight-bold">Buscador</h3>
             </div>
         </div>
         <form class="row justify-content-center my-4" action="{{ route('buscador') }}" method="get">
@@ -43,7 +43,11 @@
                             @endif
                             {{--@dd($item->capacity->min('price'))--}}
                             <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                            <h5 class="text-center">Desde <del>${{ $item->capacity->min('price') ?? '' }} </del> <span class="distren-color"> ${{ $item->capacity->min('price_offer') }}</span></h5>
+                            @if($item->offer)
+                            <h5 class="text-center">Desde <del>${{ number_format($item->price,2,',','.') ?? '' }} </del> <span class="distren-color"> ${{ number_format($item->price_offer ,2,',','.')?? '' }}</span></h5>
+                            @else
+                                <h5 class="text-center">Desde <span class="distren-color"> ${{ number_format($item->price_offer ,2,',','.')?? '' }}</span></h5>
+                            @endif
                         </div>
                     </a>
                 </div>

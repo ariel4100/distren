@@ -4,10 +4,10 @@
     <div class="container my-5">
         <h3 class="distren-color text-uppercase font-weight-bold">Ofertas</h3>
         <div class="row">
-            <div class="col-md-12 my-5">
+            <div class="col-md-12 ">
                 <div class="row">
                     @forelse($ofertas as $item)
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-5">
                             <a href="{{ route('producto',$item->id) }}" class="position-relative" style="color: #9FA3A5;">
                                 <div class="view overlay">
                                     <div class="img position-relative">
@@ -24,7 +24,7 @@
                                 </div>
                                 {{--@dd($item->capacity->min('price'))--}}
                                 <h4 class="text-center py-1 m-0">{!! $item->title !!} </h4>
-                                <h5 class="text-center">Desde <del>${{ $item->capacity->min('price') ?? '' }} </del> <span class="distren-color"> ${{ $item->capacity->min('price_offer') }}</span></h5>
+                                <h5 class="text-center">Desde <del>${{ number_format($item->price,2,',','.') ?? '' }} </del> <span class="distren-color"> ${{ number_format($item->price_offer ,2,',','.')?? '' }}</span></h5>
                             </a>
                         </div>
                     @empty

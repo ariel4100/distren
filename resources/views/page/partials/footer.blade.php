@@ -4,7 +4,7 @@
         <div class="row mt-3">
             <div class="col-sm-12 col-md-5 mt-4  d-flex justify-content-start align-items-center">
 
-                <img src=" " alt="" class="img-fluid">
+                <img src="{{ asset($logos->image_3 ?? '') }}" alt="" class="img-fluid">
                 <!--<div class="d-flex my-5">
                     <p style="font-size: 13px">SEGUINOS EN</p>
                     <a href="" class="tpn-blue mx-2"><i class="fab fa-facebook fa-lg"></i></a>
