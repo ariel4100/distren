@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h4 class="">$ {{ carrito.qty != 0 ? (producto.price*carrito.qty).toFixed(2) : producto.price.toFixed(2) }}</h4>
+            <h4 class="">$ {{ carrito.qty != 0 ? (parseFloat(producto.price)*carrito.qty).toFixed(2) : parseFloat(producto.price).toFixed(2) }}</h4>
             <!--<p class="">$ {{ producto.price.toFixed(3) }}</p>-->
         </div>
         <div class="col-md-12">
@@ -130,8 +130,8 @@
                     if (carrito.length)
                     {
                          carrito.filter(cart => {
-                            if (cart.producto.id == this.carrito.producto.id) {
-                                // console.log(cart)
+                             console.log(cart)
+                             if (cart.producto && cart.producto.id == this.carrito.producto.id) {
                                 cart.qty = this.carrito.qty
                                 localStorage.setItem('carrito', JSON.stringify(carrito));
                                 new_id = false

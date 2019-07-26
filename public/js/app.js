@@ -2525,8 +2525,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    // console.log(this.carrito)
-    // console.log(this.info)
+    console.log(this.carrito); // console.log(this.info)
+
     var self = this; // this.cierres.forEach(function(item){
     //     self.quantity_max_cierre[item.id] = item.quantity;
     // });
@@ -3826,8 +3826,9 @@ __webpack_require__.r(__webpack_exports__);
 
         if (carrito.length) {
           carrito.filter(function (cart) {
-            if (cart.producto.id == _this.carrito.producto.id) {
-              // console.log(cart)
+            console.log(cart);
+
+            if (cart.producto && cart.producto.id == _this.carrito.producto.id) {
               cart.qty = _this.carrito.qty;
               localStorage.setItem('carrito', JSON.stringify(carrito));
               new_id = false;
@@ -38084,7 +38085,7 @@ var render = function() {
                           "vertical-align": "middle"
                         }
                       },
-                      [_vm._v(_vm._s(item.producto.code))]
+                      [_vm._v(_vm._s(item.producto && item.producto.code))]
                     ),
                     _vm._v(" "),
                     _c(
@@ -38096,7 +38097,14 @@ var render = function() {
                           "vertical-align": "middle"
                         }
                       },
-                      [_vm._v(_vm._s(item.producto.category.title))]
+                      [
+                        _vm._v(
+                          _vm._s(
+                            item.producto.category &&
+                              item.producto.category.title
+                          )
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -38111,7 +38119,7 @@ var render = function() {
                       [
                         _vm._v(
                           "\n                        " +
-                            _vm._s(item.producto.title)
+                            _vm._s(item.producto && item.producto.title)
                         ),
                         _c("br")
                       ]
@@ -38123,7 +38131,15 @@ var render = function() {
                         staticClass: "text-center",
                         staticStyle: { "vertical-align": "middle" }
                       },
-                      [_vm._v("$ " + _vm._s(item.producto.price.toFixed(2)))]
+                      [
+                        _vm._v(
+                          "$ " +
+                            _vm._s(
+                              item.producto &&
+                                parseFloat(item.producto.price).toFixed(2)
+                            )
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -38176,7 +38192,9 @@ var render = function() {
                           _vm._v(
                             "\n                                $ " +
                               _vm._s(
-                                (item.producto.price * item.qty).toFixed(2)
+                                (
+                                  parseFloat(item.producto.price) * item.qty
+                                ).toFixed(2)
                               ) +
                               "\n                            "
                           )
@@ -38255,7 +38273,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.compra.envio == "Retiro en el local"
+              _vm.compra.envio == "redtiro-local"
                 ? _c("div", {}, [
                     _c("div", {
                       domProps: { innerHTML: _vm._s(_vm.info.local) }
@@ -38293,7 +38311,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.compra.envio == "C.A.B.A y G.B.A"
+              _vm.compra.envio == "caba"
                 ? _c("div", {}, [
                     _c("p", { staticClass: "m-0 my-1" }, [
                       _vm._v("Ingrese Código Postal")
@@ -38423,7 +38441,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.compra.envio == "Expreso"
+              _vm.compra.envio == "exprdeso"
                 ? _c("div", {}, [
                     _c("div", {
                       domProps: {
@@ -38554,11 +38572,11 @@ var render = function() {
               _c("h5", [_vm._v("$" + _vm._s((_vm.getTotal * 0.21).toFixed(2)))])
             ]),
             _vm._v(" "),
-            _vm.compra.envio == "C.A.B.A y G.B.A"
+            _vm.compra.envio == "caba"
               ? _c("div", { staticClass: "d-flex justify-content-between" }, [
                   _c("h5", {}, [_vm._v("Envio")]),
                   _vm._v(" "),
-                  _c("h5", [_vm._v("$700")])
+                  _c("h5", [_vm._v("$")])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -38589,7 +38607,7 @@ var render = function() {
                 {
                   staticClass: "btn py-2",
                   staticStyle: { border: "1px solid #8BBF40" },
-                  attrs: { href: "productos" },
+                  attrs: { href: "familias" },
                   on: { click: _vm.updateCarrito }
                 },
                 [_vm._v("Seguir comprando")]
@@ -40611,8 +40629,8 @@ var render = function() {
           "$ " +
             _vm._s(
               _vm.carrito.qty != 0
-                ? (_vm.producto.price * _vm.carrito.qty).toFixed(2)
-                : _vm.producto.price.toFixed(2)
+                ? (parseFloat(_vm.producto.price) * _vm.carrito.qty).toFixed(2)
+                : parseFloat(_vm.producto.price).toFixed(2)
             )
         )
       ])

@@ -15,13 +15,13 @@
                     </thead>
                     <tbody>
                     <tr v-if="test == 1"  v-for="(item,index) in carrito" :key="index">
-                        <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto.code}}</td>
-                        <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto.category.title  }}</td>
+                        <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto && item.producto.code }}</td>
+                        <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto.category && item.producto.category.title  }}</td>
                         <td class="text-center" style="width: 300px; vertical-align: middle">
-                            {{ item.producto.title  }}<br>
+                            {{ item.producto && item.producto.title  }}<br>
                             <!--Codigo: {{ item.producto.code  }}-->
                         </td>
-                        <td class="text-center" style="vertical-align: middle">$ {{ item.producto.price.toFixed(2) }}</td>
+                        <td class="text-center" style="vertical-align: middle">$ {{ item.producto && parseFloat(item.producto.price).toFixed(2) }}</td>
                         <!--<td style="vertical-align: middle">{{ item.producto }}</td>-->
                         <!--<td style="vertical-align: middle">{{ item.cc }}</td>-->
                         <!--<td style="vertical-align: middle">${{ item.precio  }}</td>-->
@@ -34,7 +34,7 @@
                         <td class="text-center position-relative" style="width: 200px; vertical-align: middle">
 
                                 <div class="">
-                                    $ {{ (item.producto.price*item.qty).toFixed(2) }}
+                                    $ {{ (parseFloat(item.producto.price)*item.qty).toFixed(2) }}
                                 </div>
 
                             <button @click="deleteProducto(index)" class="btn btn-link  p-0 ml-3 position-absolute" style="right: 0; top: 15px"><i class="far fa-times-circle"></i></button>
@@ -51,14 +51,14 @@
                         <input type="radio" class="custom-control-input" id="Retiro en el local" value="retiro-local" v-model="compra.envio">
                         <label class="custom-control-label" for="Retiro en el local">Retiro en el local (sin cargo)</label>
                     </div>
-                    <div class="" v-if="compra.envio == 'Retiro en el local'">
+                    <div class="" v-if="compra.envio == 'redtiro-local'">
                         <div class="" v-html="info.local"></div>
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="caba" value="caba" v-model="compra.envio">
                         <label class="custom-control-label" for="caba">Envío a C.A.B.A y G.B.A</label>
                     </div>
-                    <div class="" v-if="compra.envio == 'C.A.B.A y G.B.A'">
+                    <div class="" v-if="compra.envio == 'caba'">
                         <p class="m-0 my-1">Ingrese Código Postal</p>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -79,7 +79,7 @@
                         <input type="radio" class="custom-control-input" id="Expreso" value="expreso" v-model="compra.envio">
                         <label class="custom-control-label" for="Expreso">Expreso</label>
                     </div>
-                    <div class="" v-if="compra.envio == 'Expreso'">
+                    <div class="" v-if="compra.envio == 'exprdeso'">
                         <div class="" v-html="info && info.expreso"></div>
                     </div>
                     <p class="">Acuerdas la forma de entrega del producto después de la compra.</p>
@@ -110,9 +110,9 @@
                     <h5 class="">IVA (21%)</h5>
                     <h5>${{ (getTotal*0.21).toFixed(2) }}</h5>
                 </div>
-                <div v-if="compra.envio == 'C.A.B.A y G.B.A'" class="d-flex justify-content-between">
+                <div v-if="compra.envio == 'caba'" class="d-flex justify-content-between">
                     <h5 class="">Envio</h5>
-                    <h5>$700</h5>
+                    <h5>$</h5>
                 </div>
                 <div class="d-flex justify-content-between align-item-center mt-3">
                     <h5 class="distren-color m-0">Total a pagar</h5>
@@ -123,7 +123,7 @@
                 </div>
                 <hr class="distren-fondo">
                 <div class="d-flex justify-content-between">
-                    <a @click="updateCarrito" :href="`productos`" class="btn py-2" style="border: 1px solid #8BBF40">Seguir comprando</a>
+                    <a @click="updateCarrito" :href="`familias`" class="btn py-2" style="border: 1px solid #8BBF40">Seguir comprando</a>
                     <a @click="updateCarrito" :href="`confirmar`"  class="btn distren-fondo py-2">Pagar</a>
                 </div>
             </div>
@@ -153,7 +153,7 @@
             }
         },
         mounted() {
-            // console.log(this.carrito)
+            console.log(this.carrito)
             // console.log(this.info)
             var self = this;
             // this.cierres.forEach(function(item){
