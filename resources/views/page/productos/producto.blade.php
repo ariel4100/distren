@@ -66,9 +66,9 @@
                         @endif
                     </div>
                     <div class="col-md-6 mt-2">
-                        <h4 class="distren-color font-weight-bold">{!! $producto->title !!}</h4>
-                        <p class="font-weight-bold"><b>Codigo: </b> {!! $producto->code !!}</p>
-                        {!! $producto->text !!}
+                        <h2 class="distren-color font-weight-bold">{!! $producto->title ?? '' !!}</h2>
+                        <p class="font-weight-bold"><b>Codigo: </b> {!! $producto->code ?? '' !!}</p>
+                        {!! $producto->text ?? '' !!}
                         {{--<a href="{{ route('contacto') }}" class="btn distren-fondo shadow-none m-0 px-4 py-2 p-0">Consultar</a>--}}
                         <producto-carro :producto="{{ json_encode($producto) }}"></producto-carro>
                     </div>

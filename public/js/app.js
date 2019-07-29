@@ -3738,6 +3738,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -38561,20 +38562,20 @@ var render = function() {
             _c("hr", { staticClass: "distren-fondo" }),
             _vm._v(" "),
             _c("div", { staticClass: "d-flex justify-content-between" }, [
-              _c("h5", {}, [_vm._v("Sub Total")]),
+              _c("h5", { staticClass: "distren-color" }, [_vm._v("Sub Total")]),
               _vm._v(" "),
               _c("h5", {}, [_vm._v("$ " + _vm._s(_vm.getTotal.toFixed(2)))])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "d-flex justify-content-between" }, [
-              _c("h5", {}, [_vm._v("IVA (21%)")]),
+              _c("h5", { staticClass: "distren-color" }, [_vm._v("IVA (21%)")]),
               _vm._v(" "),
               _c("h5", [_vm._v("$" + _vm._s((_vm.getTotal * 0.21).toFixed(2)))])
             ]),
             _vm._v(" "),
             _vm.compra.envio == "caba"
               ? _c("div", { staticClass: "d-flex justify-content-between" }, [
-                  _c("h5", {}, [_vm._v("Envio")]),
+                  _c("h5", { staticClass: "distren-color" }, [_vm._v("Envio")]),
                   _vm._v(" "),
                   _c("h5", [_vm._v("$")])
                 ])
@@ -40596,7 +40597,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row my-3" }, [
-    _c("div", { staticClass: "col-md-6" }, [
+    _c("div", { staticClass: "col-md-6 d-flex justify-content-between" }, [
       _c("div", { staticClass: "form-group " }, [
         _c("input", {
           directives: [
@@ -40608,7 +40609,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control ",
-          staticStyle: { width: "100px" },
+          staticStyle: { width: "90px" },
           attrs: { type: "number", min: 0 },
           domProps: { value: _vm.carrito.qty },
           on: {
@@ -40620,6 +40621,10 @@ var render = function() {
             }
           }
         })
+      ]),
+      _vm._v(" "),
+      _c("h4", [
+        _vm._v("$ " + _vm._s(parseFloat(_vm.producto.price).toFixed(2)))
       ])
     ]),
     _vm._v(" "),

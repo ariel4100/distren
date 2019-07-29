@@ -1,11 +1,12 @@
 <template>
     <div class="row my-3">
-        <div class="col-md-6">
+        <div class="col-md-6 d-flex justify-content-between">
             <!--<pre class="language-json"><code>{{ producto  }}</code></pre>-->
 
             <div class="form-group ">
-                <input style="width: 100px;" type="number" :min="0" v-model="carrito.qty" class="form-control ">
+                <input style="width: 90px;" type="number" :min="0" v-model="carrito.qty" class="form-control ">
             </div>
+            <h4>$ {{ parseFloat(producto.price).toFixed(2) }}</h4>
         </div>
         <div class="col-md-6">
             <h4 class="">$ {{ carrito.qty != 0 ? (parseFloat(producto.price)*carrito.qty).toFixed(2) : parseFloat(producto.price).toFixed(2) }}</h4>

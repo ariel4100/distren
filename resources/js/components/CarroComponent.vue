@@ -103,15 +103,15 @@
                 </div>
                 <hr class="distren-fondo">
                 <div class="d-flex justify-content-between">
-                    <h5 class="">Sub Total</h5>
+                    <h5 class="distren-color">Sub Total</h5>
                     <h5 class="">$ {{ getTotal.toFixed(2)  }}</h5>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <h5 class="">IVA (21%)</h5>
+                    <h5 class="distren-color">IVA (21%)</h5>
                     <h5>${{ (getTotal*0.21).toFixed(2) }}</h5>
                 </div>
                 <div v-if="compra.envio == 'caba'" class="d-flex justify-content-between">
-                    <h5 class="">Envio</h5>
+                    <h5 class="distren-color">Envio</h5>
                     <h5>$</h5>
                 </div>
                 <div class="d-flex justify-content-between align-item-center mt-3">
