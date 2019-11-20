@@ -12,7 +12,7 @@
                                 <span @click="redirectGrupo(grupo_producto)">{{ grupo_producto.title }} </span><i class="fas fa-chevron-right ml-auto"></i>
                             </a>
                             <ul class="list-unstyled collapse" :class="grupo && grupo_producto.id == grupo.id ? 'show' : ''" :id="'grupo_p_'+grupopro_index">
-                                <li class=" " v-for="(productos,pro_index) in grupo_producto.product">
+                                <li v-if="productos.status == 1" class=" " v-for="(productos,pro_index) in grupo_producto.product">
                                  <a :href="url+'/familias/producto/'+productos.id" class="px-3 py-2" :class="producto  && productos.id == producto.id ? 'distren-color' : ''">{{ productos.title  }}</a>
                                     <!--<a href=" " :data-target="'#producto_'+pro_index" data-toggle="collapse" aria-expanded="false" class="d-flex align-items-center p-2 border-bottom ">-->
                                         <!--<span onclick="location.href=' '">{{ producto.title }}</span><i class="fas fa-chevron-right ml-auto"></i>-->

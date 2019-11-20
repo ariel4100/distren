@@ -5,13 +5,14 @@ namespace App\Http\Controllers\adm;
 use App\GroupProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class GroupProductController extends Controller
 {
     public function index()
     {
-        $terminaciones = GroupProduct::all();
-        return view('adm.termination.index',compact('terminaciones'));
+        $terminaciones = GroupProduct::orderBy('order')->get();
+        return view('adm.grupoproducto.index',compact('terminaciones'));
     }
 
     public function create()
@@ -33,6 +34,7 @@ class GroupProductController extends Controller
 
     public function edit($id)
     {
+//        dd('s');
         $terminacion = GroupProduct::find($id);
         return view('adm.grupoproducto.edit',compact('terminacion'));
     }

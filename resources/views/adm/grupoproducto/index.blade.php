@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container p-4">
-        <a href="{{ route('terminaciones.create') }}" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle mx-1"></i>Añadir</a>
+        <a href="{{ route('grupoproducto.create') }}" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle mx-1"></i>Añadir</a>
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -10,7 +10,7 @@
                     <tr>
                         <th scope="col">Imagen</th>
                         <th scope="col">Titulo</th>
-                        <th scope="col">Precio</th>
+                        <th scope="col">Orden</th>
                         <th scope="col">Acciones</th>
                     </tr>
                     </thead>
@@ -19,16 +19,16 @@
                         <tr>
                             <td style="width: 100px;">
                                 @if($item->image)
-                                    <img src="{{ asset($item->image) }}" class="img-fluid" style="height: 300px;" alt="smaple image">
+                                    <img src="{{ asset($item->image) }}" class="img-fluid" alt="smaple image">
                                 @else
                                     <img src="{{ asset('uploads/no-img.png') }}" alt="" class="img-fluid">
                                 @endif
                             </td>
                             <td>{{ $item->title }}</td>
-                            <td>{{ $item->price }}</td>
+                            <td>{{ $item->order }}</td>
                             <td>
-                                <a class="btn btn-sm btn-warning" href="{{ route('terminaciones.edit',$item->id) }}"><i class="fas fa-pen"></i></a>
-                                <form action="{{ route('terminaciones.destroy', $item->id) }}" method="POST">
+                                <a class="btn btn-sm btn-warning" href="{{ route('grupoproducto.edit',$item->id) }}"><i class="fas fa-pen"></i></a>
+                                <form action="{{ route('grupoproducto.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button onclick="return confirm('¿Realmente desea eliminar este registro?')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>

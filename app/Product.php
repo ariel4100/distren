@@ -40,5 +40,9 @@ class Product extends Model
 //    {
 //        return $this->hasMany('App\Capacity');
 //    }
+    public function related() {
+        return $this->belongsToMany('App\Product','related_products','product_id','related_id');
+    }
+
 
 }

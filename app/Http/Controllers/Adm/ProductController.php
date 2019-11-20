@@ -66,25 +66,31 @@ class ProductController extends Controller
 
     public function create()
     {
+        $categorias = Category::with('subcategory')->with('subcategory.group_product')->get();
+        $productos = Product::all();
         $terminaciones = Termination::all();
         $cierres = Closure::all();
         $capacidades = Capacity::all();
-        $categorias = Category::all();
+        // $categorias = Category::all();
         $subcategorias = Subcategory::all();
-        return view('adm.products.create',compact('cierres','capacidades','categorias','subcategorias','terminaciones'));
+        // $grupoproductos = GroupProduct::all();
+        // dd($grupoproductos);
+        return view('adm.products.create',compact('cierres','capacidades','categorias','subcategorias','terminaciones','productos'));
     }
 
     public function store(Request $request)
     {
 
-       //dd($request->all());
+    //    dd($request->all());
+    $item['price'] = $request->price ?? 0;
+    $item['price_offer'] = $request->price_offer ?? 0;
         //relacion de Many to Many con las terminaciones , cierres y capacidades
 //        $apiProductos = Session::get('productos');
 ////        dd($apiProductos);
 //        $capacidad = collect($apiProductos['capacidad']);
 //        $cierres = collect($apiProductos['cierre']);
 //        $terminacion = collect($apiProductos['terminacion']);
-
+        $related =  $request->related_id;
         $gallery = $request->gallery;
 
         if (isset($gallery))
@@ -101,11 +107,22 @@ class ProductController extends Controller
             }
         }
 
+        $item['price'] = str_replace(".","",$item["price"]);
+        $item['price'] = str_replace(",","",$item["price"]);
+        $item['price'] = str_replace("$","",$item["price"]);
+        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+        $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+
+        // dd($item['price']);
         $product = new Product();
         $product->title = $request->title;
         $product->text = $request->text;
+        $product->price = $item['price'];
+        $product->price_offer = $item['price_offer'];
         $product->featured = isset($request->featured) ? true : false;
         $product->offer = isset($request->offer) ? true : false;
+        $product->status = isset($request->listado) ? true : false;
         $product->order = $request->order;
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
@@ -116,6 +133,8 @@ class ProductController extends Controller
 //            $product->fill(['image' => $path]);
 //        }
         $product->save();
+        $product->related()->sync($related);
+//        dd($product);
 //
 ////        $idCapacidad = $capacidad->pluck('id');
 ////        $idCierres = $cierres->pluck('id');
@@ -154,17 +173,27 @@ class ProductController extends Controller
     {
         $categorias = Category::with('subcategory')->with('subcategory.group_product')->get();
         $producto = Product::find($id);
+        $productos = Product::all();
         $subcategorias = Subcategory::all();
         $cierres = Closure::all();
         $grupoproductos = GroupProduct::all();
 //        dd($categorias);
-        return view('adm.products.edit',compact('producto','categorias','subcategorias','grupoproductos','cierres'));
+        return view('adm.products.edit',compact('producto','categorias','subcategorias','grupoproductos','cierres','productos'));
     }
 
     public function update(Request $request, $id)
     {
 //        dd($request->all());
+        $item['price'] = $request->price ?? 0;
+        $item['price_offer'] = $request->price_offer ?? 0;
+        $related =  $request->related_id;
+//        dd($related);
+//        $related->pluck('id');
         $product = Product::find($id);
+
+
+        $product->related()->sync($related);
+//        return 'aca';
         $gallery = $request->gallery;
 
         if (isset($gallery))
@@ -183,15 +212,24 @@ class ProductController extends Controller
                 }
             }
         }
+        $item['price'] = str_replace(".","",$item["price"]);
+        $item['price'] = str_replace(",","",$item["price"]);
+        $item['price'] = str_replace("$","",$item["price"]);
+        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+        $item['price_offer'] = str_replace("$","",$item["price_offer"]);
 
         $product->title = $request->title;
+        $product->price = $item['price'];
+        $product->price_offer = $item['price_offer'];
         $product->image = $gallery;
         $product->text = $request->text;
         $product->featured = isset($request->featured) ? true : false;
         $product->offer = isset($request->offer) ? true : false;
+        $product->status = isset($request->listado) ? true : false;
         $product->order = $request->order;
-        $product->category_id = $request->category_id;
-        $product->subcategory_id = $request->subcategory_id;
+//        $product->category_id = $request->category_id;
+//        $product->subcategory_id = $request->subcategory_id;
 
 //        if ($request->file('image'))
 //        {
@@ -202,26 +240,26 @@ class ProductController extends Controller
 
 //        dd($request->capacity);
 
-        Capacity::where('product_id', $product->id)->delete();
-        foreach ($request->capacity as $item) {
-//            dd($item);
-            $item['price'] = str_replace(".","",$item["price"]);
-            $item['price'] = str_replace(",",".",$item["price"]);
-            $item['price'] = str_replace("$","",$item["price"]);
-            $item['price_offer'] = str_replace(".","",$item["price_offer"]);
-            $item['price_offer'] = str_replace(",",".",$item["price_offer"]);
-            $item['price_offer'] = str_replace("$","",$item["price_offer"]);
-
-            Capacity::create([
-                'cc' => $item['cc'],
-                'price' => $item['price'],
-                'price_offer' => $item['price_offer'],
-                'offer' => isset($item['offer']) ? true : false,
-                'product_id' => $product->id,
-            ]);
-        }
-        $product->closure()->sync($request->cierre_id);
-        $product->termination()->sync($request->terminacion_id);
+//        Capacity::where('product_id', $product->id)->delete();
+//        foreach ($request->capacity as $item) {
+////            dd($item);
+//            $item['price'] = str_replace(".","",$item["price"]);
+//            $item['price'] = str_replace(",",".",$item["price"]);
+//            $item['price'] = str_replace("$","",$item["price"]);
+//            $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+//            $item['price_offer'] = str_replace(",",".",$item["price_offer"]);
+//            $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+//
+//            Capacity::create([
+//                'cc' => $item['cc'],
+//                'price' => $item['price'],
+//                'price_offer' => $item['price_offer'],
+//                'offer' => isset($item['offer']) ? true : false,
+//                'product_id' => $product->id,
+//            ]);
+//        }
+//        $product->closure()->sync($request->cierre_id);
+//        $product->termination()->sync($request->terminacion_id);
 
 
         return back()->with('status','Se actualizó correctamente');

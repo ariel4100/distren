@@ -58,7 +58,7 @@ class FrontendController extends Controller
 
     public function grupo_productos($id)
     {
-        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->get();
+        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->orderBy('order')->get();
         $grupo_productos = GroupProduct::with('product')->where('id',$id)->first();
         $categoria = Category::find($grupo_productos->category_id);
 //        dd($grupo_productos);
@@ -69,7 +69,7 @@ class FrontendController extends Controller
     public function producto($id)
     {
         $producto = Product::with('category')->with('group_product')->where('id',$id)->first();
-        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->get();
+        $categorias = Category::with('group_product')->with('group_product.product')->with('subcategory')->with('subcategory.group_product')->with('subcategory.group_product.product')->orderBy('order')->get();
         $categoria = Category::find($producto->category_id);
         $grupo_productos = GroupProduct::with('product')->where('id',$producto->group_product_id)->first();
 //        $capacidad = Capacity::where('product_id',$id)->get();

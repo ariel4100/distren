@@ -18,6 +18,30 @@
                             <label for="order" class="">Orden</label>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <h6>Precio</h6>
+                        <div class="md-form input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text md-addon">$</span>
+                            </div>
+                            <input type="text" class="form-control" name="price" aria-label="Amount (to the nearest dollar)">
+                            <div class="input-group-append">
+                              <span class="input-group-text md-addon">.00</span>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Precio Oferta</h6>
+                        <div class="md-form input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text md-addon">$</span>
+                            </div>
+                            <input type="text" class="form-control" name="price_offer" aria-label="Amount (to the nearest dollar)">
+                            <div class="input-group-append">
+                              <span class="input-group-text md-addon">.00</span>
+                            </div>
+                          </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -28,7 +52,7 @@
                     </div>
                 </div>
 {{--            @dd($subcategorias)--}}
-            <select-component :categoria="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}"></select-component>
+            <select-component :categorias="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}"></select-component>
 {{--            <div class="row">--}}
 {{--                <div class="col-md-6 mt-4">--}}
 {{--                    <p>Seleccionar Categoria</p>--}}
@@ -51,19 +75,28 @@
 {{--                    </select>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            <capacidad-component :terminaciones="{{ json_encode($terminaciones) }}" :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>
+            {{--<capacidad-component :terminaciones="{{ json_encode($terminaciones) }}" :capacidades="{{ json_encode($capacidades) }}" :cierres="{{ json_encode($cierres) }}"></capacidad-component>--}}
+
+            <cierres-component :related="{{ json_encode($productos) }}" :selectedrelated="{{ json_encode($producto->related ?? []) }}"></cierres-component>
+
             <gallery-component></gallery-component>
             <div class="row mt-5">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="customSwitch1" name="featured">
                         <label class="custom-control-label" for="customSwitch1">Destacado</label>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="Oferta" name="offer">
                         <label class="custom-control-label" for="Oferta">Oferta</label>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"  id="listado" name="listado">
+                        <label class="custom-control-label" for="listado">Listado</label>
                     </div>
                 </div>
             </div>

@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container p-4">
-        <a class="text-decoration-none " href="{{ route('terminaciones.index') }}"><< Volver</a>
-        <form class="" method="POST" action="{{ route('terminaciones.update',$terminacion->id) }}" enctype="multipart/form-data">
+        <a class="text-decoration-none " href="{{ route('grupoproducto.index') }}"><< Volver</a>
+        <form class="" method="POST" action="{{ route('grupoproducto.update',$terminacion->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
@@ -19,7 +19,7 @@
                         <label for="order" class="">Orden</label>
                     </div>
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="md-form">
                         <input type="number" id="price" name="price" class="form-control" value="{!! $terminacion->price !!}">
                         <label for="price" class="">Precio</label>
@@ -30,7 +30,7 @@
                         <input type="number" id="quantity" name="quantity" class="form-control" value="{!! $terminacion->quantity !!}">
                         <label for="quantity" class="">Cantidad</label>
                     </div>
-                </div>
+                </div> --}}
             </div>
             {{--<div class="row">--}}
                 {{--<div class="col-md-12">--}}

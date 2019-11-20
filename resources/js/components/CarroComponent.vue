@@ -16,7 +16,7 @@
                     <tbody>
                     <tr v-if="test == 1"  v-for="(item,index) in carrito" :key="index">
                         <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto && item.producto.code }}</td>
-                        <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto.category && item.producto.category.title  }}</td>
+                        <td class="text-center" style="width: 200px; vertical-align: middle">{{ item.producto.category && item.producto.category.title ? item.producto.category.title : '-'  }}</td>
                         <td class="text-center" style="width: 300px; vertical-align: middle">
                             {{ item.producto && item.producto.title  }}<br>
                             <!--Codigo: {{ item.producto.code  }}-->
@@ -58,7 +58,7 @@
                         <input type="radio" class="custom-control-input" id="caba" value="caba" v-model="compra.envio">
                         <label class="custom-control-label" for="caba">Envío a C.A.B.A y G.B.A</label>
                     </div>
-                    <div class="" v-if="compra.envio == 'caba'">
+                    <div class="" v-if="compra.envio == 'cadba'">
                         <p class="m-0 my-1">Ingrese Código Postal</p>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -110,7 +110,7 @@
                     <h5 class="distren-color">IVA (21%)</h5>
                     <h5>${{ (getTotal*0.21).toFixed(2) }}</h5>
                 </div>
-                <div v-if="compra.envio == 'caba'" class="d-flex justify-content-between">
+                <div v-if="compra.envio == 'cadba'" class="d-flex justify-content-between">
                     <h5 class="distren-color">Envio</h5>
                     <h5>$</h5>
                 </div>

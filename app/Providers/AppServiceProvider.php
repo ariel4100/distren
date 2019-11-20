@@ -26,12 +26,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-
+        //dd(env('DB_DATABASE'));
         $logos = Content::where('section','logos')->first();
         $contacto= Content::where('section','contacto')->first();
         $logos = $logos ? json_decode($logos->text) : '';
         $contacto = $contacto ? json_decode($contacto->text) : '';
-//        dd($logos);
+//        dd($contacto);
         view()->share('logos',$logos);
         view()->share('contacto',$contacto);
     }

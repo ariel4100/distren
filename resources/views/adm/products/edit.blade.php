@@ -19,6 +19,26 @@
                         <label for="order" class="">Orden</label>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <h6>Precio</h6>
+                    <div class="md-form input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text md-addon">$</span>
+                        </div>
+                        <input type="number" class="form-control" name="price" value="{{ $producto->price }}" aria-label="Amount (to the nearest dollar)">
+                       
+                      </div>
+                </div>
+                <div class="col-md-6">
+                    <h6>Precio Oferta</h6>
+                    <div class="md-form input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text md-addon">$</span>
+                        </div>
+                        <input type="number" class="form-control" name="price_offer" value="{{ $producto->price_offer }}" aria-label="Amount (to the nearest dollar)">
+                         
+                      </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -53,9 +73,10 @@
 {{--                    </select>--}}
 {{--                </div>--}}
             </div>
-{{--            @dd($producto->capacity)--}}
-{{--            <cierres-component :capacidad="{{ json_encode($producto->capacity()->select('capacities.id','cc')->get()) }}" :precio="{{ json_encode($precio) }}" :terminacion="{{ json_encode($producto->termination) }}" :cierre="{{ json_encode($producto->closure) }}"></cierres-component>--}}
+            {{--@dd($productos)--}}
+
             {{--<capacidad-component :selectedcapacidad="{{ json_encode($producto->capacity) }}" :cierres="{{ json_encode($cierres) }}" :terminaciones="{{ json_encode($terminaciones) }}" :selectedcierre="{{ json_encode($producto->closure) }}" :selectedterminacion="{{ json_encode($producto->termination) }}"></capacidad-component>--}}
+            <cierres-component :related="{{ json_encode($productos) }}" :selectedrelated="{{ json_encode($producto->related ?? []) }}"></cierres-component>
             <gallery-component :galeria="{{ json_encode($producto->image) }}"></gallery-component>
             <div class="row mt-5">
                 {{--                <div class="col-md-6 d-flex align-items-center justify-content-center">--}}
@@ -64,16 +85,22 @@
                 {{--                        <label class="custom-file-label" for="customFileLang">Seleccionar Imagen Principal</label>--}}
                 {{--                    </div>--}}
                 {{--                </div>--}}
-                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" {!! $producto->featured ? 'checked': null !!} id="customSwitch1" name="featured">
                         <label class="custom-control-label" for="customSwitch1">Destacado</label>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" {!! $producto->offer ? 'checked': null !!} id="Oferta" name="offer">
                         <label class="custom-control-label" for="Oferta">Oferta</label>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" {!! $producto->status ? 'checked': null !!} id="listado" name="listado">
+                        <label class="custom-control-label" for="listado">Listado</label>
                     </div>
                 </div>
                 <div class="col-md-12 my-4 text-right">

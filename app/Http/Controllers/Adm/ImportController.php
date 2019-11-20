@@ -23,15 +23,16 @@ class ImportController extends Controller
 {
 
     public function index(Request $request) {
-
+        //
+        return back()->with('status', "Carga finalizada");
         set_time_limit(0);
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('products')->truncate();
-        DB::table('categories')->truncate();
-        DB::table('subcategories')->truncate();
-        DB::table('capacities')->truncate();
-        DB::table('closures')->truncate();
-        DB::table('closure_product')->truncate();
+        // DB::table('products')->truncate();
+        // DB::table('categories')->truncate();
+        // DB::table('subcategories')->truncate();
+        // DB::table('capacities')->truncate();
+        // DB::table('closures')->truncate();
+        // DB::table('closure_product')->truncate();
 
         if ($request->hasFile('file')) {
             $file = $request->file('file')->storeAs('public/excel', Str::random(4).'-'.$request->file('file')->getClientOriginalName());

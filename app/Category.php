@@ -19,6 +19,7 @@ class Category extends Model
     }
 
     public function group_product() {
-        return $this->hasMany('App\GroupProduct');
+//        dd($this->hasMany('App\GroupProduct')->orderBy('order'));
+        return $this->hasMany('App\GroupProduct')->orderBy('order');
     }
 }

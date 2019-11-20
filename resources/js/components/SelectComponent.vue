@@ -4,18 +4,21 @@
             <p>Seleccionar Categoria</p>
             <select class="custom-select form-control select2" v-model="catseleccionado" @change="getSubcategoria()" name="category_id" >
                 <option v-for="item in categorias" :value="item">{{ item.title}}</option>
+                <input type="text" name="category_id" :value="catseleccionado.id" class="">
             </select>
         </div>
         <div class="col-md-6 mt-4">
             <p>Seleccionar Subcategoria</p>
             <select class="custom-select form-control select2" v-model="subcatseleccionado" name="subcategory_id">
                 <option v-for="item in catseleccionado.subcategory" :value="item">{{ item.title}}</option>
+                <input type="text" name="subcategory_id" :value="subcatseleccionado.id" class="">
             </select>
         </div>
         <div class="col-md-6 mt-4">
             <p>Seleccionar Grupo de Productos</p>
-            <select class="custom-select form-control select2" v-model="grupoproseleccionado" name="subcategory_id">
+            <select class="custom-select form-control select2" v-model="grupoproseleccionado" >
                 <option v-for="item in subcatseleccionado.group_product" :value="item">{{ item.title}}</option>
+                  <input type="text" name="group_product_id" :value="grupoproseleccionado.id" class="">
             </select>
         </div>
     </div>

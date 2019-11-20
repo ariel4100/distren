@@ -12,6 +12,7 @@
         <div class="row">
             {{--@dd($categoria->product[0]->category_id)--}}
             {{--@include('page.partials.botonera')--}}
+
             <botonera-component :categorias="{{ json_encode($categorias) }}" :category="{{ json_encode($categoria) }}" :grupo="{{$grupo_productos}}"></botonera-component>
             <familia-component :category="{{ json_encode($categoria) }}" :grupo="{{$grupo_productos}}"></familia-component>
 {{--            <div class="col-md-9">--}}
