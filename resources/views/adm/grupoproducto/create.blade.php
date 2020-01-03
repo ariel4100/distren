@@ -18,6 +18,12 @@
                         <label for="order" class="">Orden</label>
                     </div>
                 </div>
+
+                <div class="container">
+                    <select-component2 :categorias="{{ json_encode($categorias) }}" :subcategorias="{{ json_encode($subcategorias) }}"></select-component2>
+
+                </div>
+
                 {{-- <div class="col-md-6">
                     <div class="md-form">
                         <input type="number" id="price" name="price" class="form-control">
@@ -39,7 +45,7 @@
                     {{--</div>--}}
                 {{--</div>--}}
             {{--</div>--}}
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-md-12">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFileLang" name="image" lang="es">

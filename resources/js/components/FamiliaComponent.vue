@@ -6,11 +6,20 @@
                     Todos
                 </a>
             </div>
-            <div class="col- md-3" v-for="item in category.subcategory">
-                <a @click="getFilter(item.id)" class="nav-link text-uppercase">
-                    {{ item.title }}
-                </a>
-            </div>
+            <template v-if="inverso == 1">
+                <div class="col- md-3" v-for="(item,k) in subcategorias_inverso">
+                    <a @click="getFilter(item.id)" class="nav-link text-uppercase">
+                        {{ item.title }}
+                    </a>
+                </div>
+            </template>
+            <template v-else>
+                <div class="col- md-3" v-for="(item,k) in subcategorias">
+                    <a @click="getFilter(item.id)" class="nav-link text-uppercase">
+                        {{ item.title }}
+                    </a>
+                </div>
+            </template>
         </div>
         <div v-if="!mostrar_productos" class="row">
             <div v-for="item in filterproduct" class="col-md-3 text-center mt-4">
@@ -28,7 +37,7 @@
                         </div>
                     </div>
                     <h4 class="text-center py-1 m-0">{{ item.title }}</h4>
-                    <!--                    <h5 class="text-center">Desde <del>${{ $item->price->min('price') }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>-->
+                    <!--<h5 class="text-center">Desde <del>${{ $item->price->min('price') }} </del> <span class="distren-color"> ${{ $item->price->min('offer_price') }}</span></h5>-->
                 </a>
             </div>
 
@@ -103,7 +112,7 @@
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
-        props:['categorias','cierres','subcategoria','category','activo','grupo'],
+        props:['categorias','cierres','subcategoria','category','activo','grupo','inverso'],
 
         data(){
           return{
@@ -115,25 +124,52 @@
               filterproduct:[],
               filter:[],
               url : document.__API_URL2,
-              active:{}
+              active:{},
+              subcategorias: [],
+              subcategorias_inverso: [],
           }
         },
 
+        created(){
+            if (this.inverso == 1){
+                this.subcategorias_inverso = (this.category.subcategory).reverse()
+
+            }
+            // console.log(this.category.subcategory)
+            this.subcategorias = this.category.subcategory
+        },
         mounted() {
             // this.getSubcategoria()
             this.getFilter()
-
-            console.log(this.filterproduct)
+            // console.log(this.filterproduct)
         },
         methods: {
             redirectGrupo(item){
                 location.href = this.url+'/familias/grupos/'+item.id
             },
+
             getFilter(id){
                 if (id){
                     this.filterproduct = this.category.group_product.filter(item => item.subcategory_id == id);
                 }else{
-                    this.filterproduct = this.category.group_product
+                    if (this.inverso == 1){
+                        let ggg = this.category.group_product.sort(function (item,b) {
+                            // console.log(a.subcategory_id)
+                            if (item.subcategory_id > b.subcategory_id)
+                                return -1;
+                            if (item.subcategory_id < b.subcategory_id)
+                                return 1;
+                            return 0;
+                            // return item.subcategory_id >= 4;
+                        })
+                        // console.log(ggg)
+                        this.filterproduct = ggg
+                    }else{
+
+                        // console.log(ggg)
+                        this.filterproduct = this.category.group_product
+                    }
+
                 }
                 // console.log(this.filterproduct)
             },

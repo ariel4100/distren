@@ -52,7 +52,7 @@
                     </div>
                 </div>
 {{--            @dd($subcategorias)--}}
-            <select-component :categorias="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}"></select-component>
+            <select-component :categorias="{{ json_encode($categorias) }}" :subcategoria="{{ json_encode($subcategorias) }}" :grupoproductos="{{ json_encode($grupoproductos) }}"></select-component>
 {{--            <div class="row">--}}
 {{--                <div class="col-md-6 mt-4">--}}
 {{--                    <p>Seleccionar Categoria</p>--}}

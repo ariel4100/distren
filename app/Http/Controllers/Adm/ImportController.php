@@ -24,15 +24,16 @@ class ImportController extends Controller
 
     public function index(Request $request) {
         //
-        return back()->with('status', "Carga finalizada");
+
+//        return back()->with('status', "Carga finalizada");
         set_time_limit(0);
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        // DB::table('products')->truncate();
-        // DB::table('categories')->truncate();
-        // DB::table('subcategories')->truncate();
-        // DB::table('capacities')->truncate();
-        // DB::table('closures')->truncate();
-        // DB::table('closure_product')->truncate();
+         DB::table('products')->truncate();
+         DB::table('categories')->truncate();
+         DB::table('subcategories')->truncate();
+         DB::table('group_products')->truncate();
+//         DB::table('closures')->truncate();
+//         DB::table('closure_product')->truncate();
 
         if ($request->hasFile('file')) {
             $file = $request->file('file')->storeAs('public/excel', Str::random(4).'-'.$request->file('file')->getClientOriginalName());
@@ -61,37 +62,46 @@ class ImportController extends Controller
                     $familia = Category::firstOrCreate([
                         'title' => $row[1]
                     ]);
-
                     $subfamily = Subcategory::firstOrCreate([
                         'title' => $row[2],
+                    ], [
                         'category_id' => $familia->id,
                     ]);
+//                    $subfamily = Subcategory::firstOrCreate([
+//                        'title' => $row[2],
+//                        'category_id' => $familia->id,
+//                    ]);
 
                     $group_products = GroupProduct::firstOrCreate([
-                        'title' => $row[3],
+                        'title' => $row[3]
+                    ], [
                         'category_id' => $familia->id,
                         'subcategory_id' => $subfamily->id,
                     ]);
+//                    dd($row);
+//                    $precio = str_replace(".","",$row[7]);
+//                    $precio = str_replace(",",".",$row[7]);
+//                    $precio = str_replace("$","",$row[7]);
+//                    $precio_oferta = str_replace(".","",$row[8]);
+//                    $precio_oferta = str_replace(",",".",$row[8]);
+//                    $precio_oferta = str_replace("$","",$row[8]);
 
-                    $precio = str_replace(".","",$row[7]);
-                    $precio = str_replace(",",".",$row[7]);
-                    $precio = str_replace("$","",$row[7]);
-                    $precio_oferta = str_replace(".","",$row[8]);
-                    $precio_oferta = str_replace(",",".",$row[8]);
-                    $precio_oferta = str_replace("$","",$row[8]);
-
+                    //HAY CODIGOS REPETIDOS ES POR ESO QUE NO CARGAN TODOS LOS PRODUCTOS.
+//                    $producto = new Product();
+//                    $producto->code = trim($row[0]);
                     $producto = Product::firstOrCreate([
-                        'code' => $row[0],
-                        'title' => $row[6],
-                        'category_id' => $familia->id,
-                        'subcategory_id' => $subfamily->id,
-                        'group_product_id' => $group_products->id,
-                        'price' => floatval($precio),
-                        'price_offer' => floatval($precio_oferta),
-                        'offer' => $row[10] == 'SI' ? true : false,
-                        'featured' => $row[11] == 'SI' ? true : false,
+                        'code' =>  trim($row[0])
                     ]);
-
+                    $producto->title = $row[6];
+                    $producto->category_id = $familia->id;
+                    $producto->subcategory_id = $subfamily->id;
+                    $producto->group_product_id = $group_products->id;
+                    $producto->price = floatval($row[7]);
+                    $producto->price_offer = floatval($row[8]);
+                    $producto->offer = $row[10] == 'SI' ? true : false;
+                    $producto->featured = $row[11] == 'SI' ? true : false;
+                    $producto->save();
+//                    dd($row);
 //                    DB::table('closure_product')->updateOrInsert([
 //                        'closure_id' => $cierre->id,
 //                        'product_id' => $producto->id,

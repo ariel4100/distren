@@ -73,15 +73,15 @@ class ProductController extends Controller
         $capacidades = Capacity::all();
         // $categorias = Category::all();
         $subcategorias = Subcategory::all();
-        // $grupoproductos = GroupProduct::all();
+         $grupoproductos = GroupProduct::all();
         // dd($grupoproductos);
-        return view('adm.products.create',compact('cierres','capacidades','categorias','subcategorias','terminaciones','productos'));
+        return view('adm.products.create',compact('cierres','capacidades','categorias','subcategorias','terminaciones','productos','grupoproductos'));
     }
 
     public function store(Request $request)
     {
 
-    //    dd($request->all());
+//        dd($request->all());
     $item['price'] = $request->price ?? 0;
     $item['price_offer'] = $request->price_offer ?? 0;
         //relacion de Many to Many con las terminaciones , cierres y capacidades
@@ -90,12 +90,22 @@ class ProductController extends Controller
 //        $capacidad = collect($apiProductos['capacidad']);
 //        $cierres = collect($apiProductos['cierre']);
 //        $terminacion = collect($apiProductos['terminacion']);
+        $product = new Product();
         $related =  $request->related_id;
         $gallery = $request->gallery;
 
+        $item['price'] = str_replace(".","",$item["price"]);
+        $item['price'] = str_replace(",","",$item["price"]);
+        $item['price'] = str_replace("$","",$item["price"]);
+        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+        $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+        $product->price = $item['price'];
+        $product->price_offer = $item['price_offer'];
+//        dd($item['price']);
         if (isset($gallery))
         {
-            //dd($gallery);
+//            dd($gallery);
             foreach ($gallery as $k => $item) {
 //                dd($item['image']);
                 if ( $item['image'] )
@@ -107,19 +117,12 @@ class ProductController extends Controller
             }
         }
 
-        $item['price'] = str_replace(".","",$item["price"]);
-        $item['price'] = str_replace(",","",$item["price"]);
-        $item['price'] = str_replace("$","",$item["price"]);
-        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
-        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
-        $item['price_offer'] = str_replace("$","",$item["price_offer"]);
 
         // dd($item['price']);
-        $product = new Product();
+        $product->image = $gallery;
         $product->title = $request->title;
         $product->text = $request->text;
-        $product->price = $item['price'];
-        $product->price_offer = $item['price_offer'];
+
         $product->featured = isset($request->featured) ? true : false;
         $product->offer = isset($request->offer) ? true : false;
         $product->status = isset($request->listado) ? true : false;
@@ -187,14 +190,23 @@ class ProductController extends Controller
         $item['price'] = $request->price ?? 0;
         $item['price_offer'] = $request->price_offer ?? 0;
         $related =  $request->related_id;
-//        dd($related);
+//        dd($item['price']);
 //        $related->pluck('id');
         $product = Product::find($id);
-
 
         $product->related()->sync($related);
 //        return 'aca';
         $gallery = $request->gallery;
+
+//        dd($item['price']);
+        $item['price'] = str_replace(".","",$item["price"]);
+        $item['price'] = str_replace(",","",$item["price"]);
+        $item['price'] = str_replace("$","",$item["price"]);
+        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+        $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+        $product->price = $item['price'];
+        $product->price_offer = $item['price_offer'];
 
         if (isset($gallery))
         {
@@ -212,24 +224,19 @@ class ProductController extends Controller
                 }
             }
         }
-        $item['price'] = str_replace(".","",$item["price"]);
-        $item['price'] = str_replace(",","",$item["price"]);
-        $item['price'] = str_replace("$","",$item["price"]);
-        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
-        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
-        $item['price_offer'] = str_replace("$","",$item["price_offer"]);
+
 
         $product->title = $request->title;
-        $product->price = $item['price'];
-        $product->price_offer = $item['price_offer'];
+
         $product->image = $gallery;
         $product->text = $request->text;
         $product->featured = isset($request->featured) ? true : false;
         $product->offer = isset($request->offer) ? true : false;
         $product->status = isset($request->listado) ? true : false;
         $product->order = $request->order;
-//        $product->category_id = $request->category_id;
-//        $product->subcategory_id = $request->subcategory_id;
+        $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->group_product_id = $request->group_product_id;
 
 //        if ($request->file('image'))
 //        {

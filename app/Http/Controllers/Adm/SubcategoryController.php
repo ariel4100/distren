@@ -44,6 +44,7 @@ class SubcategoryController extends Controller
     {
         $subcategoria = Subcategory::find($id);
         $categories  = Category::all();
+//        dd($subcategoria);
         return view('adm.subcategories.edit',compact('subcategoria','categories'));
     }
 

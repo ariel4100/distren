@@ -26,7 +26,7 @@
                           <span class="input-group-text md-addon">$</span>
                         </div>
                         <input type="number" class="form-control" name="price" value="{{ $producto->price }}" aria-label="Amount (to the nearest dollar)">
-                       
+
                       </div>
                 </div>
                 <div class="col-md-6">
@@ -36,7 +36,7 @@
                           <span class="input-group-text md-addon">$</span>
                         </div>
                         <input type="number" class="form-control" name="price_offer" value="{{ $producto->price_offer }}" aria-label="Amount (to the nearest dollar)">
-                         
+
                       </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 </div>
             </div>
             {{--@DD($producto)--}}
-            <select-component :categorias="{{ json_encode($categorias) }}"  :subcategoria="{{ json_encode($subcategorias) }}" :grupoproductos="{{ json_encode($producto) }}" :producto="{{ json_encode($producto) }}"></select-component>
+            <select-component :categorias="{{ json_encode($categorias) }}"  :subcategoria="{{ json_encode($subcategorias) }}" :grupoproductos="{{ json_encode($grupoproductos) }}" :producto="{{ json_encode($producto) }}"></select-component>
             <div class="row my-5">
 {{--                <div class="col-md-6 mt-4">--}}
 {{--                    <p>Seleccionar Categoria</p>--}}

@@ -19,12 +19,13 @@
                         <label for="order" class="">Orden</label>
                     </div>
                 </div>
+{{--                @dd($categories)--}}
                 <div class="col-md-6">
                     <div class="form-group">
                         <select name="category_id" id="" class="custom-select" required>
                             <option disabled selected>Seleccionar categoria</option>
                             @foreach($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                <option value="{{ $item->id }}" {{ $subcategoria->category_id == $item->id ? 'selected' : '' }}>{{ $item->title }}</option>
                             @endforeach
                         </select>
                     </div>

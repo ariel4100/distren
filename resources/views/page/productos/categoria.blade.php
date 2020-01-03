@@ -12,9 +12,19 @@
         <div class="row">
             {{--@dd($categoria->product[0]->category_id)--}}
             {{--@include('page.partials.botonera')--}}
-            {{--@dd($categoria)--}}
-            <botonera-component :categorias="{{ json_encode($categorias) }}" :category="{{ json_encode($categoria) }}"></botonera-component>
-            <familia-component :category="{{ json_encode($categoria) }}"  :productos="{{ json_encode($categoria->product->sortBy('order')) }}"></familia-component>
+{{--            @dd($categoria)--}}
+
+{{--            @php($categoria->id == 2)--}}
+
+            @if($categoria->id == 2)
+{{--                @dd(array_reverse($categoria->subcategory->toArray(),true))--}}
+            <botonera-component :categorias="{{ json_encode($categorias) }}"  :category="{{ json_encode($categoria) }}"></botonera-component>
+            <familia-component :category="{{ json_encode($categoria) }}" inverso="1" :productos="{{ json_encode($categoria->product->sortBy('order')) }}"></familia-component>
+            @else
+                <botonera-component :categorias="{{ json_encode($categorias) }}" :category="{{ json_encode($categoria) }}"></botonera-component>
+                <familia-component :category="{{ json_encode($categoria) }}"  :productos="{{ json_encode($categoria->product->sortBy('order')) }}"></familia-component>
+
+            @endif
 {{--            <div class="col-md-9">--}}
 {{--                <div class="row justify-content-center mb-3">--}}
 {{--                    <div class="col-md-3">--}}

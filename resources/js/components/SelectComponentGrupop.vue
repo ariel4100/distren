@@ -2,23 +2,15 @@
     <div class="row">
         <div class="col-md-6 mt-4">
             <p>Seleccionar Categoria</p>
-            <select class="custom-select form-control select2" v-model="catseleccionado"   name="category_id" >
+            <select class="custom-select form-control select2" v-model="catseleccionado"  name="category_id" >
                 <option v-for="item in categorias" :value="item.id">{{ item.title}}</option>
-<!--                <input type="text" name="category_id" :value="catseleccionado.id" class="">-->
+
             </select>
         </div>
         <div class="col-md-6 mt-4">
             <p>Seleccionar Subcategoria</p>
             <select class="custom-select form-control select2" v-model="subcatseleccionado" name="subcategory_id">
-                <option v-if="catseleccionado == item.category_id" v-for="item in subcategoria" :value="item.id">{{ item.title}}</option>
-<!--                <input type="text" name="subcategory_id" :value="subcatseleccionado.id" class="">-->
-            </select>
-        </div>
-        <div class="col-md-6 mt-4">
-            <p>Seleccionar Grupo de Productos</p>
-            <select class="custom-select form-control select2" v-model="grupoproseleccionado" name="group_product_id">
-                <option v-if="subcatseleccionado == item.subcategory_id" v-for="item in grupoproductos" :value="item.id">{{ item.title }} </option>
-<!--                  <input type="text" name="group_product_id" :value="grupoproseleccionado.id" class="">-->
+                <option v-if="catseleccionado == item.category_id"  v-for="item in subcategorias" :value="item.id">{{ item.title}}</option>
             </select>
         </div>
     </div>
@@ -31,16 +23,15 @@
     // register globally
     //Vue.component('multiselect', Multiselect)
     export default {
-        props:['grupoproductos','producto','subcategoria','categorias'],
+        props:['grupoproductos','producto','subcategorias','categorias'],
         components: {
             Multiselect,
             Money
         },
         data(){
           return{
-              catseleccionado: this.producto && this.producto.category_id ? this.producto.category_id : 0,
-              subcatseleccionado: this.producto && this.producto.subcategory_id ? this.producto.subcategory_id : 0,
-              grupoproseleccionado: this.producto && this.producto.group_product_id ? this.producto.group_product_id : 0,
+              catseleccionado: this.producto && this.producto.category_id ? this.producto.category_id : 1,
+              subcatseleccionado: this.producto && this.producto.subcategory_id ? this.producto.subcategory_id : 1,
               subcate:[],
               cate:[],
               terminacion:[],
@@ -49,9 +40,9 @@
           }
         },
         mounted() {
-            // this.getSubcategoria();
+            this.getSubcategoria();
             // this.getCapacidad()
-            console.log(this.grupoproductos)
+            console.log(this.categorias)
         },
         methods: {
             getSubcategoria(){

@@ -18,8 +18,8 @@
                     @forelse ($subcategorias as $item)
                         <tr>
                             <td>{{ $item->title }}</td>
-                            <td>{{ $item->order }}</td>
                             <td>{{ $item->category->title ?? '' }}</td>
+                            <td>{{ $item->order }}</td>
                             <td>
                                 <a class="btn btn-sm btn-warning" href="{{ route('subcategoria.edit',$item->id) }}"><i class="fas fa-pen"></i></a>
                                 <form action="{{ route('subcategoria.destroy', $item->id) }}" method="POST">
