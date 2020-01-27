@@ -14,12 +14,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="text" id="form-contact-name" placeholder="Nombre" v-model="datos.nombre" class="form-control" required>
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" v-model="datos.nombre" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="text" id="form-contact-email" placeholder="Apellido" v-model="datos.apellido" class="form-control" required>
+                                    <label for="Apellido">Apellido</label>
+                                    <input type="text" id="Apellido"  v-model="datos.apellido" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -34,32 +36,38 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="text" placeholder="CUIT" v-model="datos.cuit" class="form-control" required>
+                                    <label for="CUIT">CUIT / DNI</label>
+                                    <input type="text" id="CUIT" v-model="datos.cuit" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="email" id="form-contact-phone" placeholder="Email" v-model="datos.email" class="form-control" required>
+                                    <label for="Email">Email</label>
+                                    <input type="email" id="Email"  v-model="datos.email" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="text" id="form-contact-company" placeholder="Telefono" v-model="datos.telefono" class="form-control" required>
+                                    <label for="Telefono">Telefono</label>
+                                    <input type="text" id="Telefono"  v-model="datos.telefono" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="text" id="Domicilio" placeholder="Domicilio" v-model="datos.domicilio" class="form-control" required>
+                                    <label for="Domicilio">Domicilio</label>
+                                    <input type="text" id="Domicilio"  v-model="datos.domicilio" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="text" id="Provincia" placeholder="Provincia" v-model="datos.provincia" class="form-control" required>
+                                    <label for="Provincia">Provincia</label>
+                                    <input type="text" id="Provincia"  v-model="datos.provincia" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-0">
-                                    <input type="email" id="Localidad" placeholder="Localidad" v-model="datos.localidad" class="form-control" required>
+                                    <label for="Localidad">Localidad</label>
+                                    <input type="email" id="Localidad"  v-model="datos.localidad" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -71,27 +79,33 @@
                         <ul class="text-lg-left list-unstyled px-4">
                             <li v-for="item in carrito" class="d-flex justify-content-between">
                                 {{ item.producto.title }}
-                                <span v-if="item.oferta">{{ (getSubtotal(item)).toFixed(2) }}</span>
-                                <span v-else>${{ (getSubtotal(item)).toFixed(2) }}</span>
+                                <span v-if="item.oferta">{{ (getSubtotal(item)).toFixed(2).replace('.', ',') }}</span>
+                                <span v-else>${{ (getSubtotal(item)).toFixed(2).replace('.', ',') }}</span>
                             </li>
                         </ul>
                         <hr class="hr-light p-0 my-2">
                         <ul class="list-unstyled px-4">
                             <li class="list-inline-item  d-flex justify-content-between">
                                 Sub Total
-                                <span>${{ getTotal.toFixed(2) }}</span>
+                                <span>${{ getTotal.toFixed(2).replace('.', ',') }}</span>
                             </li>
                             <li class="list-inline-item d-flex justify-content-between">
                                 IVA(21%)
-                                <span>${{ (getTotal*0.21).toFixed(2) }}</span>
+                                <span>${{ (getTotal*0.21).toFixed(2).replace('.', ',') }}</span>
                             </li>
-                            <!--<li class="list-inline-item d-flex justify-content-between">-->
-                                <!--Envio-->
-                                <!--<span>$ 700</span>-->
-                            <!--</li>-->
+                            <template v-if="compra.envio == 'gba' && getTotal < 2500">
+                                <li class="list-inline-item d-flex justify-content-between">
+                                    Envio
+                                    <span>$ 200</span>
+                                </li>
+                            </template>
+                            <template v-else>
+
+                            </template>
+
                             <li class="list-inline-item d-flex justify-content-between">
                                 Total a Pagar
-                                <span>${{ (getTotal*1.21).toFixed(2) }}</span>
+                                <span>${{ (compra.total).toFixed(2).replace('.', ',') }}</span>
                             </li>
                         </ul>
 
@@ -181,18 +195,30 @@
                     }else{
                         this.loading = true;
                         axios.post(this.url+'/api/confirmar',{datos: this.datos,pedido: this.carrito,compra: this.compra}).then(res => {
-                            console.log(res.data)
-                            this.loading = false;
-                            this.$swal({
-                                type: 'success',
-                                title: 'Compra realizado correctamente',
-                                showConfirmButton: false,
-                                timer: 3500
-                            })
-                            localStorage.removeItem('carrito');
-                            setTimeout(function(){
-                                location.href = "familias";
-                            }, 3000);
+                            console.log(res)
+                            if (res.data.mp)
+                            {
+                                this.loading = false;
+                                // localStorage.removeItem('carrito');
+                                setTimeout(function(){
+                                    location.href = res.data.mp;
+                                }, 1000);
+                            }else{
+                                this.loading = false;
+                                this.$swal({
+                                    type: 'success',
+                                    title: 'Compra realizado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 3500
+                                })
+                                // localStorage.removeItem('carrito');
+                                setTimeout(function(){
+                                    location.href = "familias";
+                                }, 3000);
+                            }
+
+
+
                         }).catch(e => {
                             // console.log('document.location', this.url);
                             this.loading = false;
@@ -232,6 +258,8 @@
         background-position: center right calc(.375em + .1875rem);
         background-size: calc(.75em + .375rem) calc(.75em + .375rem);
     }
-
+    label{
+        color: #8BBF40 !important;
+    }
 
 </style>

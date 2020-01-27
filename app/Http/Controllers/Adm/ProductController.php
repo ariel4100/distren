@@ -94,11 +94,11 @@ class ProductController extends Controller
         $related =  $request->related_id;
         $gallery = $request->gallery;
 
-        $item['price'] = str_replace(".","",$item["price"]);
-        $item['price'] = str_replace(",","",$item["price"]);
+//        $item['price'] = str_replace(".","",$item["price"]);
+        $item['price'] = str_replace(",",".",$item["price"]);
         $item['price'] = str_replace("$","",$item["price"]);
-        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
-        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+//        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+        $item['price_offer'] = str_replace(",",".",$item["price_offer"]);
         $item['price_offer'] = str_replace("$","",$item["price_offer"]);
         $product->price = $item['price'];
         $product->price_offer = $item['price_offer'];
@@ -121,6 +121,10 @@ class ProductController extends Controller
         // dd($item['price']);
         $product->image = $gallery;
         $product->title = $request->title;
+        if ($request->code)
+        {
+            $product->code = trim($request->code);
+        }
         $product->text = $request->text;
 
         $product->featured = isset($request->featured) ? true : false;
@@ -199,11 +203,11 @@ class ProductController extends Controller
         $gallery = $request->gallery;
 
 //        dd($item['price']);
-        $item['price'] = str_replace(".","",$item["price"]);
-        $item['price'] = str_replace(",","",$item["price"]);
+//        $item['price'] = str_replace(".","",$item["price"]);
+        $item['price'] = str_replace(",",".",$item["price"]);
         $item['price'] = str_replace("$","",$item["price"]);
-        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
-        $item['price_offer'] = str_replace(",","",$item["price_offer"]);
+//        $item['price_offer'] = str_replace(".","",$item["price_offer"]);
+        $item['price_offer'] = str_replace(",",".",$item["price_offer"]);
         $item['price_offer'] = str_replace("$","",$item["price_offer"]);
         $product->price = $item['price'];
         $product->price_offer = $item['price_offer'];
@@ -225,7 +229,10 @@ class ProductController extends Controller
             }
         }
 
-
+        if ($request->code)
+        {
+            $product->code = trim($request->code);
+        }
         $product->title = $request->title;
 
         $product->image = $gallery;

@@ -82,8 +82,46 @@ class OrderController extends Controller
 //
 //        }
 //        $precio_cc = Price::
+//        Mail::to('arielcallisaya00@gmail.com')->send(new OrderMail($request->all()));
+        Mail::to('ventas@distren.com.ar')->send(new OrderMail($request->all()));
 
-        Mail::to('ariel.14.iyf@gmail.com')->send(new OrderMail($request->all()));
-        return $pedidos;
+
+        if ($compra['pago'] == 'MP'){
+            \MercadoPago\SDK::setClientId(env('MERCADOPAGO_CLIENTE_ID'));
+            \MercadoPago\SDK::setClientSecret(env('MERCADOPAGO_CLIENTE_SECRET'));
+            if (config('app.debug')){
+                \MercadoPago\SDK::setAccessToken("TEST-954396773036722-012715-8ceed7f3a41ce1c3f1eefad51dd8a83b-361003363");
+            }
+
+            $preference = new \MercadoPago\Preference();
+            $items[] = [
+                'id' => 1,
+                'category_id' => 'DISTREN',
+                'title' => 'Compra en DISTREN',
+                'description' => 'Producto de DISTREN',
+                'picture_url' => 'http://osolelaravel.com/distren/uploads/logos/texto/zebUI2yO08QFgEjAb2bzfCmMKl8gZMnPA78oVur9.png',
+                'quantity' => 1,
+                'currency_id' => 'ARS',
+                'unit_price' => $compra['total'] ?? 0
+            ];
+
+
+            $preference->items = $items;
+            $preference->external_reference = 1;
+            $preference->auto_return = "approved";
+            $preference->back_urls = array(
+                "success" => route('pago.exitoso'),
+                "failure" => url('/'),
+                "pending" => url('/')
+            );
+            $preference->save();
+            return response()->json([
+                'mp' => $preference->init_point,
+            ]);
+        }
+
+        return response()->json([
+            'no_mp' => 1,
+        ]);
     }
 }

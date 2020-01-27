@@ -6,10 +6,10 @@
             <div class="form-group ">
                 <input style="width: 90px;" type="number" :min="0" v-model="carrito.qty" class="form-control ">
             </div>
-            <h4>$ {{ parseFloat(producto.price).toFixed(2) }}</h4>
+            <h4>$ {{ parseFloat(producto.price).toFixed(2).replace('.', ',') }}</h4>
         </div>
         <div class="col-md-6">
-            <h4 class="">$ {{ carrito.qty != 0 ? (parseFloat(producto.price)*carrito.qty).toFixed(2) : parseFloat(producto.price).toFixed(2) }}</h4>
+            <h4 class="">$ {{ carrito.qty != 0 ? (parseFloat(producto.price)*carrito.qty).toFixed(2).replace('.', ',') : parseFloat(producto.price).toFixed(2).replace('.', ',') }}</h4>
             <!--<p class="">$ {{ producto.price.toFixed(3) }}</p>-->
         </div>
         <div class="col-md-12">
@@ -66,7 +66,7 @@
         },
         mounted() {
 
-            // console.log(this.producto)
+            console.log(this.producto)
             //console.log(this.cierres)
             // toastr.options = {
             //     "closeButton": false,
@@ -118,7 +118,7 @@
                 return subtotal
                 // }, 0)
             },
- 
+
             addCarrito(){
 
                 let carrito = []

@@ -30,6 +30,11 @@ Route::get('confirmar','FrontendController@confirmar')->name('confirmar');
 Route::get('ofertas','FrontendController@ofertas')->name('ofertas');
 Route::get('contacto','FrontendController@contacto')->name('contacto');
 Route::get('buscador','FrontendController@buscador')->name('buscador');
+
+Route::get('pago/exitoso',function (){
+    return view('page.pagos.success');
+})->name('pago.exitoso');
+
 Auth::routes();
 
 /*************************MAILS******************************/
@@ -83,6 +88,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'adm'],function (){
     Route::resource('metadatos','Adm\MetadataController');
     Route::get('meta/{id}','Adm\MetadataController@eliminar')->name('metadato.eliminar');
     Route::resource('usuario','Adm\UserController');
+    Route::get('excel-productos', 'Adm\ImportController@productos')->name('excel.productos');
 
 });
 

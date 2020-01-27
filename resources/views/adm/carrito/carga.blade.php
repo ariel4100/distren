@@ -3,6 +3,9 @@
 @section('content')
 
     <div class="container p-4">
+        <div class="container">
+            <a href="{{ route('excel.productos') }}" class="btn btn-warning btn-md mt-0">Exportar Productos</a>
+        </div>
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Carga de Productos</h5>

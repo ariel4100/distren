@@ -21,7 +21,7 @@
                             {{ item.producto && item.producto.title  }}<br>
                             <!--Codigo: {{ item.producto.code  }}-->
                         </td>
-                        <td class="text-center" style="vertical-align: middle">$ {{ item.producto && parseFloat(item.producto.price).toFixed(2) }}</td>
+                        <td class="text-center" style="vertical-align: middle">$ {{ item.producto && parseFloat(item.producto.price).toFixed(2).replace('.', ',') }}</td>
                         <!--<td style="vertical-align: middle">{{ item.producto }}</td>-->
                         <!--<td style="vertical-align: middle">{{ item.cc }}</td>-->
                         <!--<td style="vertical-align: middle">${{ item.precio  }}</td>-->
@@ -34,7 +34,7 @@
                         <td class="text-center position-relative" style="width: 200px; vertical-align: middle">
 
                                 <div class="">
-                                    $ {{ (parseFloat(item.producto.price)*item.qty).toFixed(2) }}
+                                    $ {{ (parseFloat(item.producto.price)*item.qty).toFixed(2).replace('.', ',') }}
                                 </div>
 
                             <button @click="deleteProducto(index)" class="btn btn-link  p-0 ml-3 position-absolute" style="right: 0; top: 15px"><i class="far fa-times-circle"></i></button>
@@ -56,7 +56,11 @@
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="caba" value="caba" v-model="compra.envio">
-                        <label class="custom-control-label" for="caba">Envío a C.A.B.A y G.B.A</label>
+                        <label class="custom-control-label" for="caba">Envío a C.A.B.A</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="gba" value="gba" v-model="compra.envio">
+                        <label class="custom-control-label" for="gba">Envío a G.B.A</label>
                     </div>
                     <div class="" v-if="compra.envio == 'cadba'">
                         <p class="m-0 my-1">Ingrese Código Postal</p>
@@ -100,23 +104,32 @@
                     <div class="" v-if="compra.pago == 'Efectivo'">
                         <div class="" v-html="info && info.efectivo"></div>
                     </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="defaultGroupExample3" value="MP" v-model="compra.pago">
+                        <label class="custom-control-label" for="defaultGroupExample3">Mercado pago</label>
+                    </div>
                 </div>
                 <hr class="distren-fondo">
                 <div class="d-flex justify-content-between">
                     <h5 class="distren-color">Sub Total</h5>
-                    <h5 class="">$ {{ getTotal.toFixed(2)  }}</h5>
+                    <h5 class="">$ {{ getTotal.toFixed(2).replace('.', ',')  }}</h5>
                 </div>
                 <div class="d-flex justify-content-between">
                     <h5 class="distren-color">IVA (21%)</h5>
-                    <h5>${{ (getTotal*0.21).toFixed(2) }}</h5>
+                    <h5>${{ (getTotal*0.21).toFixed(2).replace('.', ',') }}</h5>
                 </div>
-                <div v-if="compra.envio == 'cadba'" class="d-flex justify-content-between">
+                <div v-if="compra.envio == 'gba' && getTotal < 2500" class="d-flex justify-content-between">
                     <h5 class="distren-color">Envio</h5>
-                    <h5>$</h5>
+                    <h5>$200</h5>
                 </div>
                 <div class="d-flex justify-content-between align-item-center mt-3">
                     <h5 class="distren-color m-0">Total a pagar</h5>
-                    <h5 class="m-0 text-dark">${{ (getTotal*1.21).toFixed(2)  }}</h5>
+                    <template v-if="compra.envio == 'gba'">
+                        <h5 class="m-0 text-dark">${{ (compra.total).toFixed(2).replace('.', ',')  }}</h5>
+                    </template>
+                    <template v-else>
+                        <h5 class="m-0 text-dark">${{ (compra.total).toFixed(2).replace('.', ',')  }}</h5>
+                    </template>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="text-small m-0 p-0">Precio Final IVA incluido</p>
@@ -207,6 +220,18 @@
                     }
                 })
                 this.compra.total = total
+                if(this.compra.envio == 'gba')
+                {
+                    if (total < 2500)
+                    {
+                        this.compra.total = this.compra.total*1.21 + 200;
+                    }else{
+                        this.compra.total = this.compra.total*1.21;
+                    }
+                }else{
+                    this.compra.total = this.compra.total*1.21;
+                }
+
                 console.log(this.compra.total)
                 return total
                 // }, 0)

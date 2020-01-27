@@ -34,20 +34,35 @@
             <div class="col-md-8">
                 <form class="form-row" action="{{ route('contacto.mail') }}" method="post">
                     @csrf
-                    <div class="md-form col-md-6">
-                        <input type="text" class="form-control" placeholder="Nombre" name="nombre">
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" class="form-control" placeholder="" name="nombre">
+                        </div>
                     </div>
-                    <div class="md-form col-md-6">
-                        <input type="text" class="form-control" placeholder="Apellido" name="apellido">
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <label for="Apellido">Apellido</label>
+                            <input type="text" id="Apellido" class="form-control" placeholder="" name="apellido">
+                        </div>
                     </div>
-                    <div class="md-form col-md-6">
-                        <input type="email" class="form-control" placeholder="Email" name="email">
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <label for="Email">Email</label>
+                            <input type="email" id="Email" class="form-control" placeholder="" name="email">
+                        </div>
                     </div>
-                    <div class="md-form col-md-6">
-                        <input type="text" class="form-control" placeholder="Telefono" name="telefono">
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <label for="Telefono">Telefono</label>
+                            <input type="text" id="Telefono" class="form-control" placeholder="" name="telefono">
+                        </div>
                     </div>
-                    <div class="md-form col-md-12">
-                        <textarea id="form7" class="md-textarea form-control" placeholder="Mensaje" name="mensaje" rows="3"></textarea>
+                    <div class="col-md-12">
+                        <div class="md-form">
+                            <label for="Mensaje">Mensaje</label>
+                            <textarea id="Mensaje" class="md-textarea form-control" placeholder="" name="mensaje" rows="3"></textarea>
+                        </div>
                     </div>
                     <div class="col-md-6 d-flex justify-content-center">
                         <div class="g-recaptcha" data-sitekey="6LfxBKAUAAAAALkxGpbMmbopqVeVZYR3Q64Hg-ts"></div>

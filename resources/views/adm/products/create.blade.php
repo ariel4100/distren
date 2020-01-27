@@ -18,6 +18,12 @@
                             <label for="order" class="">Orden</label>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="md-form">
+                            <input type="text" id="code" name="code" class="form-control"  >
+                            <label for="order" class="">Codigo</label>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <h6>Precio</h6>
                         <div class="md-form input-group mb-3">
@@ -25,9 +31,9 @@
                               <span class="input-group-text md-addon">$</span>
                             </div>
                             <input type="text" class="form-control" name="price" aria-label="Amount (to the nearest dollar)">
-                            <div class="input-group-append">
-                              <span class="input-group-text md-addon">.00</span>
-                            </div>
+{{--                            <div class="input-group-append">--}}
+{{--                              <span class="input-group-text md-addon">.00</span>--}}
+{{--                            </div>--}}
                           </div>
                     </div>
                     <div class="col-md-6">
@@ -37,9 +43,9 @@
                               <span class="input-group-text md-addon">$</span>
                             </div>
                             <input type="text" class="form-control" name="price_offer" aria-label="Amount (to the nearest dollar)">
-                            <div class="input-group-append">
-                              <span class="input-group-text md-addon">.00</span>
-                            </div>
+{{--                            <div class="input-group-append">--}}
+{{--                              <span class="input-group-text md-addon">.00</span>--}}
+{{--                            </div>--}}
                           </div>
                     </div>
                 </div>

@@ -15,7 +15,8 @@ class MailController extends Controller
         $contacto = Content::seccionTipo('contacto','texto')->first();
         $datos = json_decode($contacto->text);
 
-        Mail::to('ariel.14.iyf@gmail.com')->send(new ContactoMail($data));
+//        Mail::to('arielcallisaya00@gmail.com')->send(new ContactoMail($data));
+        Mail::to('ventas@distren.com.ar')->send(new ContactoMail($data));
         ///Mail::to($datos->correo_2)->send(new ContactoMail($data));
         return back()->with('status', 'Correo enviado correctamente');
     }

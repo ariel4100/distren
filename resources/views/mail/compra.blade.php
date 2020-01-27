@@ -45,8 +45,8 @@
     @endforeach
     </tbody>
 </table>
-<h3 style="text-align:right;padding: 5px">Sub Total: $ {{ number_format($compra["total"],2,",",".") ?? ''}}</h3>
-<h3 style="text-align:right;padding: 5px">IVA (21%): $ {{ number_format($compra["total"]*0.21,2,",",".") ?? ''}}</h3>
-<h3 style="text-align:right;padding: 5px">Total a pagar: $ {{ number_format($compra["total"]*1.21,2,",",".") ?? ''}}</h3>
+{{--<h3 style="text-align:right;padding: 5px">Sub Total: $ {{ number_format($compra["total"],2,",",".") ?? ''}}</h3>--}}
+{{--<h3 style="text-align:right;padding: 5px">IVA (21%): $ {{ number_format($compra["total"]*0.21,2,",",".") ?? ''}}</h3>--}}
+<h3 style="text-align:right;padding: 5px">Total a pagar: $ {{ number_format($compra["total"],2,",",".") ?? ''}}</h3>
 </body>
 </html>

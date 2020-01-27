@@ -19,13 +19,19 @@
                         <label for="order" class="">Orden</label>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="md-form">
+                        <input type="text" id="order" name="code" class="form-control" value="{!! $producto->code !!}">
+                        <label for="order" class="">Codigo</label>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <h6>Precio</h6>
                     <div class="md-form input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text md-addon">$</span>
                         </div>
-                        <input type="number" class="form-control" name="price" value="{{ $producto->price }}" aria-label="Amount (to the nearest dollar)">
+                        <input type="text" class="form-control" name="price" value="{{ $producto->price }}" aria-label="Amount (to the nearest dollar)">
 
                       </div>
                 </div>
@@ -35,7 +41,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text md-addon">$</span>
                         </div>
-                        <input type="number" class="form-control" name="price_offer" value="{{ $producto->price_offer }}" aria-label="Amount (to the nearest dollar)">
+                        <input type="text" class="form-control" name="price_offer" value="{{ $producto->price_offer }}" aria-label="Amount (to the nearest dollar)">
 
                       </div>
                 </div>

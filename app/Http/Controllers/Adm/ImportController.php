@@ -16,8 +16,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\Writer\Xls as WriterXls;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ImportController extends Controller
 {
@@ -28,10 +32,10 @@ class ImportController extends Controller
 //        return back()->with('status', "Carga finalizada");
         set_time_limit(0);
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-         DB::table('products')->truncate();
-         DB::table('categories')->truncate();
-         DB::table('subcategories')->truncate();
-         DB::table('group_products')->truncate();
+//         DB::table('products')->truncate();
+//         DB::table('categories')->truncate();
+//         DB::table('subcategories')->truncate();
+//         DB::table('group_products')->truncate();
 //         DB::table('closures')->truncate();
 //         DB::table('closure_product')->truncate();
 
@@ -90,17 +94,36 @@ class ImportController extends Controller
 //                    $producto = new Product();
 //                    $producto->code = trim($row[0]);
                     $producto = Product::firstOrCreate([
-                        'code' =>  trim($row[0])
+                        'code' =>  trim($row[0]),
+                        'title' =>  trim($row[6]),
+                        'group_product_id' => $group_products->id
                     ]);
-                    $producto->title = $row[6];
+
+//                    $producto->fill([
+////                        'title' =>  trim($row[6]),
+//                        'subtitle' => $row[5],
+//                        'text' => $row[4],
+//                        'status' => 1,
+//                        'category_id' =>  $familia->id,
+//                        'subcategory_id' => $subfamily->id,
+////                        'group_product_id' => $group_products->id,
+//                        'price' => floatval($row[7]),
+//                        'offer' => $row[10] == 'SI' ? true : false,
+//                        'featured' => $row[11] == 'SI' ? true : false,
+//                    ]);
+//                    $producto->title = $row[6];
+                    $producto->subtitle = $row[5];
+                    $producto->text = $row[4];
+                    $producto->status = 1;
                     $producto->category_id = $familia->id;
                     $producto->subcategory_id = $subfamily->id;
-                    $producto->group_product_id = $group_products->id;
+//                    $producto->group_product_id = $group_products->id;
                     $producto->price = floatval($row[7]);
                     $producto->price_offer = floatval($row[8]);
                     $producto->offer = $row[10] == 'SI' ? true : false;
                     $producto->featured = $row[11] == 'SI' ? true : false;
                     $producto->save();
+//                    dd($producto);
 //                    dd($row);
 //                    DB::table('closure_product')->updateOrInsert([
 //                        'closure_id' => $cierre->id,
@@ -148,5 +171,62 @@ class ImportController extends Controller
 //            return back()->withErrors(['status' => "Ocurrió un error"]);
 //        }
 
+    }
+
+    public function productos(){
+        $productos = Product::all();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'CODIGO');
+        $sheet->setCellValue('B1', 'FAMILIA');
+        $sheet->setCellValue('C1', 'SUBFAMILIA');
+        $sheet->setCellValue('D1', 'GRUPO PRODUCTO');
+        $sheet->setCellValue('E1', 'TERMINACION');
+        $sheet->setCellValue('F1', 'CAPACIDAD');
+        $sheet->setCellValue('G1', 'PRODUCTO');
+        $sheet->setCellValue('H1', 'PRECIO');
+        $sheet->setCellValue('I1', 'PRECIO OFERTA');
+        $sheet->setCellValue('J1', 'DESTACADO');
+        $sheet->setCellValue('K1', 'OFERTA');
+        $sheet->setCellValue('M1', 'CODIGO_UNICO');
+
+        $rows = 2;
+        foreach($productos as $item){
+//            dd($item);
+            $sheet->setCellValue('A' . $rows, $item->code);
+            $sheet->setCellValue('B' . $rows, $item->category->title ?? '');
+            $sheet->setCellValue('C' . $rows, $item->subcategory->title ?? '');
+            $sheet->setCellValue('D' . $rows, $item->group_product->title ?? '');
+            $sheet->setCellValue('E' . $rows, $item->text ?? '');
+            $sheet->setCellValue('F' . $rows, $item->subtitle ?? '');
+            $sheet->setCellValue('G' . $rows, $item->title ?? '');
+            $sheet->setCellValue('H' . $rows, $item->price ?? '');
+            $sheet->setCellValue('I' . $rows, $item->price_offer ?? '');
+            $sheet->setCellValue('J' . $rows, $item->featured ?? '');
+            $sheet->setCellValue('K' . $rows, $item->offer ?? '');
+            $sheet->setCellValue('M' . $rows, $item->id);
+
+
+            $rows++;
+        }
+        $type = 'xlsx';
+        $fileName = "product.".$type;
+        if($type == 'xlsx') {
+            $writer = new Xlsx($spreadsheet);
+        } else if($type == 'xls') {
+            $writer = new Xls($spreadsheet);
+        }
+        $response =  new StreamedResponse(
+            function () use ($writer) {
+                $writer->save('php://output');
+            }
+        );
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', 'attachment;filename="Productos.xlsx"');
+        $response->headers->set('Cache-Control','max-age=0');
+        return $response;
+//        header("Content-Type: application/vnd.ms-excel");
+//        dd('s');
+//        return response()->download($writer);
     }
 }
