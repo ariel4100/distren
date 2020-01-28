@@ -2,43 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2039aece-2379-4289-bb93-c803aa63f621" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/page/pagos/success.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/distren.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/distren.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Adm/ImportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Adm/ImportController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Adm/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Adm/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Adm/ProductController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MailController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/productos/imagenes/9qFMnCAZo7WJF1dBx9bAnKqrxtClQMfp0d4Bdx9J.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/productos/imagenes/XSZQnuy3T1vj0o9N5Yg6yNDwGC1EBvOjtKznglPu.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/41WC-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/4eH9-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/7IPP-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/7bpw-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/IcUM-Copia de ARTICULOS WEB PAGINA distren.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/Lpoq-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/Mupr-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/public/excel/Ogjc-ARTICULOS WEB PAGINA distren2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/productos/0QKxJtjwJgiWPUDESYpEEO10O5y9PpCjKPjUondt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/productos/21fPQy8ZtQ1KaBLllGSrTLFAEEeKpKzxv0PyGyFn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/productos/CVSBh0vVuY6eVA4dvlvJGnbvYxGhSnieYw6nv7Lj.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/productos/gk8581ZiR8KraQ6KGiMVzluu9XmwLXc0imHY5WSY.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/productos/j2ENWHWcHcXPg5kd8MFDHBzNHaIepd2C0fX4kv1C.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/productos/ma9UvzEgAts1MwZqQlWvbbGcvbtpE4LN4DZdkXnj.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/terminacion/7xxUOvwviu3Q71JksJq3MEtj9xvG2vD9lXVbQjXJ.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/CarroComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CarroComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/ConfirmarComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ConfirmarComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ProductCarroComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ProductCarroComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/adm/carrito/carga.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/adm/carrito/carga.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/adm/products/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/adm/products/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/adm/products/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/adm/products/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/mail/compra.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mail/compra.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/page/contacto.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/page/contacto.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/adm/orders/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/adm/orders/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/page/productos/producto.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/page/productos/producto.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -307,7 +277,8 @@
       <workItem from="1578670269343" duration="16000" />
       <workItem from="1579188959665" duration="108000" />
       <workItem from="1579203964493" duration="800000" />
-      <workItem from="1580124175625" duration="21754000" />
+      <workItem from="1580124175625" duration="23314000" />
+      <workItem from="1580210742721" duration="5992000" />
     </task>
     <servers />
   </component>

@@ -48,7 +48,7 @@
                                     <span class="badge badge-success">{{ strtoupper($item->transaction->status) }}</span>
                                 @endif
                             </td>
-                            <td>$ {{ number_format($item->transaction->total*1.21,2,',','.') }}</td>
+                            <td>$ {{ number_format($item->transaction->total,2,',','.') }}</td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_order_{{$key}}">
                                     <i class="far fa-eye"></i>
@@ -103,7 +103,7 @@
                                             <p><b class="font-weight-bold">FECHA DE COMPRA: </b> {{ $item->transaction->created_at}}</p>
                                             <p><b class="font-weight-bold">FORMA DE ENVIO: </b> {{ $item->transaction->shipping }}</p>
                                             <p><b class="font-weight-bold">FORMA DE PAGO: </b> {{ $item->transaction->payment }}</p>
-                                            <p><b class="font-weight-bold">TOTAL: </b>${{ number_format($item->transaction->total*1.21,2,',','.') }}</p>
+                                            <p><b class="font-weight-bold">TOTAL: </b>${{ number_format($item->transaction->total ,2,',','.') }}</p>
                                         </div>
                                         <div class="col-md-12"  >
                                             <table class="table mt-5">
@@ -118,6 +118,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
+                                                @php($total = 0)
                                                 @foreach($item->order as $pedido)
                                                     <tr>
                                                         <td >{{ $pedido->cc }}</td>
@@ -126,12 +127,22 @@
                                                             {{ $pedido->name_product }}
                                                             {{--<p class="m-0"><b>Precio: </b>${{ number_format($pedido->price_cc,2,',','.') }}</p>--}}
                                                         </td>
-                                                        <td>${{  number_format($pedido->price_cc,2,',','.') }}</td>
+                                                        @if($pedido->price_offer)
+                                                            <td>${{  number_format($pedido->price_offer,2,',','.') }}</td>
+                                                        @else
+                                                            <td>${{  number_format($pedido->price_cc,2,',','.') }}</td>
+                                                        @endif
                                                         <td class="text-center" >
                                                             {{ $pedido->quantity_cc }}
                                                         </td>
                                                         <td>${{ number_format(($pedido->quantity_cc*$pedido->price_cc),2,',','.') }}</td>
                                                     </tr>
+                                                    @if($pedido->price_offer)
+                                                        @php($total += $pedido->quantity_cc*$pedido->price_offer)
+                                                    @else
+                                                        @php($total += $pedido->quantity_cc*$pedido->price_cc)
+                                                    @endif
+
                                                 @endforeach
                                                 </tbody>
                                             </table>
@@ -139,19 +150,21 @@
                                         <div class="col-md-4 offset-md-8">
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="">Sub Total</h5>
-                                                <h5 class="">$ {{ number_format($item->transaction->total,2,',', '.') }}</h5>
+                                                <h5 class="">$ {{ number_format($total,2,',', '.') }}</h5>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="">IVA (21%)</h5>
-                                                <h5>${{ number_format($item->transaction->total*0.21,2,',', '.') }}</h5>
+                                                <h5>${{ number_format($total*0.21,2,',', '.') }}</h5>
                                             </div>
-                                            {{--<div class="d-flex justify-content-between">--}}
-                                                {{--<h5 class="">Envio</h5>--}}
-                                                {{--<h5>$700</h5>--}}
-                                            {{--</div>--}}
+                                            @if($item->transaction->shipping == 'gba' &&  $total < 2500)
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="">Envio</h5>
+                                                <h5>$200</h5>
+                                            </div>
+                                            @endif
                                             <div class="d-flex justify-content-between align-item-center mt-3">
                                                 <h5 class="distren-color m-0">Total a pagar</h5>
-                                                <h5 class="m-0 text-dark">${{ number_format($item->transaction->total*1.21,2,',', '.') }}</h5>
+                                                <h5 class="m-0 text-dark">${{ number_format($item->transaction->total,2,',', '.') }}</h5>
                                             </div>
                                             <hr class="distren-fondo">
                                         </div>

@@ -83,6 +83,7 @@
                 @foreach($producto->related as $value)
                 <div class="row mt-4">
                     <div class="col-md-4 text-center" >
+                        @php($value->category)
                         {{--@dd($producto->offer)--}}
                         <!--Carousel Wrapper-->
 

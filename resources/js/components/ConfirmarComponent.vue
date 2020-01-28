@@ -199,7 +199,7 @@
                             if (res.data.mp)
                             {
                                 this.loading = false;
-                                // localStorage.removeItem('carrito');
+                                localStorage.removeItem('carrito');
                                 setTimeout(function(){
                                     location.href = res.data.mp;
                                 }, 1000);
@@ -211,7 +211,7 @@
                                     showConfirmButton: false,
                                     timer: 3500
                                 })
-                                // localStorage.removeItem('carrito');
+                                localStorage.removeItem('carrito');
                                 setTimeout(function(){
                                     location.href = "familias";
                                 }, 3000);

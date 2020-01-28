@@ -60,15 +60,15 @@ class OrderController extends Controller
         {
 //            return $p;
             $pedidos = Order::create([
-                'name_category' => $p['producto']['category']['title'],
-                'name_product' => $p['producto']['title'],
-                'cc' => $p['producto']['code'],
+                'name_category' => $p['producto']['category']['title'] ?? '' ,
+                'name_product' => $p['producto']['title'] ?? '',
+                'cc' => $p['producto']['code'] ?? '',
 
                 'price_cc' => $p['producto']['price'],
                 'price_offer' => $p['producto']['offer'] ? $p['producto']['price_offer'] : null,
 
 
-                'quantity_cc' => $p['qty'],
+                'quantity_cc' => $p['qty'] ?? 0,
 
                 'transaction_id' => $transaccion->id,
                 'client_id' => $cliente->id,
@@ -82,7 +82,7 @@ class OrderController extends Controller
 //
 //        }
 //        $precio_cc = Price::
-//        Mail::to('arielcallisaya00@gmail.com')->send(new OrderMail($request->all()));
+        Mail::to('arielcallisaya00@gmail.com')->send(new OrderMail($request->all()));
         Mail::to('ventas@distren.com.ar')->send(new OrderMail($request->all()));
 
 
